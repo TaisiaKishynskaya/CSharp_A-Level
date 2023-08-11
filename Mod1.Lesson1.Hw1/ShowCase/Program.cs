@@ -1,48 +1,37 @@
 ﻿using System;
 using UtilityLibraries;
 
-namespace ShowCase
+namespace Calculator
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var row = 0;
+            Console.WriteLine("Enter 1st number: ");
+            var firstInput = Console.ReadLine();
+            var firstNum = TryParseMethod(firstInput);
 
-            do
+            Console.WriteLine("Enter 2nd number: ");
+            var secondInput = Console.ReadLine();
+            var secondNum = TryParseMethod(secondInput);
+
+            Console.WriteLine($"{firstNum} + {secondNum} = {CalculatorLib.Add(firstNum, secondNum)}.");
+            Console.WriteLine($"{firstNum} - {secondNum} = {CalculatorLib.Subtraction(firstNum, secondNum)}.");
+            Console.WriteLine($"{firstNum} * {secondNum} = {CalculatorLib.Multiplication(firstNum, secondNum)}.");
+            Console.WriteLine($"{firstNum} / {secondNum} = {CalculatorLib.Division(firstNum, secondNum)}.");
+        }
+        
+        public static int TryParseMethod(string input) 
+        {
+            if (input != null && int.TryParse(input, out var number))
             {
-                if (row == 0 || row >= 25)
-                {
-                    ResetConsole();
-                }
-
-                var input = Console.ReadLine();
-                if (string.IsNullOrEmpty(input)) 
-                {
-                    break;
-                }
-
-                Console.WriteLine($"Input: {input}");
-                Console.WriteLine("Begins with upper? " + 
-                    $"{(input.StartsWithUpper() ? "Yes" : "No")}");
-                Console.WriteLine();
-                row += 4;
+                Console.WriteLine($"Your input: {number}");
+                return number;
             }
-            while (true);
-            return;
-
-            void ResetConsole() 
+            else
             {
-                if (row > 0)
-                {
-                    Console.WriteLine("Press and key to continue...");
-                    Console.ReadKey();
-                }
-
-                Console.Clear();
-                Console.WriteLine($"{Environment.NewLine}Press <Enter> only to exit;" +
-                    $" otherwise, enter a string and press <Enter>:{Environment.NewLine}");
-                row = 3;
+                Console.WriteLine("Invalid input.");
+                return 0;
             }
         }
     }
