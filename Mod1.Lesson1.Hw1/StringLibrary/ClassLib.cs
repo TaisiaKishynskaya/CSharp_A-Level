@@ -2,22 +2,22 @@
 
 public static class CalculatorLib
 {
-    public static int Add(int firstValue, int secondValue) 
+    public static int GetSum(int firstValue, int secondValue) 
     {
         return firstValue + secondValue;
     }
 
-    public static int Subtraction(int firstValue, int secondValue) 
+    public static int GetDifference(int firstValue, int secondValue) 
     {
         return firstValue - secondValue;
     }
 
-    public static int Multiplication(int firstValue, int secondValue) 
+    public static int GetProduct(int firstValue, int secondValue) 
     { 
         return firstValue * secondValue;
     }
 
-    public static float Division(float firstValue, float secondValue) 
+    public static float GetQuotient(float firstValue, float secondValue) 
     {
         return firstValue / secondValue;
     }

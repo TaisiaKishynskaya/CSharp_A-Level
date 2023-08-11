@@ -15,10 +15,10 @@ namespace Calculator
             var secondInput = Console.ReadLine();
             var secondNum = TryParseMethod(secondInput);
 
-            Console.WriteLine($"{firstNum} + {secondNum} = {CalculatorLib.Add(firstNum, secondNum)}.");
-            Console.WriteLine($"{firstNum} - {secondNum} = {CalculatorLib.Subtraction(firstNum, secondNum)}.");
-            Console.WriteLine($"{firstNum} * {secondNum} = {CalculatorLib.Multiplication(firstNum, secondNum)}.");
-            Console.WriteLine($"{firstNum} / {secondNum} = {CalculatorLib.Division(firstNum, secondNum)}.");
+            Console.WriteLine($"{firstNum} + {secondNum} = {CalculatorLib.GetSum(firstNum, secondNum)}.");
+            Console.WriteLine($"{firstNum} - {secondNum} = {CalculatorLib.GetDifference(firstNum, secondNum)}.");
+            Console.WriteLine($"{firstNum} * {secondNum} = {CalculatorLib.GetProduct(firstNum, secondNum)}.");
+            Console.WriteLine($"{firstNum} / {secondNum} = {CalculatorLib.GetQuotient(firstNum, secondNum)}.");
         }
         
         public static int TryParseMethod(string input) 
