@@ -20,20 +20,22 @@ void FillingArrays()
 
 static void Swap(ref int leftNum, ref int rightNum)
 {
-    var temp = leftNum;
-    leftNum = rightNum;
-    rightNum = temp;
+    //var temp = leftNum;
+    //leftNum = rightNum;
+    //rightNum = temp;
+    (leftNum, rightNum) = (rightNum, leftNum);
+
 }
 
 static int[] BubbleSortArr(int[] arrB)
 {
-    for (var j = 0; j < arrB.Length; j++)
+    for (var i = 0; i < arrB.Length; i++)
     {
-        for (var i = 0; i < arrB.Length - 1; i++)
+        for (var j = 0; j < arrB.Length - 1; j++)
         {
-            if (arrB[i] < arrB[i + 1])
+            if (arrB[j] < arrB[j + 1])
             {
-                Swap(ref arrB[i], ref arrB[i + 1]);
+                Swap(ref arrB[j], ref arrB[j + 1]);
             }
         }
     }
