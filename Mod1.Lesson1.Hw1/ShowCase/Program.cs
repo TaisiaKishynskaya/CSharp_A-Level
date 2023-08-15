@@ -21,7 +21,7 @@ namespace Calculator
             Console.WriteLine($"{firstNum} / {secondNum} = {CalculatorLib.GetQuotient(firstNum, secondNum)}.");
         }
         
-        public static int TryParseMethod(string input) 
+        public static int TryParseMethod(string? input) 
         {
             if (input != null && int.TryParse(input, out var number))
             {
