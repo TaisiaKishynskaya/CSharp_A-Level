@@ -12,19 +12,19 @@ void FillingArray()
 
         if (arr[i] % 3 == 0 && arr[i] % 5 == 0)
         {
-            Console.WriteLine($"{arr[i] = i + 1} is FizzBuzz");
+            Console.WriteLine($"{arr[i]} is FizzBuzz");
         }
         else if(arr[i] % 5 == 0) 
         {
-            Console.WriteLine($"{arr[i] = i + 1} is Buzz");
+            Console.WriteLine($"{arr[i]} is Buzz");
         } 
         else if (arr[i] % 3 == 0) 
         {
-            Console.WriteLine($"{arr[i] = i + 1} is Fizz");
+            Console.WriteLine($"{arr[i]} is Fizz");
         }
         else 
         {
-            Console.WriteLine($"{arr[i] = i + 1} isn't Fizz/Buzz/FizzBuzz");
+            Console.WriteLine($"{arr[i]} isn't Fizz/Buzz/FizzBuzz");
         }
     }
 }
