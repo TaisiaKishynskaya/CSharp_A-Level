@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-
-namespace Lection3.Task1
+﻿namespace Lection3.Task1
 {
     internal class Program
     {
