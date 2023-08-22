@@ -6,7 +6,7 @@ namespace Lection3.Task1
 {
     internal class Program
     {
-        private string? inputN; // должен содержать зн-е отличное от null при выходе из конструктора, потому допускаем null
+        private string? inputN;
 
         static void Main()
         {
@@ -17,12 +17,12 @@ namespace Lection3.Task1
             program.InputN(ref variableN);
 
             var firstArr = new int[variableN];
-            var evenNumList = new List<int>();  // Создание списка
+            var evenNumList = new List<int>();
             var oddNumList = new List<int>();
 
             program.FillArrays(firstArr, evenNumList, oddNumList);
 
-            var evenNumArr = evenNumList.ToArray();  // Преобразование списка обратно в массив
+            var evenNumArr = evenNumList.ToArray();
             var oddNumArr = oddNumList.ToArray();
 
             program.PrintNumArrays(evenNumArr, oddNumArr);
@@ -96,12 +96,12 @@ namespace Lection3.Task1
                 { 16, 'q' }, { 17, 'r' }, { 18, 's' }, { 19, 't' }, { 20, 'u' },
                 { 21, 'v' }, { 22, 'w' }, { 23, 'x' }, { 24, 'y' }, { 25, 'z' } };
 
-            var charEvenArr = new char[evenNumArr.Length]; // Создание массива char той же длины
+            var charEvenArr = new char[evenNumArr.Length];
             var charOddArr = new char[oddNumArr.Length];
 
             for (var i = 0; i < evenNumArr.Length; i++)
             {
-                charEvenArr[i] = (char)evenNumArr[i]; // Приведение int к char
+                charEvenArr[i] = (char)evenNumArr[i];
             }
 
             for (var i = 0; i < evenNumArr.Length; i++)
