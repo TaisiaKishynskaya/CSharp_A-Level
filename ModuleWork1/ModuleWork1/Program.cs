@@ -93,7 +93,7 @@ void AddItem()
 
 void RemoveItem()
 {
-    Console.WriteLine("Input the task to remove:");
+    Console.WriteLine("Input the task to remove or '*' to remove all tasks:");
 
     task = Console.ReadLine();
 
@@ -111,7 +111,14 @@ void RemoveItem()
             }
         }
 
-        if (!taskAlreadyExists)
+        if (task == "*")
+        {
+            var newArr = new string[1];
+            items = newArr;
+
+            Console.WriteLine("Array cleared.");
+        }
+        else if (!taskAlreadyExists)
         {
             var indexToRemove = Array.FindIndex(items, item => item == task);
             items = RemoveElement(items, indexToRemove);
