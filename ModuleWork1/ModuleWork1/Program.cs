@@ -52,6 +52,14 @@ static string[] AddElement(string[] array, string element)
     return newArr;
 }
 
+static string[] RemoveElement(string[] array, int index)
+{
+    var newArr = new string[array.Length - 1];
+    Array.Copy(array, 0, newArr, 0, index);
+    Array.Copy(array, index + 1, newArr, index, array.Length - index - 1);
+    return newArr;
+}
+
 void AddItem()
 {
     Console.WriteLine("Add task:");
@@ -83,9 +91,36 @@ void AddItem()
     }
 }
 
-    void RemoveItem()
+void RemoveItem()
 {
-    
+    Console.WriteLine("Input the task to remove:");
+
+    task = Console.ReadLine();
+
+    if (!string.IsNullOrEmpty(task) &&
+            task.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.' || c == '*'))
+    {
+        var taskAlreadyExists = true;
+
+        for (var i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null && items[i].Equals(task))
+            {
+                taskAlreadyExists = false;
+                break;
+            }
+        }
+
+        if (!taskAlreadyExists)
+        {
+            var indexToRemove = Array.FindIndex(items, item => item == task);
+            items = RemoveElement(items, indexToRemove);
+        }
+        else
+        {
+            Console.WriteLine("Task is not exists.");
+        }
+    }
 }
 
 void MarkAs()
