@@ -1,21 +1,14 @@
-﻿using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
 string? command;
 string? task;
-int status;
+string status;
 var dateFormat = "dd.MM.yyyy HH:mm";
-var col = 2;
+const string validChars = "-_ .*";
+var col = 3;
 var items = new string[1, col];
 
-var doneItems = new string[1];
-var notDoneItems = new string[1];
-//var row = 5;
-//var statusWithItems = new string[row, col];
-
-//AddItemNew();
 InputCommand();
-
 
 void InputCommand() 
 {
@@ -43,7 +36,7 @@ void InputCommand()
                         break;
                     case "mark-as":
                         Console.WriteLine("M");
-                        MarkAs();
+                        MarkItem();
                         break;
                     case "show":
                         Console.WriteLine("S");
@@ -57,48 +50,8 @@ void InputCommand()
     }
 }
 
-static int ValidateStatus() //переим.
-{
-    while (true)
-    {
-        Console.WriteLine("Input status: 0 (not done) or 1 (done):");
-        var input = Console.ReadLine();
 
-        if(int.TryParse(input, out var result))
-        {
-            if (result != 0 && result != 1)
-            {
-                Console.WriteLine("Input 0 or 1!");
-            }
-            else return result;
-        }
-        else
-        {
-            Console.WriteLine("Input number!");
-        }
-    }
-}
-
-DateTime ValidateDateTime()
-{
-    while (true)
-    {
-        Console.WriteLine($"Input date when the task was completed ({dateFormat}):");
-        var inputDate = Console.ReadLine();
-
-        if (DateTime.TryParse(inputDate, out var parsedDate))
-        {
-            return parsedDate;
-        }
-        else
-        {
-            Console.WriteLine("Failed to parse date.");
-        }
-
-    }
-}
-
-string[,] AddTasks(string[,] array, string element)
+string[,] AddTask(string[,] array, string element)
 {
     var rows = array.GetLength(0);
     var cols = array.GetLength(1);
@@ -142,24 +95,6 @@ string[,] RemoveTask(string[,] array, int index)
     return newArray;
 }
 
-string GetDate()
-{
-    Console.WriteLine("Input date or press 'Enter' to continue:");
-
-    if (Console.ReadKey().Key == ConsoleKey.Enter)
-    {
-        var date = DateTime.Now;
-        var formattedDate = date.ToString(dateFormat);
-        return formattedDate;
-        //Console.WriteLine(formattedDate);
-    }
-    else
-    {
-        var date = ValidateDateTime().ToString();
-        return date;
-    }
-}
-
 void AddItem()
 {
     Console.WriteLine("Add task:");
@@ -167,9 +102,9 @@ void AddItem()
     task = Console.ReadLine();
 
     if (!string.IsNullOrEmpty(task) &&
-            task.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.'))
+            task.All(c => char.IsLetterOrDigit(c) || validChars.Contains(c)))
     {
-        var normalizedTask = new string(task.ToLower().Where(c => !char.IsWhiteSpace(c)).ToArray());
+        var normalizedTask = NormalizeString(task);
 
         var taskAlreadyExists = false;
 
@@ -191,7 +126,8 @@ void AddItem()
 
         if (!taskAlreadyExists)
         {
-            items = AddTasks(items, task);
+            items = AddTask(items, task);
+            items[items.GetLength(0) - 1, 1] = "0";
         }
         else
         {
@@ -200,7 +136,6 @@ void AddItem()
     }
 }
 
-
 void RemoveItem()
 {
     Console.WriteLine("Input the task to remove or '*' to remove all tasks:");
@@ -208,16 +143,16 @@ void RemoveItem()
     task = Console.ReadLine();
 
     if (!string.IsNullOrEmpty(task) &&
-            task.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.' || c == '*'))
+            task.All(c => char.IsLetterOrDigit(c) || validChars.Contains(c)))
     {
         if (task == "*")
         {
-            items = new string[0, col]; // Очищаем массив
+            items = new string[0, col];
             Console.WriteLine("Array cleared.");
         }
         else
         {
-            var normalizedTask = new string(task.ToLower().Where(c => !char.IsWhiteSpace(c)).ToArray());
+            var normalizedTask = NormalizeString(task);
 
             var taskFound = false;
 
@@ -244,97 +179,116 @@ void RemoveItem()
     }
 }
 
-
-void MarkAs()
+void MarkItem()
 {
-
-}
-
-void Show()
-{
-
-}
-
-/*void MarkAs()
-{
-    status = TryParseMethod();
+    status = ValidateStatus();
 
     Console.WriteLine("Input task:");
     task = Console.ReadLine();
 
     if (!string.IsNullOrEmpty(task) &&
-            task.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.'))
+        task.All(c => char.IsLetterOrDigit(c) || validChars.Contains(c)))
     {
-        var taskAlreadyExists = true;
+        var taskFound = false;
 
-        for (var i = 0; i < items.Length; i++)
+        for (var i = 0; i < items.GetLength(0); i++)
         {
-            if (items[i, 0] != null && items[i, 0].Equals(task))
+            if (items[i, 0] == task)
             {
-                taskAlreadyExists = false;
+                taskFound = true;
+                switch (status)
+                {
+                    case "1":
+                        items[i, 1] = status;
+                        items[i, 2] = GetDate();
+                        break;
+                    case "0":
+                        items[i, 1] = "0";
+                        items[i, 2] = string.Empty;
+                        break;
+                }
+
                 break;
             }
         }
 
-        if (!taskAlreadyExists)
+        if (!taskFound)
         {
-            if (status == 1)
-            {
-                var date = GetDate();
-                var doneTask = status + date + " -- " + task;
-
-                doneItems = AddTasks(doneItems, doneTask);
-
-                notDoneItems = items.Except(doneItems).ToArray();
-            }
-            else
-            {
-                var notDoneTask = status + task;
-                notDoneItems = AddTasks(notDoneItems, notDoneTask);
-            }
-        }
-        else
-        {
-            Console.WriteLine("Task is not exists.");
+            Console.WriteLine("Task not found.");
         }
     }
 }
 
 void Show()
 {
-    status = TryParseMethod();
+    status = ValidateStatus();
 
-    if (status == 1)
+    if (status == "1" || status == "0")
     {
-        for (var i = 0; i < doneItems.Length; i++)
+        Console.WriteLine("Tasks:");
+        for (var i = 0; i < items.GetLength(0); i++)
         {
-            Console.WriteLine(doneItems[i]);
+            if (items[i, 1] == status)
+            {
+                Console.WriteLine($"Task: {items[i, 0]}, Status: {items[i, 1]}, Date: {items[i, 2]}");
+            }
         }
+    }
+}
+
+
+static string ValidateStatus()
+{
+    while (true)
+    {
+        Console.WriteLine("Input status: 0 (not done) or 1 (done):");
+        var input = Console.ReadLine();
+
+        if (input != "0" && input != "1")
+        {
+            Console.WriteLine("Input 0 or 1!");
+        }
+        else return input;
+    }
+}
+
+DateTime ValidateDateTime()
+{
+    while (true)
+    {
+        Console.WriteLine($"Input date when the task was completed ({dateFormat}):");
+        var inputDate = Console.ReadLine();
+
+        if (DateTime.TryParse(inputDate, out var parsedDate))
+        {
+            return parsedDate;
+        }
+        else
+        {
+            Console.WriteLine("Failed to parse date.");
+        }
+
+    }
+}
+
+string GetDate()
+{
+    Console.WriteLine("Press any button to continue OR press 'Enter' to set current date automatically:");
+
+    if (Console.ReadKey().Key == ConsoleKey.Enter)
+    {
+        var date = DateTime.Now;
+        var formattedDate = date.ToString(dateFormat);
+        return formattedDate;
     }
     else
     {
-        for (var i = 0; i < notDoneItems.Length; i++)
-        {
-            Console.WriteLine(notDoneItems[i]);
-        }
+        var date = ValidateDateTime().ToString(dateFormat);
+        return date;
     }
-}*/
+}
 
-
-
-
-
-/*void AddItemNew()
+string NormalizeString(string task)
 {
-    for(var i = 0; i < row; i++)
-    {
-        statusWithItems[i, 0] = Console.ReadLine();
-        statusWithItems[i, 1] = "status";
-
-    }
-
-    for (var i = 0; i < row; i++)
-    {
-        Console.WriteLine(statusWithItems[i, 0] + " " + statusWithItems[i, 1] + "Здесь должно быть значение");
-    }
-}*/
+    return new string(task.ToLower().Where(c => !char.IsWhiteSpace(c)).ToArray());
+}
