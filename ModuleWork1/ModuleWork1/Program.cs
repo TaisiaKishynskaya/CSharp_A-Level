@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-string? command;
+﻿string? command;
 string? task;
 string status;
 var dateFormat = "dd.MM.yyyy HH:mm";
