@@ -6,14 +6,14 @@
 
         internal static Result StartMethod()
         {
-            Logger.GetInstance.Info("Start method");
+            Logger.Instance.Info("Start method");
 
             return new Result { Status = true };
         }
 
         internal static Result SkippedLogicInMethod()
         {
-            Logger.GetInstance.Warning("Skipped Logic In Method");
+            Logger.Instance.Warning("Skipped Logic In Method");
 
             return new Result { Status = true };
         }

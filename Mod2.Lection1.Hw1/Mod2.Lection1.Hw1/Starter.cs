@@ -20,11 +20,11 @@
 
                 if (randomMethod == 3)
                 {
-                    Logger.GetInstance.Error($"Action failed by a reason: {Result.ErrorMessage}");
+                    Logger.Instance.Error($"Action failed by a reason: {Result.ErrorMessage}");
                 }
             }
 
-            File.WriteAllText("log.txt", Logger.GetInstance.GetLogs());
+            File.WriteAllText("log.txt", Logger.Instance.GetLogs());
         }
     }
 }

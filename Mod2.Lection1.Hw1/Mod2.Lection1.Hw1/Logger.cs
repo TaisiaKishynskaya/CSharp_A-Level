@@ -4,20 +4,20 @@ namespace Mod2.Lection1.Hw1
 {
     internal class Logger
     {
-        private static readonly Logger instance = new();
+        private static readonly Logger _instance = new();
 
         static Logger() { }
         private Logger() { }
 
-        readonly List<string> loggers = new();
+        readonly List<string> logs = new();
 
-        internal static Logger GetInstance => instance;
+        internal static Logger Instance => _instance;
 
         internal void Error(string message)
         {
             var logErrorText = $"{DateTime.Now}: Error: {message}";
 
-            loggers.Add(logErrorText);
+            logs.Add(logErrorText);
             Console.WriteLine(logErrorText);
         }
 
@@ -25,7 +25,7 @@ namespace Mod2.Lection1.Hw1
         {
             var logInfoText = $"{DateTime.Now}: Info: {message}";
 
-            loggers.Add(logInfoText);
+            logs.Add(logInfoText);
             Console.WriteLine(logInfoText);
         }
 
@@ -33,7 +33,7 @@ namespace Mod2.Lection1.Hw1
         {
             var logWarningText = $"{DateTime.Now}: Warning: {message}";
 
-            loggers.Add(logWarningText);
+            logs.Add(logWarningText);
             Console.WriteLine(logWarningText);
         }
 
@@ -41,7 +41,7 @@ namespace Mod2.Lection1.Hw1
         {
             var sb = new StringBuilder();
 
-            foreach (var log in loggers)
+            foreach (var log in logs)
             {
                 sb.AppendLine(log);
             }
