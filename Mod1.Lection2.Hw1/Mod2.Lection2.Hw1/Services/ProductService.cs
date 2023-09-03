@@ -12,9 +12,9 @@ internal class ProductService
             Console.WriteLine("Input product: ");
             var inputProduct = Console.ReadLine();
 
-            if (inputProduct != null && inputProduct.All(c => char.IsLetter(c) || " ".Contains(c)))
+            if (!string.IsNullOrWhiteSpace(inputProduct) && inputProduct.All(c => char.IsLetter(c) || " ".Contains(c)))
             {
-                return inputProduct;
+                return char.ToUpper(inputProduct[0]) + inputProduct.Substring(1);
             }
         }
     }

@@ -19,10 +19,7 @@ internal class ProductRepository
                 product.dictionaryProductPrice[product.ProductName] = product.Price;
             }
 
-            Console.Write("Continue input? (y/n) ");
-            var continueInput = Console.ReadLine();
-
-            if (continueInput != "y") break;
+            if (!Validation.ContinueInput()) break;
         }
     }
 }

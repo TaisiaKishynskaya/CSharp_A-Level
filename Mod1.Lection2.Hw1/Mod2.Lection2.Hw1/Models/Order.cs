@@ -16,4 +16,6 @@ internal class Order
             _pb = value;
         }
     }
+
+    public int Number { get; set; }
 }
