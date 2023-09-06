@@ -2,10 +2,13 @@
 
 namespace Mod2.Lection3.Hw1;
 
-internal class Jelly : Sugar, ISwitnessLook
+internal class Jelly : Sugar
 {
     public string? GellingAgents { get; set; }
-    public string? NameSweetness { get; set; }
-    public string? TypeWrapper { get; set; }
-    public string? ColorWrapper { get; set; }
+
+    public Jelly(string name, double weight, string taste, string color, string sugar, string agent, string wrapperColor)
+        : base(name, weight, taste, color, sugar, wrapperColor)
+    {
+        GellingAgents = agent;
+    }
 }

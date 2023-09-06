@@ -2,10 +2,13 @@
 
 namespace Mod2.Lection3.Hw1;
 
-internal class Cookie : Flour, ISwitnessLook
+internal class Cookie : Flour
 {
     public string? Dough { get; set; }
-    public string? NameSweetness { get; set; }
-    public string? TypeWrapper { get; set; }
-    public string? ColorWrapper { get; set; }
+
+    public Cookie(string name, double weight, string taste, string color, string flour, string dough, string wrapperColor)
+        : base(name, weight, taste, color, flour, wrapperColor)
+    {
+        Dough = dough;
+    }
 }

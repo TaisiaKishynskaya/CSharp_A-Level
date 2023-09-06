@@ -1,9 +1,24 @@
-﻿namespace Mod2.Lection3.Hw1;
+﻿using Mod2.Lection3.Hw1.Models;
 
-internal class Sweetness
+namespace Mod2.Lection3.Hw1;
+
+internal class Sweetness : ISweetnessLook
 {
-    public int Weight { get; set; }
+    public string? Name { get; set; }
+
+    public double Weight { get; set; }
     public string? Taste { get; set; }
     public string? Color { get; set; }
-    public string? Country { get; set; }
+    public string? WrapperColor { get; set; }
+
+
+
+    public Sweetness(string name, double weight, string taste, string color, string wrapperColor)
+    {
+        Name = name;
+        Weight = weight;
+        Taste = taste;
+        Color = color;
+        WrapperColor = wrapperColor;
+    }
 }
