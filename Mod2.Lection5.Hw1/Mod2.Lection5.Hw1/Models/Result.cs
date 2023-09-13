@@ -1,4 +1,4 @@
-﻿namespace Mod2.Lection5.Hw1;
+﻿namespace Mod2.Lection5.Hw1.Models;
 
 internal class Result
 {
