@@ -4,25 +4,49 @@ namespace Mod2.Lection5.Hw1.Services;
 
 internal class Actions
 {
-    internal static Result SetMessage(LogType selectedLogType)
+    internal delegate Result MethodDelegate();
+
+    internal static Result StartMethod()
     {
-        try
+        var logType = (LogType[])Enum.GetValues(typeof(LogType));
+
+        foreach (var type in logType)
         {
-            throw new CustomException();
+            try
+            {
+                throw new CustomException();
+            }
+            catch (CustomException)
+
+            {
+                Logger.Instance.Log(LogType.Info, "Start method");
+            }
         }
-        catch (CustomException) when (selectedLogType == LogType.Info)
+
+        return new Result { Status = true };
+    }
+
+    internal static Result SkippedLogicInMethod() 
+    {
+        var logType = (LogType[])Enum.GetValues(typeof(LogType));
+
+        foreach (var type in logType)
         {
-            Logger.Instance.Log(LogType.Info, "Start method");
-            return new Result { Status = true };
+            try
+            {
+                throw new CustomException();
+            }
+            catch (CustomException)
+            {
+                Logger.Instance.Log(LogType.Warning, "Skipped Logic In Method");
+            }
         }
-        catch (CustomException) when (selectedLogType == LogType.Warning)
-        {
-            Logger.Instance.Log(LogType.Warning, "Skipped Logic In Method");
-            return new Result { Status = true };
-        }
-        catch
-        {
-            return new Result { Status = false };
-        }
+
+        return new Result { Status = true };
+    }
+
+    internal static Result BreakLogic() 
+    {
+        return new Result { Status = false };
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Mod2.Lection5.Hw1.Models;
 using Mod2.Lection5.Hw1.Services;
-using System.Collections.Generic;
 
 namespace Mod2.Lection5.Hw1;
 
@@ -12,17 +11,15 @@ internal class Starter
 
         for (var i = 0; i < 100; i++)
         {
-            var dictionary = new Dictionary<int, LogType>
+            var dictionary = new Dictionary<int, Actions.MethodDelegate>
                 {
-                    { 1, LogType.Info },
-                    { 2, LogType.Warning },
-                    { 3, LogType.Error }
+                    { 1, Actions.StartMethod },
+                    { 2, Actions.SkippedLogicInMethod },
+                    { 3, Actions.BreakLogic }
                 };
 
             var randomMethod = random.Next(1, 3);
-            var selectedLogType = dictionary[randomMethod];
-
-            Actions.SetMessage(selectedLogType);
+            dictionary[randomMethod]();
 
             if (randomMethod == 3)
             {
