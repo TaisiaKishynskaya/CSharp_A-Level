@@ -13,10 +13,15 @@ public class Logger
 
     internal static Logger Instance => _instance;
 
+    readonly FileService fileService = new();
+
     public void Log(LogType type, string message)
     {
         var logEntry = $"{DateTime.Now}: {type}: {message}";
+
         logs.Add(logEntry);
         Console.WriteLine(logEntry);
+
+        fileService.WriteLogToFile(string.Join(" ", logs));  // Вызываем WriteLogToFile для записи логов в файл
     }
 }

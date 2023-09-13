@@ -3,7 +3,7 @@ using Mod2.Lection5.Hw1.Services;
 
 namespace Mod2.Lection5.Hw1;
 
-internal class Starter
+internal class App
 {
     internal static void Run()
     {
@@ -26,7 +26,5 @@ internal class Starter
                 Logger.Instance.Log(LogType.Error, $"Action failed by a reason: {Result.ErrorMessage}");
             }
         }
-
-        //File.WriteAllText("log.txt", Logger.Instance.GetLogs());
     }
 }
