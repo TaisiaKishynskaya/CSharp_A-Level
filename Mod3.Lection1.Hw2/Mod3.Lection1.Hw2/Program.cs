@@ -2,13 +2,9 @@
 
 internal class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        DoublyLinkedList<int> list = new DoublyLinkedList<int>();
-
-        list.Add(1);
-        list.Add(2);
-        list.Add(3);
+        var list = new DoublyLinkedList<int> { 1, 2, 3 };
 
         // Используем индексатор
         Console.WriteLine(list[0]); // Выводит 1
@@ -20,7 +16,7 @@ internal class Program
         Console.WriteLine(list[1]); // Выводит 3
 
         // Используем итератор для перебора элементов
-        foreach (int item in list)
+        foreach (var item in list)
         {
             Console.WriteLine(item);
         }

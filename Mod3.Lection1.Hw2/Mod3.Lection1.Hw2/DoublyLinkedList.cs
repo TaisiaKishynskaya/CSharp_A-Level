@@ -18,13 +18,13 @@ internal class DoublyLinkedList<T> : IEnumerable<T>
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            DoublyNode<T> current = head;
-            for (int i = 0; i < index; i++)
+            var current = head;
+            for (var i = 0; i < index; i++)
             {
-                current = current.Next;
+                current = current?.Next;
             }
 
-            return current.Value;
+            return current!.Value;
         }
         set
         {
@@ -33,20 +33,20 @@ internal class DoublyLinkedList<T> : IEnumerable<T>
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            DoublyNode<T> current = head;
-            for (int i = 0; i < index; i++)
+            var current = head;
+            for (var i = 0; i < index; i++)
             {
-                current = current.Next;
+                current = current?.Next;
             }
 
-            current.Value = value;
+            current!.Value = value;
         }
     }
 
     // Добавление элемента в конец списка
     public void Add(T item)
     {
-        DoublyNode<T> newNode = new DoublyNode<T>(item);
+        var newNode = new DoublyNode<T>(item);
 
         if (head == null)
         {
@@ -66,7 +66,7 @@ internal class DoublyLinkedList<T> : IEnumerable<T>
     // Удаление элемента по значению
     public bool Remove(T item)
     {
-        DoublyNode<T> current = head;
+        var current = head;
 
         while (current != null)
         {
@@ -83,7 +83,7 @@ internal class DoublyLinkedList<T> : IEnumerable<T>
 
                 if (current.Next != null)
                 {
-                    current.Next.Previous = current.Previous;
+                    current.Next.Previous = current!.Previous;
                 }
                 else
                 {
@@ -103,7 +103,7 @@ internal class DoublyLinkedList<T> : IEnumerable<T>
     // Реализация интерфейса IEnumerable<T>
     public IEnumerator<T> GetEnumerator()
     {
-        DoublyNode<T> current = head;
+        var current = head;
         while (current != null)
         {
             yield return current.Value;

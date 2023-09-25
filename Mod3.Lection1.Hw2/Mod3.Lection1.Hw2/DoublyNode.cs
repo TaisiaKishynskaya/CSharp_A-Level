@@ -4,11 +4,8 @@
 internal class DoublyNode<TNode>
 {
     public TNode Value { get; set; }
-    public DoublyNode<TNode> Next { get; set; }
-    public DoublyNode<TNode> Previous { get; set; }
+    public DoublyNode<TNode>? Next { get; set; }
+    public DoublyNode<TNode>? Previous { get; set; }
 
-    public DoublyNode(TNode value)
-    {
-        Value = value;
-    }
+    public DoublyNode(TNode value) => Value = value;
 }
