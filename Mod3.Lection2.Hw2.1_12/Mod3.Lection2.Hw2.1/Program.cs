@@ -50,28 +50,28 @@ internal class Program
     {
         var average = numbers.Average();
 
-        Console.WriteLine("Average of all numbers: " + average);
+        Console.WriteLine($"Average of all numbers: {average}");
     }
 
     private void FindMaxNumber()
     {
         var maxNumber = numbers.Max();
 
-        Console.WriteLine("Maximum number: " + maxNumber);
+        Console.WriteLine($"Maximum number: {maxNumber}");
     }
 
     private void FindMinNumber()
     {
         var minNumber = numbers.Min();
 
-        Console.WriteLine("Minimum number: " + minNumber);
+        Console.WriteLine($"Minimum number: {minNumber}");
     }
 
     private void MultiplyNumsGreater10By10()
     {
         var result = numbers.Where(n => n > 10).Select(n => n * 10);
 
-        Console.WriteLine("Numbers greater than 10, multiplied by 10:");
+        Console.WriteLine($"\nNumbers greater than 10, multiplied by 10:");
         foreach (var number in result)
         {
             Console.WriteLine(number);
@@ -82,7 +82,7 @@ internal class Program
     {
         var uniqueCharacters = inputString.Distinct();
 
-        Console.WriteLine("Unique characters in the string:");
+        Console.WriteLine($"\nUnique characters in the string:");
         foreach (var character in uniqueCharacters)
         {
             Console.WriteLine(character);
@@ -95,7 +95,7 @@ internal class Program
             .GroupBy(n => n)
             .Select(group => new { Number = group.Key, Frequency = group.Count() });
 
-        Console.WriteLine("Number\tFrequency");
+        Console.WriteLine("\nNumber\tFrequency");
         foreach (var item in numberFrequency)
         {
             Console.WriteLine($"{item.Number}\t{item.Frequency}");
@@ -124,7 +124,7 @@ internal class Program
 
         var greaterThanAverage = numbers.Where(num => num > average);
 
-        Console.WriteLine("Elements greater than the average:");
+        Console.WriteLine($"\nElements greater than the average:");
         foreach (var num in greaterThanAverage)
         {
             Console.WriteLine(num);
@@ -137,7 +137,7 @@ internal class Program
 
         foreach (var group in groupedByLength)
         {
-            Console.WriteLine($"Words with length {group.Key}:");
+            Console.WriteLine($"\nWords with length {group.Key}:");
             foreach (var word in group)
             {
                 Console.WriteLine(word);
@@ -157,7 +157,7 @@ internal class Program
                 .ToList())
             .ToList();
 
-        Console.WriteLine($"Words containing '{targetSubstring}' grouped by length and normalized:");
+        Console.WriteLine($"\nWords containing '{targetSubstring}' grouped by length and normalized:");
 
         foreach (var group in filteredAndNormalized)
         {
