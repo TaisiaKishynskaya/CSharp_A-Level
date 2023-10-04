@@ -4,15 +4,17 @@ namespace Mod3.Lection4.Hw1;
 
 internal class Program
 {
+    private static readonly List<string> files = new() { "hello.txt", "world.txt" };
+
     async static Task Main()
     {
         var helloContentTask = ReadFromHelloFile();
         var worldContentTask = ReadFromWorldFile();
 
-        // Ожидаем завершения обоих асинхронных методов
+        // Wait the end of both Asynchronous methods
         await Task.WhenAll(helloContentTask, worldContentTask);
 
-        // Получаем результаты
+        // Get results
         var helloContent = await helloContentTask;
         var worldContent = await worldContentTask;
 
@@ -23,11 +25,11 @@ internal class Program
     {
         try
         {
-            return await Task.Run(() => ReadFile("hello.txt"));
+            return await Task.Run(() => ReadFile(files[0]));
         }
         catch (FileNotFoundException)
         {
-            Console.WriteLine("hello.txt not found.");
+            Console.WriteLine($"{files[0]} not found.");
             return string.Empty;
         }
     }
@@ -36,33 +38,18 @@ internal class Program
     {
         try
         {
-            return await Task.Run(() => ReadFile("world.txt"));
+            return await Task.Run(() => ReadFile(files[1]));
         }
         catch (FileNotFoundException)
         {
-            Console.WriteLine("world.txt not found.");
+            Console.WriteLine($"{files[1]} not found.");
             return string.Empty;
         }
     }
 
-    /*async static Task ReadFromWorldFile()
-    {
-        try
-        {
-            var content = ReadFile("world.txt");
-            Console.WriteLine($"File content: {content}");
-            return content;
-        }
-        catch (FileNotFoundException)
-        {
-            return "world.txt not found.";
-        }
-    }*/
-
     static string ReadFile(string path)
     {
-        // Класс StreamReader для считывания данных из файла
-        using var reader = new StreamReader(path);
-        return reader.ReadToEnd(); // Считываем все содержимое файла
+        using var reader = new StreamReader(path);  // Clas StreamReader for reading from files
+        return reader.ReadToEnd(); // Read all from files
     }
 }
