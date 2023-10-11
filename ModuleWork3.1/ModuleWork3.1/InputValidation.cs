@@ -51,7 +51,7 @@ internal class InputValidation
             }
             else
             {
-                Console.WriteLine("Input only letters!");
+                Console.WriteLine("Input only nums!");
             }
         }
     }

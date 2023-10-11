@@ -23,7 +23,7 @@ internal class App
             switch (choise)
             {
                 case "1":
-                    _contactRepository.AddToDict();
+                    _contactRepository.AddToDictAsync();
                     break;
                 case "2":
                     SearchMenu();

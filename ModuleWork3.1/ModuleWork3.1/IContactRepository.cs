@@ -1,10 +1,8 @@
-﻿using System.Collections.Concurrent;
-
-namespace ModuleWork3._1;
+﻿namespace ModuleWork3._1;
 
 internal interface IContactRepository
 {
-    void AddToDict();
+    Task AddToDictAsync();
     void SearchByFirstName();
     void SearchByLastName();
     void SearchByNumber();

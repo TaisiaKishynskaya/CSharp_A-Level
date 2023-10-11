@@ -1,23 +1,49 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+using System.Text;
 
 namespace ModuleWork3._1;
 
 internal class ContactBook : IContactRepository
 {
+    private readonly string filePath = "contacts.txt";
+
     internal ConcurrentDictionary< uint, Contact > contacts = new();
 
-    public void AddToDict()
+    private static SemaphoreSlim fileSemaphore = new SemaphoreSlim(1, 1);
+
+    private FileWatcher fileWatcher; // Для спостереження за файлом
+
+    public ContactBook()
     {
+        fileWatcher = new FileWatcher(filePath);
+        fileWatcher.FileChanged += OnFileChanged;
+    }
+
+
+    public async Task AddToDictAsync()
+    {
+        // Захоплюємо семафор для блокування інших процесів
+        await fileSemaphore.WaitAsync();
+
         var contactInDict = InputContact();
-        
-        if (contacts.TryAdd(contactInDict.Number, contactInDict))
+
+        try
         {
-            Console.WriteLine($"Contact added with number {contactInDict.Number}");
+            if (contacts.TryAdd(contactInDict.Number, contactInDict))
+            {
+                Console.WriteLine($"Contact added with number {contactInDict.Number}");
+
+                await SaveToFileAsync(contactInDict);
+            }
+            else
+            {
+                Console.WriteLine("Failed to add contact. Number already exists.");
+            }
         }
-        else
+        finally
         {
-            Console.WriteLine("Failed to add contact. Number already exists.");
+            // Звільняємо семафор після завершення додавання контакту
+            fileSemaphore.Release();
         }
     }
 
@@ -84,4 +110,43 @@ internal class ContactBook : IContactRepository
             Console.WriteLine($"Number: {entry.Key}, First Name: {entry.Value.FirstName}, Last Name: {entry.Value.LastName}");
         }
     }
+
+
+    private async Task SaveToFileAsync(Contact contact)
+    {
+        var contactData = $"{contact.Number}, {contact.FirstName}, {contact.LastName}\n";
+
+        try
+        {
+            await fileSemaphore.WaitAsync();
+
+            if (!File.Exists(filePath))
+            {
+                // Файл не існує, створимо його з пустим вмістом
+                File.Create(filePath).Close();
+            }
+            else
+            {
+                // Файл існує, виведемо повідомлення про інші процеси
+                Console.WriteLine("Another process has already written to the file.");
+                return;
+            }
+
+            await File.AppendAllTextAsync(filePath, contactData, Encoding.UTF8);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to write to file: {ex.Message}");
+        }
+        finally
+        {
+            fileSemaphore.Release();
+        }
+    }
+
+    private void OnFileChanged(object? sender, string filePath)
+    {
+        Console.WriteLine($"File {filePath} was changed.");
+    }
+
 }
