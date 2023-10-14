@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿
 namespace ModuleWork3._1
 {
     internal class FileWatcher
     {
         private readonly string filePath;
-        private readonly SemaphoreSlim fileSemaphore = new(1, 1);
 
         public event EventHandler<string> FileChanged;
 
@@ -36,7 +29,7 @@ namespace ModuleWork3._1
             Console.ReadLine();
         }
 
-        private void OnFileChanged(object sender, FileSystemEventArgs e)
+        internal void OnFileChanged(object sender, FileSystemEventArgs e)
         {
             // Під час зміни файлу читаємо його вміст
             var fileContents = ReadFile();

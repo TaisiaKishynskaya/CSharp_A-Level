@@ -9,22 +9,25 @@ internal class ContactBook : IContactRepository
 
     internal ConcurrentDictionary< uint, Contact > contacts = new();
 
-    private static SemaphoreSlim fileSemaphore = new SemaphoreSlim(1, 1);
+    private static SemaphoreSlim fileSemaphore = new(1, 1);
 
-    private FileWatcher fileWatcher; // Для спостереження за файлом
+    private FileWatcher _fileWatcher; // Для спостереження за файлом
+    
+    public event EventHandler DataUpdated; // Событие для оповещения об обновлении данных
+
 
     public ContactBook()
     {
-        fileWatcher = new FileWatcher(filePath);
-        fileWatcher.FileChanged += OnFileChanged;
+        _fileWatcher = new FileWatcher(filePath);
+        _fileWatcher.FileChanged += OnFileChanged;
     }
 
 
     public async Task AddToDictAsync()
     {
-        // Захоплюємо семафор для блокування інших процесів
-        await fileSemaphore.WaitAsync();
 
+        await fileSemaphore.WaitAsync();
+        Console.WriteLine("Semaphore is closed");
         var contactInDict = InputContact();
 
         try
@@ -32,8 +35,8 @@ internal class ContactBook : IContactRepository
             if (contacts.TryAdd(contactInDict.Number, contactInDict))
             {
                 Console.WriteLine($"Contact added with number {contactInDict.Number}");
-
                 await SaveToFileAsync(contactInDict);
+                OnDataUpdated(EventArgs.Empty); // Сообщаем о обновлении данных
             }
             else
             {
@@ -42,7 +45,7 @@ internal class ContactBook : IContactRepository
         }
         finally
         {
-            // Звільняємо семафор після завершення додавання контакту
+            Console.WriteLine("Semaphore is opened");
             fileSemaphore.Release();
         }
     }
@@ -118,30 +121,24 @@ internal class ContactBook : IContactRepository
 
         try
         {
-            await fileSemaphore.WaitAsync();
-
             if (!File.Exists(filePath))
             {
-                // Файл не існує, створимо його з пустим вмістом
                 File.Create(filePath).Close();
-            }
-            else
-            {
-                // Файл існує, виведемо повідомлення про інші процеси
-                Console.WriteLine("Another process has already written to the file.");
-                return;
             }
 
             await File.AppendAllTextAsync(filePath, contactData, Encoding.UTF8);
+
+            OnDataUpdated(EventArgs.Empty); // Сообщаем о обновлении данных
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Failed to write to file: {ex.Message}");
         }
-        finally
-        {
-            fileSemaphore.Release();
-        }
+    }
+
+    protected virtual void OnDataUpdated(EventArgs e)
+    {
+        DataUpdated?.Invoke(this, e);
     }
 
     private void OnFileChanged(object? sender, string filePath)
