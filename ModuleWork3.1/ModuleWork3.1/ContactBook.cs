@@ -73,16 +73,16 @@ internal class ContactBook : IContactRepository
 
     public void SearchByFirstName()
     {
-        var firstName = InputValidation.InputString();
-        var searchedFirstNames = contacts.Where(dictValue => dictValue.Value.FirstName == firstName);
+        var firstNamePrefix = InputValidation.InputString();
+        var searchedFirstNames = contacts.Where(dictValue => dictValue.Value.FirstName.StartsWith(firstNamePrefix, StringComparison.OrdinalIgnoreCase));
 
         PrintContacts(searchedFirstNames);
     }
 
     public void SearchByLastName()
     {
-        var lastName = InputValidation.InputString();
-        var searchedLastNames = contacts.Where(dictValue => dictValue.Value.LastName == lastName);
+        var lastNamePrefix = InputValidation.InputString();
+        var searchedLastNames = contacts.Where(dictValue => dictValue.Value.LastName.StartsWith(lastNamePrefix, StringComparison.OrdinalIgnoreCase));
 
         PrintContacts(searchedLastNames);
     }
