@@ -1,6 +1,6 @@
 ﻿namespace ModuleWork3._1.Services;
 
-internal class InputValidation
+internal class InputValidationService
 {
     internal static string InputString()
     {

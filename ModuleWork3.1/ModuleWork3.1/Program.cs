@@ -7,7 +7,7 @@ internal class Program
 {
     private static void Main()
     {
-        IContactRepository contactRepository = new ContactBook();
+        IContactBookRepository contactRepository = new ContactBookRepository();
         var app = new App(contactRepository);
         app.MainMenu();
 

@@ -1,6 +1,6 @@
 ﻿namespace ModuleWork3._1.Repositories;
 
-internal interface IContactRepository
+internal interface IContactBookRepository
 {
     Task AddToDictAsync();
     void SearchByFirstName();

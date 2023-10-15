@@ -14,7 +14,7 @@ internal class Contact : IContact
         get => _firstName;
         set
         {
-            _firstName = InputValidation.InputString();
+            _firstName = InputValidationService.InputString();
         }
     }
 
@@ -23,7 +23,7 @@ internal class Contact : IContact
         get => _lastName;
         set
         {
-            _lastName = InputValidation.InputString();
+            _lastName = InputValidationService.InputString();
         }
     }
 

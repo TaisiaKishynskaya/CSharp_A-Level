@@ -5,7 +5,7 @@ using ModuleWork3._1.Services;
 
 namespace ModuleWork3._1.Repositories;
 
-internal class ContactBook : IContactRepository
+internal class ContactBookRepository : IContactBookRepository
 {
     private readonly string filePath = "contacts.txt";
 
@@ -13,17 +13,7 @@ internal class ContactBook : IContactRepository
 
     private static SemaphoreSlim fileSemaphore = new(1, 1);
 
-    private FileWatcher _fileWatcher; // Для спостереження за файлом
-
     public event EventHandler DataUpdated; // Событие для оповещения об обновлении данных
-
-
-    public ContactBook()
-    {
-        _fileWatcher = new FileWatcher(filePath);
-        _fileWatcher.FileChanged += OnFileChanged;
-    }
-
 
     public async Task AddToDictAsync()
     {
@@ -64,7 +54,7 @@ internal class ContactBook : IContactRepository
         contactToAdd.LastName = Console.ReadLine();
         Console.WriteLine($"Last name: {contactToAdd.LastName}");
 
-        contactToAdd.Number = InputValidation.InputNumber();
+        contactToAdd.Number = InputValidationService.InputNumber();
         Console.WriteLine($"Number: {contactToAdd.Number}");
 
         Contact copyContactToAdd = new(contactToAdd);
@@ -75,7 +65,7 @@ internal class ContactBook : IContactRepository
 
     public void SearchByFirstName()
     {
-        var firstNamePrefix = InputValidation.InputString();
+        var firstNamePrefix = InputValidationService.InputString();
         var searchedFirstNames = contacts.Where(dictValue => dictValue.Value.FirstName.StartsWith(firstNamePrefix, StringComparison.OrdinalIgnoreCase));
 
         PrintContacts(searchedFirstNames);
@@ -83,7 +73,7 @@ internal class ContactBook : IContactRepository
 
     public void SearchByLastName()
     {
-        var lastNamePrefix = InputValidation.InputString();
+        var lastNamePrefix = InputValidationService.InputString();
         var searchedLastNames = contacts.Where(dictValue => dictValue.Value.LastName.StartsWith(lastNamePrefix, StringComparison.OrdinalIgnoreCase));
 
         PrintContacts(searchedLastNames);
@@ -91,7 +81,7 @@ internal class ContactBook : IContactRepository
 
     public void SearchByNumber()
     {
-        var number = InputValidation.InputNumber();
+        var number = InputValidationService.InputNumber();
         var searchedNumbers = contacts.Where(dictKey => dictKey.Key == number);
 
         PrintContacts(searchedNumbers);
@@ -140,10 +130,4 @@ internal class ContactBook : IContactRepository
     {
         DataUpdated?.Invoke(this, e);
     }
-
-    private void OnFileChanged(object? sender, string filePath)
-    {
-        Console.WriteLine($"File {filePath} was changed.");
-    }
-
 }
