@@ -123,10 +123,7 @@ internal class ContactBook : IContactRepository
 
         try
         {
-            if (!File.Exists(filePath))
-            {
-                File.Create(filePath).Close();
-            }
+            var fileStream = File.Open(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
 
             await File.AppendAllTextAsync(filePath, contactData, Encoding.UTF8);
 
