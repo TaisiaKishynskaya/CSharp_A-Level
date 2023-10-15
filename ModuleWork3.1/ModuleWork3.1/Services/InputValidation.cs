@@ -1,4 +1,4 @@
-﻿namespace ModuleWork3._1;
+﻿namespace ModuleWork3._1.Services;
 
 internal class InputValidation
 {

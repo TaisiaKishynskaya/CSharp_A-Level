@@ -1,4 +1,6 @@
-﻿namespace ModuleWork3._1;
+﻿using ModuleWork3._1.Services;
+
+namespace ModuleWork3._1.Models;
 
 internal class Contact : IContact
 {
@@ -27,7 +29,7 @@ internal class Contact : IContact
 
     internal Contact() { }
     internal Contact(string FirstName, string LastName) { }
-    internal Contact(Contact other) 
+    internal Contact(Contact other)
     {
         _firstName = other.FirstName;
         _lastName = other.LastName;

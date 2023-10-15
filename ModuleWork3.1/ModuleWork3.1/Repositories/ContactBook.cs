@@ -1,18 +1,20 @@
 ﻿using System.Collections.Concurrent;
 using System.Text;
+using ModuleWork3._1.Models;
+using ModuleWork3._1.Services;
 
-namespace ModuleWork3._1;
+namespace ModuleWork3._1.Repositories;
 
 internal class ContactBook : IContactRepository
 {
     private readonly string filePath = "contacts.txt";
 
-    internal ConcurrentDictionary< uint, Contact > contacts = new();
+    internal ConcurrentDictionary<uint, Contact> contacts = new();
 
     private static SemaphoreSlim fileSemaphore = new(1, 1);
 
     private FileWatcher _fileWatcher; // Для спостереження за файлом
-    
+
     public event EventHandler DataUpdated; // Событие для оповещения об обновлении данных
 
 

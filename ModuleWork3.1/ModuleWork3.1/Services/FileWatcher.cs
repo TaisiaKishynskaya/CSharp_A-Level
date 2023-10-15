@@ -1,5 +1,4 @@
-﻿
-namespace ModuleWork3._1
+﻿namespace ModuleWork3._1.Services
 {
     internal class FileWatcher
     {
@@ -10,7 +9,7 @@ namespace ModuleWork3._1
         public FileWatcher(string filePath)
         {
             this.filePath = filePath;
-            this.FileChanged = delegate { }; // Пустий обробник подій
+            FileChanged = delegate { }; // Пустий обробник подій
         }
 
         public void StartWatching()

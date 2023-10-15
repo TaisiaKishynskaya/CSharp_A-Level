@@ -1,4 +1,4 @@
-﻿namespace ModuleWork3._1;
+﻿namespace ModuleWork3._1.Repositories;
 
 internal interface IContactRepository
 {
