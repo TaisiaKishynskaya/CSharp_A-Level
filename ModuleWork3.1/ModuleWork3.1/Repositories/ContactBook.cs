@@ -128,6 +128,7 @@ internal class ContactBook : IContactRepository
             await File.AppendAllTextAsync(filePath, contactData, Encoding.UTF8);
 
             OnDataUpdated(EventArgs.Empty); // Сообщаем о обновлении данных
+            fileStream.Close();
         }
         catch (Exception ex)
         {
