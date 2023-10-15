@@ -12,7 +12,7 @@ internal class App
     }
 
 
-    internal void MainMenu()
+    internal async void MainMenu()
     {
         while (true)
         {
@@ -23,7 +23,7 @@ internal class App
             switch (choise)
             {
                 case "1":
-                    _contactRepository.AddToDictAsync();
+                    await _contactRepository.AddToDictAsync();
                     break;
                 case "2":
                     SearchMenu();
