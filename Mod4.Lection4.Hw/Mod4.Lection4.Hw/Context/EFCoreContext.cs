@@ -9,7 +9,7 @@ public class EFCoreContext : DbContext
     // DbContext не має знати, де він буде використовуватись, тому тут не повинно бути конфігурації.
     // DbContext має описувати, що він вміє підключатись з якимись налаштуваннями
 
-    // Fkuent API
+    // Fluent API
 
     public DbSet<User> Users { get; private set; }  // щоб EF почав працювати з моделью з коду до бд
 

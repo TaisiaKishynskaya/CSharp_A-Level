@@ -12,7 +12,7 @@ using Mod4.Lection4.Hw.Context;
 namespace Mod4.Lection4.Hw.Migrations
 {
     [DbContext(typeof(EFCoreContext))]
-    [Migration("20231104150002_init")]
+    [Migration("20231104171213_init")]
     partial class init
     {
         /// <inheritdoc />
