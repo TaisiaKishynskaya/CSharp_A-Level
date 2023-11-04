@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mod4.Lection4.Hw.Context;
 
@@ -11,9 +12,11 @@ using Mod4.Lection4.Hw.Context;
 namespace Mod4.Lection4.Hw.Migrations
 {
     [DbContext(typeof(EFCoreContext))]
-    partial class EFCoreContextModelSnapshot : ModelSnapshot
+    [Migration("20231104212321_init2")]
+    partial class init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
