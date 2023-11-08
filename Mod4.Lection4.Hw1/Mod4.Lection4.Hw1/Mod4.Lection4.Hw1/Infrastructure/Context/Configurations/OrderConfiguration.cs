@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mod4.Lection4.Hw1.Domain.Models;
 
 namespace Mod4.Lection4.Hw1.Infrastructure.Context.Configurations;

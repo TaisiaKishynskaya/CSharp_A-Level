@@ -8,7 +8,7 @@ namespace Mod4.Lection4.Hw1.Application.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AddressController : ControllerBase  // депенденсі інжекшен
+public class AddressController : ControllerBase
 {
     private readonly IManagerRepository _managerRepository;
     public AddressController(IManagerRepository managerRepository) => _managerRepository = managerRepository;
@@ -21,7 +21,7 @@ public class AddressController : ControllerBase  // депенденсі інж�
         
         if (addresses == null) return NotFound();
 
-        return Ok(addresses.OrderBy(p => p.Street));
+        return Ok(addresses.OrderByDescending(p => p.Street));
     }
 
     [HttpGet("id")]
