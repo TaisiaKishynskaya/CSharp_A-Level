@@ -1,0 +1,34 @@
+﻿version: '2.22'
+
+networks:
+  sss:
+    driver: bridge
+
+services:
+  sqlserver:
+    container_name: ModuleWork4
+    networks:
+        - sss
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "passtaya20!"
+    ports:
+    - "1401:1433"
+
+
+  remote:
+    container_name: app
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+        - sss  
+    image: webapi
+    ports:
+        - "8080:80" 
+    depends_on: 
+        - sqlserver
+    build:
+        context: .
+        dockerfile: Dockerfile
+
