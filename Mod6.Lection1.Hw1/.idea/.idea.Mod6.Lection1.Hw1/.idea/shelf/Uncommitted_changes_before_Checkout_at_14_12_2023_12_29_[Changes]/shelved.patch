@@ -1,0 +1,2147 @@
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/route.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { FC } from \"react\";\r\n\r\ninterface Route {\r\n    key: string,\r\n    title: string,\r\n    path: string,\r\n    enabled: boolean,\r\n    component: FC<{}>\r\n}\r\n\r\nexport default Route
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/route.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/route.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/route.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/route.ts	
+@@ -1,11 +1,18 @@
+-import { FC } from "react";
++import { FC } from "react"; // Импортирует тип FC (Functional Component) из библиотеки React.
++                            // FC - это общий тип, который представляет функциональный компонент в React.
+ 
++// Объявляет начало интерфейса с именем Route. Этот интерфейс определяет структуру объектов, представляющих маршрут в приложении.                            
+ interface Route {
+-    key: string,
+-    title: string,
+-    path: string,
+-    enabled: boolean,
+-    component: FC<{}>
++    key: string, // Объявляет свойство key в интерфейсе с типом string. Подразумевается, что свойство key должно содержать строковые значения.
++    title: string, // Объявляет свойство title в интерфейсе с типом string. Указывает, что свойство title предназначено для хранения строковых значений.
++    path: string, // Объявляет свойство path в интерфейсе с типом string. Указывает, что свойство path должно содержать строковые значения.
++    enabled: boolean, // Объявляет свойство enabled в интерфейсе с типом boolean. Подразумевается, что свойство enabled должно содержать булевы значения.
++    component: FC<{}> // Объявляет свойство component в интерфейсе с типом FC<{}>.
++                      // FC<{}> - это тип функционального компонента, который принимает пустой объект в качестве реквизита.
++                      // Это говорит о том, что свойство component должно быть функциональным компонентом React.
+ }
+ 
+-export default Route
+\ No newline at end of file
++export default Route // Экспортирует интерфейс Route в качестве экспорта по умолчанию этого модуля. Это позволяет другим модулям импортировать интерфейс Route, используя импорт по умолчанию.
++
++// В общем, интерфейс Route определяет структуру объектов, представляющих маршруты в приложении.
++// Ожидается, что каждый объект маршрута будет иметь такие свойства, как ключ, заголовок, путь, enabled и component, с определенными типами данных для каждого свойства.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/RegistrationStore.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { makeAutoObservable } from \"mobx\";\r\nimport AuthStore from \"../../AuthStores/AuthStore\";\r\n\r\nclass RegistrationStore {\r\n    private authStore: AuthStore;\r\n    email = '';\r\n    password = '';\r\n    error = '';\r\n    isLoading = false;\r\n\r\n    constructor(authStore: AuthStore) {\r\n        this.authStore = authStore;\r\n        makeAutoObservable(this);\r\n    }\r\n\r\n    changeEmail(email: string) {\r\n        this.email = email;\r\n        if (!!this.error) {\r\n            this.error = '';\r\n        }\r\n    }\r\n\r\n    changePassword(password: string) {\r\n        this.password = password;\r\n        if (!!this.error) {\r\n            this.error = '';\r\n        }\r\n    }\r\n\r\n    async register() {\r\n        try {\r\n            this.isLoading = true;\r\n            await this.authStore.register(this.email, this.password);\r\n        }\r\n        catch (e) {\r\n            this.error = 'Registration Error';\r\n        }\r\n        finally {\r\n            this.isLoading = false;\r\n        }\r\n    }\r\n}\r\n\r\nexport default RegistrationStore;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/RegistrationStore.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/RegistrationStore.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/RegistrationStore.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/RegistrationStore.ts	
+@@ -1,44 +1,73 @@
++// Импортируйте функцию makeAutoObservable из библиотеки MobX и класс AuthStore.
+ import { makeAutoObservable } from "mobx";
+ import AuthStore from "../../AuthStores/AuthStore";
+ 
++//  Определите класс с именем RegistrationStore.
+ class RegistrationStore {
+-    private authStore: AuthStore;
++    private authStore: AuthStore; // Объявите свойства класса для authStore (экземпляр AuthStore),
+     email = '';
+     password = '';
+-    error = '';
+-    isLoading = false;
++    error = ''; // для ошибок входа
++    isLoading = false; // для отслеживания состояния загрузки
+ 
++    // Определите конструктор, который принимает в качестве параметра экземпляр AuthStore,
+     constructor(authStore: AuthStore) {
+-        this.authStore = authStore;
+-        makeAutoObservable(this);
++        this.authStore = authStore; // инициализирует свойство authStore
++        makeAutoObservable(this); // и вызывает makeAutoObservable(this), чтобы сделать класс наблюдаемым.
+     }
+ 
++    // Определите метод changeEmail для обновления свойства email.
+     changeEmail(email: string) {
+         this.email = email;
+         if (!!this.error) {
+-            this.error = '';
++            this.error = ''; // Если существует существующая ошибка, очистите ее.
+         }
+     }
+ 
++    // Определите метод changePassword для обновления свойства password.
+     changePassword(password: string) {
+         this.password = password;
+         if (!!this.error) {
+-            this.error = '';
++            this.error = ''; // Если существует существующая ошибка, очистите ее.
+         }
+     }
+ 
++    // Определите асинхронный метод register для обработки процесса входа в систему.
+     async register() {
+         try {
+-            this.isLoading = true;
+-            await this.authStore.register(this.email, this.password);
++            this.isLoading = true; // Установите значение isLoading в true,
++            await this.authStore.register(this.email, this.password); // вызовите метод register на authStore с указанными email и паролем, 
+         }
+-        catch (e) {
+-            this.error = 'Registration Error';
++        catch (e) { //  отловите все ошибки,
++            this.error = 'Registration Error'; // установите свойство error, если произошла ошибка,
+         }
+         finally {
+-            this.isLoading = false;
++            this.isLoading = false; // и установите isLoading обратно в false в блоке finally.
+         }
+     }
+ }
+ 
+-export default RegistrationStore;
+\ No newline at end of file
++export default RegistrationStore;  // Экспортируйте класс RegistrationStore в качестве экспорта по умолчанию в модуле
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
++
++// В общем, класс RegistrationStore управляет состоянием, связанным с регистрацией пользователя в системе, 
++// включая электронную почту, пароль, сообщения об ошибках и состояние загрузки. 
++// Он взаимодействует с AuthStore для фактического процесса регистрации в системе и использует MobX для управления состоянием и реактивностью.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/ResourcesPage/Resource.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {ReactElement, FC, useEffect, useState} from \"react\";\r\nimport {\r\n    Box,\r\n    Card,\r\n    CardContent,\r\n    CircularProgress,\r\n    Container,\r\n    Grid,\r\n    Typography\r\n} from '@mui/material'\r\nimport * as resourceApi from \"../../api/modules/resources\" \r\nimport {IResource} from \"../../interfaces/resources\"; \r\nimport {useParams} from \"react-router-dom\";\r\n\r\nconst ResourcePage: FC<any> = (): ReactElement => {\r\n    const [resource, setResource] = useState<IResource | null>(null)\r\n    const [isLoading, setIsLoading] = useState<boolean>(false)\r\n    const { id } = useParams()\r\n\r\n    useEffect(() => {\r\n        if (id) {\r\n            const getResource = async () => {\r\n                try {\r\n                    setIsLoading(true)\r\n                    const res = await resourceApi.getById(id) \r\n                    setResource(res.data)\r\n                } catch (e) {\r\n                    if (e instanceof Error) {\r\n                        console.error(e.message)\r\n                    }\r\n                }\r\n                setIsLoading(false)\r\n            }\r\n            getResource()\r\n        }\r\n    }, [id])\r\n\r\n    return (\r\n        <Container>\r\n            <Grid container spacing={4} justifyContent=\"center\" m={4}>\r\n                {isLoading ? (\r\n                    <CircularProgress />\r\n                ) : (\r\n                    <>\r\n                        <Card sx={{ maxWidth: 250, backgroundColor: resource?.color }}> \r\n                            <CardContent>\r\n                                <Typography noWrap gutterBottom variant=\"h6\" component=\"div\">\r\n                                    {resource?.name}\r\n                                </Typography>\r\n                                <Typography variant=\"body2\" color=\"text.secondary\">\r\n                                    Year: {resource?.year}\r\n                                </Typography>\r\n                                <Typography variant=\"body2\" color=\"text.secondary\">\r\n                                    Color: {resource?.color}\r\n                                </Typography>\r\n                                <Typography variant=\"body2\" color=\"text.secondary\">\r\n                                    Pantone Value: {resource?.pantone_value}\r\n                                </Typography>\r\n                            </CardContent>\r\n                        </Card>\r\n                    </>\r\n                )}\r\n            </Grid>\r\n        </Container>\r\n    );\r\n};\r\n\r\nexport default ResourcePage;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/ResourcesPage/Resource.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/ResourcesPage/Resource.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/ResourcesPage/Resource.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/ResourcesPage/Resource.tsx	
+@@ -1,4 +1,5 @@
+-import React, {ReactElement, FC, useEffect, useState} from "react";
++import React, {ReactElement, FC, useEffect, useState} from "react"; // Импортируйте необходимые модули и компоненты из React.
++// Импортируйте определенные компоненты Material-UI (Box, Card, CardContent, CircularProgress, Container, Grid, Typography), которые будут использоваться в компоненте.
+ import {
+     Box,
+     Card,
+@@ -10,38 +11,45 @@
+ } from '@mui/material'
+ import * as resourceApi from "../../api/modules/resources" 
+ import {IResource} from "../../interfaces/resources"; 
+-import {useParams} from "react-router-dom";
++import {useParams} from "react-router-dom"; // Импортируйте хук useParams из React Router для доступа к параметрам из URL.
+ 
++// Определение компонента: Определите функциональный компонент с именем ResourcePage, используя тип FC. Он возвращает элемент ReactElement.
+ const ResourcePage: FC<any> = (): ReactElement => {
+-    const [resource, setResource] = useState<IResource | null>(null)
+-    const [isLoading, setIsLoading] = useState<boolean>(false)
+-    const { id } = useParams()
++    // Инициализация состояния: Инициализируйте переменные состояния с помощью хука useState:
++    const [resource, setResource] = useState<IResource | null>(null) // Представляет данные ресурса или null.
++    const [isLoading, setIsLoading] = useState<boolean>(false) // Представляет, загружаются ли данные в данный момент.
++    const { id } = useParams() // Уничтожает параметр id из маршрута с помощью хука useParams.
+ 
++    // Использует хук useEffect для получения данных о ресурсах при монтировании компонента или при изменении id. 
+     useEffect(() => {
+-        if (id) {
++        if (id) { // Он проверяет, существует ли id,
+             const getResource = async () => {
+                 try {
+-                    setIsLoading(true)
+-                    const res = await resourceApi.getById(id) 
+-                    setResource(res.data)
++                    setIsLoading(true) // устанавливает загрузку в true,
++                    const res = await resourceApi.getById(id) // извлекает данные с помощью функции resourceApi.getById
++                    setResource(res.data) // и обновляет состояние полученными данными.
+                 } catch (e) {
+                     if (e instanceof Error) {
+                         console.error(e.message)
+                     }
+                 }
+-                setIsLoading(false)
++                setIsLoading(false) // Наконец, он устанавливает загрузку в false.
+             }
+             getResource()
+         }
+     }, [id])
+ 
++    // Возвращает JSX-структуру:
+     return (
+-        <Container>
++        <Container> // Компонент Container из Material-UI.
++            // Компонент Grid с информацией о ресурсах и круговым индикатором загрузки (CircularProgress) при загрузке данных
+             <Grid container spacing={4} justifyContent="center" m={4}>
++                // Он сопоставляет массив ресурсов
+                 {isLoading ? (
+                     <CircularProgress />
+                 ) : (
+                     <>
++                        // и отображает компонент Card с информацией о ресурсах, включая название, год, цвет и значение пантона.
+                         <Card sx={{ maxWidth: 250, backgroundColor: resource?.color }}> 
+                             <CardContent>
+                                 <Typography noWrap gutterBottom variant="h6" component="div">
+@@ -65,4 +73,26 @@
+     );
+ };
+ 
+-export default ResourcePage;
+\ No newline at end of file
++export default ResourcePage;
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
++
++// В общем, этот компонент (ResourcePage) получает и отображает подробную информацию о конкретном ресурсе, 
++// включая его название, год, цвет и пантонное значение. Он поддерживает индикаторы загрузки и настраивает цвет фона карточки в зависимости от цвета ресурса.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/App.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {createContext, useState} from \"react\";\r\nimport { CssBaseline, ThemeProvider } from \"@mui/material\";\r\nimport { createTheme } from \"@mui/material/styles\";\r\nimport { BrowserRouter as Router, Routes, Route } from \"react-router-dom\";\r\nimport { routes as appRoutes } from \"./routes\";\r\nimport {IAppStore} from \"./interfaces/appStore\";\r\nimport AuthStore from \"./AuthStores/AuthStore\";\r\nimport Layout from \"./components/Layout\";\r\n\r\nconst store: IAppStore = {\r\n  'authStore':  new AuthStore()\r\n}\r\nexport const AppStoreContext = createContext(store);\r\n\r\nfunction App() {\r\n  // define theme\r\n  const theme = createTheme({\r\n    palette: {\r\n      primary: {\r\n        light: \"#63b8ff\",\r\n        main: \"#0989e3\",\r\n        dark: \"#005db0\",\r\n        contrastText: \"#000\",\r\n      },\r\n      secondary: {\r\n        main: \"#4db6ac\",\r\n        light: \"#82e9de\",\r\n        dark: \"#00867d\",\r\n        contrastText: \"#000\",\r\n      },\r\n    },\r\n  });\r\n\r\n  const [appStore, setAppStore] = useState(store);\r\n\r\n  return (\r\n    <ThemeProvider theme={theme}>\r\n      <CssBaseline />\r\n      <Router>\r\n        <AppStoreContext.Provider value={appStore}>\r\n          <Layout>\r\n            <Routes>\r\n              {appRoutes.map((route) => (\r\n                <Route\r\n                  key={route.key}\r\n                  path={route.path}\r\n                  element={<route.component />}\r\n                />\r\n              ))}\r\n            </Routes>\r\n          </Layout>\r\n        </AppStoreContext.Provider>\r\n      </Router>\r\n    </ThemeProvider>\r\n  );\r\n}\r\n\r\nexport default App;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/App.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/App.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/App.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/App.tsx	
+@@ -1,50 +1,56 @@
+-import React, {createContext, useState} from "react";
+-import { CssBaseline, ThemeProvider } from "@mui/material";
+-import { createTheme } from "@mui/material/styles";
+-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+-import { routes as appRoutes } from "./routes";
+-import {IAppStore} from "./interfaces/appStore";
++import React, {createContext, useState} from "react"; // Импортирует React и другие хуки из библиотеки "react". Импортирует хуки createContext и useState из React.
++import { CssBaseline, ThemeProvider } from "@mui/material"; // Импортирует компоненты CssBaseline и ThemeProvider из библиотеки "Mui".
++import { createTheme } from "@mui/material/styles"; // Импортирует функцию createTheme из библиотеки "Mui" для создания пользовательской темы.
++import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Импортирует компоненты и полезные функции, связанные с маршрутизацией, из библиотеки "react-router-dom".
++                                              // BrowserRouter как Router: Предоставляет контекст для информации, связанной с маршрутизацией.
++                                              // Маршруты: Контейнер для определения отдельных маршрутов.
++                                              // Маршрут: Представляет маршрут в приложении.
++import { routes as appRoutes } from "./routes"; // Импортирует константу routes из файла с именем "routes" в локальном каталоге.
++import {IAppStore} from "./interfaces/appStore"; // Импортирует интерфейс IAppStore из модуля "appStore" и класс AuthStore из модуля "AuthStore".
+ import AuthStore from "./AuthStores/AuthStore";
+-import Layout from "./components/Layout";
++import Layout from "./components/Layout"; // Импортирует компонент Layout из модуля "Layout".
+ 
++// Создает хранилище объектов типа IAppStore, инициализируя его экземпляром класса AuthStore.
+ const store: IAppStore = {
+   'authStore':  new AuthStore()
+ }
+-export const AppStoreContext = createContext(store);
++export const AppStoreContext = createContext(store); // Создает контекст с именем AppStoreContext с помощью createContext и инициализирует его объектом магазина.
+ 
++// Определяет компонент функции App. 
+ function App() {
+   // define theme
++  // Определяет пользовательскую тему с помощью функции createTheme из "Mui" с заданными основным и дополнительным цветами.
+   const theme = createTheme({
+     palette: {
+-      primary: {
+-        light: "#63b8ff",
+-        main: "#0989e3",
+-        dark: "#005db0",
+-        contrastText: "#000",
++      primary: { //  основной цвет, обычно используется для элементов, связанных с основным контентом приложения.
++        light: "#63b8ff", // Светлый оттенок основного цвета.
++        main: "#0989e3", // Основной цвет
++        dark: "#005db0", // Темный оттенок основного цвета.
++        contrastText: "#000", // Цвет текста, который будет хорошо виден на основном цвете (часто используется для текста на фоне основного цвета).
+       },
+-      secondary: {
++      secondary: { // второстепенный цвет, который может использоваться для акцентов, кнопок и других визуальных элементов. 
+         main: "#4db6ac",
+         light: "#82e9de",
+         dark: "#00867d",
+-        contrastText: "#000",
++        contrastText: "#000", //
+       },
+     },
+   });
+ 
+-  const [appStore, setAppStore] = useState(store);
++  const [appStore, setAppStore] = useState(store); // Использует хук useState для создания переменных состояния для appStore и функцию setAppStore для обновления их значения.
+ 
+   return (
+-    <ThemeProvider theme={theme}>
+-      <CssBaseline />
+-      <Router>
+-        <AppStoreContext.Provider value={appStore}>
+-          <Layout>
+-            <Routes>
+-              {appRoutes.map((route) => (
++    <ThemeProvider theme={theme}> // Отображает основной компонент App, обернутый в ThemeProvider с пользовательской темой.
++      <CssBaseline /> // Включает компонент CssBaseline для нормализации CSS в разных браузерах.
++      <Router> // Обертывает все приложение компонентом Router для обеспечения функциональности маршрутизации.
++        <AppStoreContext.Provider value={appStore}> // Использует AppStoreContext.Provider для предоставления appStore всем компонентам приложения.
++          <Layout> // Верстает компонент Layout, который оборачивает содержимое приложения.
++            <Routes> // Определяет маршруты приложения с помощью компонентов Routes и Route.
++              {appRoutes.map((route) => ( // Сопоставляет массив appRoutes и создает для каждого из них маршрут, указывая свойства path и element.
+                 <Route
+                   key={route.key}
+                   path={route.path}
+-                  element={<route.component />}
++                  element={<route.component />} // Свойство element - это JSX-выражение, которое отображает компонент, связанный с каждым маршрутом.
+                 />
+               ))}
+             </Routes>
+@@ -52,6 +58,7 @@
+         </AppStoreContext.Provider>
+       </Router>
+     </ThemeProvider>
++    // ThemeProvider, CssBaseline, Router и AppStoreContext.Provider являются частью общей структуры и конфигурации приложения.
+   );
+ }
+ 
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/api/client.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { apiClientProps } from \"../interfaces/apiClientProps\"\r\n\r\nconst baseUrl = \"https://reqres.in/api/\"\r\n\r\nconst handleResponse = async (response: Response) => {\r\n  if (!response.ok) {\r\n    const message = await response.json()\r\n    throw Error(message.error || 'Request error')\r\n  }\r\n  return response.json()\r\n}\r\n\r\nconst apiClient = async ({ path, method, data }: apiClientProps) => {\r\n  const requestOptions = {\r\n    method,\r\n    headers: { 'Content-Type': 'application/json' },\r\n    body: !!data ? JSON.stringify(data) : undefined\r\n  }\r\n  return await fetch(`${baseUrl}${path}`, requestOptions).then(handleResponse)\r\n}\r\n\r\nexport default apiClient
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/client.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/client.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/client.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/client.ts	
+@@ -1,22 +1,36 @@
+-import { apiClientProps } from "../interfaces/apiClientProps"
++import { apiClientProps } from "../interfaces/apiClientProps" // імпортує тип apiClientProps з іншого файлу для використання його в параметрах ф-ї.
+ 
+-const baseUrl = "https://reqres.in/api/"
++const baseUrl = "https://reqres.in/api/" // Визначає константу baseUrl, яка представляє основну адресу API.
+ 
++// Визначає асинхронну ф-ю handleResponse, яка приймає об'єкт Response і обробляє його. 
+ const handleResponse = async (response: Response) => {
++  // Якщо статус відповіді не є "ok" (!= true), то ф-я викидає помилку, що містить повідомлення про помилку з отриманого JSON або просто "Request error". 
+   if (!response.ok) {
+     const message = await response.json()
+     throw Error(message.error || 'Request error')
+   }
+-  return response.json()
++  return response.json() // Якщо статус відповіді "ok", ф-я повертає JSON відповіді.
+ }
+ 
++// Визначає асинхронну ф-ю apiClient, яка приймає об'єкт параметрів, що відповідає інтерфейсу apiClientProps (скорочений як { path, method, data }). 
+ const apiClient = async ({ path, method, data }: apiClientProps) => {
+-  const requestOptions = {
+-    method,
+-    headers: { 'Content-Type': 'application/json' },
+-    body: !!data ? JSON.stringify(data) : undefined
++  const requestOptions = { // У тілі ф-ї визначається об'єкт requestOptions,  
++    method, // який містить метод запиту,
++    headers: { 'Content-Type': 'application/json' }, // заголовки 
++    body: !!data ? JSON.stringify(data) : undefined // та тіло у форматі JSON.
+   }
+-  return await fetch(`${baseUrl}${path}`, requestOptions).then(handleResponse)
++  // Відбувається виклик fetch з об'єднаним URL та requestOptions, а результат передається ф-ї handleResponse.
++  return await fetch(`${baseUrl}${path}`, requestOptions).then(handleResponse) 
+ }
+ 
+-export default apiClient
+\ No newline at end of file
++export default apiClient // Експортує функцію apiClient як основний експорт цього модулю.
++
++
++// Отже, цей код представляє собою модуль для виконання HTTP-запитів до віддаленого API, використовуючи fetch.
++//fetch - це вбудована функція у JavaScript, яка використовується для виконання мережевих запитів (HTTP або HTTPS) і отримання ресурсів з мережі. 
++//Вона надає простий і сучасний інтерфейс для роботи з асинхронними запитами.
++//Основні особливості fetch:
++//Асинхронність: fetch є асинхронною функцією, що дозволяє виконувати мережеві запити без блокування виконання інших операцій.
++//Простий синтаксис: Синтаксис fetch досить простий і зручний для використання.
++//Ланцюжки обіцянок (Promises): fetch повертає об'єкт Promise, що дозволяє використовувати ланцюжки обіцянок для обробки результатів або помилок запиту.
++//Стандартні методи HTTP: Використовуючи fetch, ви можете виконувати різні HTTP-запити, такі як GET, POST, PUT, DELETE і інші.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Layout/Layout.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { FC, ReactNode } from \"react\";\r\nimport { Box, CssBaseline } from \"@mui/material\";\r\nimport Navbar from \"../Navbar\";\r\nimport Footer from \"../Footer\";\r\n\r\ninterface LayoutProps {\r\n  children: ReactNode;\r\n}\r\n\r\nconst Layout: FC<LayoutProps> = ({ children }) => {\r\n  return (\r\n    <>\r\n      <CssBaseline />\r\n      <Box\r\n        sx={{\r\n          display: \"flex\",\r\n          flexDirection: \"column\",\r\n          justifyContent: \"flex-start\",\r\n          minHeight: \"100vh\",\r\n          maxWidth: \"100vw\",\r\n          flexGrow: 1,\r\n        }}\r\n      >\r\n        <Navbar />\r\n        {children}\r\n        <Footer />\r\n      </Box>\r\n    </>\r\n  );\r\n};\r\n\r\nexport default Layout;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Layout/Layout.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Layout/Layout.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Layout/Layout.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Layout/Layout.tsx	
+@@ -1,32 +1,37 @@
+-import React, { FC, ReactNode } from "react";
+-import { Box, CssBaseline } from "@mui/material";
++import React, { FC, ReactNode } from "react"; // Імпорт необхідних бібліотек React.
++import { Box, CssBaseline } from "@mui/material"; // Імпорт компонентів MUI (Material-UI).
+ import Navbar from "../Navbar";
+ import Footer from "../Footer";
+ 
++// Визначення інтерфейсу для пропсів компонента Layout. Пропс children може бути будь-яким елементом React.
+ interface LayoutProps {
+-  children: ReactNode;
++  children: ReactNode; // children - елементи, які можуть бути вкладені в компонент
+ }
+ 
++// Оголошення функціонального компонента Layout з використанням TypeScript. Компонент приймає пропси, визначені в інтерфейсі LayoutProps.
+ const Layout: FC<LayoutProps> = ({ children }) => {
+   return (
++    // Фрагмент (порожній тег) для обгортання більше одного елемента без створення додаткового DOM-вузла
+     <>
+-      <CssBaseline />
++      <CssBaseline /> {/* Створює стандартні базові стилі для різних елементів в браузері, щоб забезпечити спільний базовий вигляд. */}
++      {/* Box - компонент для створення прямокутної коробки для інших елементів зі стилізацією на основі теми MUI */}
+       <Box
+         sx={{
+-          display: "flex",
+-          flexDirection: "column",
+-          justifyContent: "flex-start",
+-          minHeight: "100vh",
+-          maxWidth: "100vw",
+-          flexGrow: 1,
++          display: "flex",  // Встановлення стилю відображення flex
++          flexDirection: "column",  // Встановлення напрямку відображення в колонку
++          justifyContent: "flex-start",  // Встановлення вирівнювання вгору
++          minHeight: "100vh",  // Мінімальна висота віджету на весь екран
++          maxWidth: "100vw",  // Максимальна ширина віджету на весь екран
++          flexGrow: 1,  // Зростання розміру віджету, щоб заповнити доступний вільний простір
+         }}
+       >
+-        <Navbar />
+-        {children}
+-        <Footer />
++        <Navbar /> {/* Виклик компонента Navbar для відображення навігаційного меню */}
++        {children} {/* Рендер дочірніх компонентів, які передаються через пропс children */}
++        <Footer /> {/* Виклик компонента Footer для відображення нижньої частини сторінки */}
+       </Box>
+     </>
+   );
+ };
+ 
+-export default Layout;
+\ No newline at end of file
++{/* Експорт компонента Layout для використання в інших частинах програми*/}
++export default Layout;
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/CreateUser.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { Container, TextField, Button, Box } from \"@mui/material\";\r\nimport { FC, useState } from \"react\";\r\nimport { INewUser } from \"../../interfaces/users\";\r\nimport * as userApi from \"../../api/modules/users\"\r\n\r\nconst CreateUser: FC = () => {\r\n    const [name, setName] = useState('');\r\n    const [job, setJob] = useState('');\r\n    const [error, setError] = useState({ name: false, job: false });\r\n\r\n    const handleSubmit = async (event: React.FormEvent) => {\r\n        event.preventDefault();\r\n        if (!name || !job) {\r\n            setError({ name: !name, job: !job });\r\n            return;\r\n        }\r\n        const user: INewUser = {\r\n            name,\r\n            job,\r\n        };\r\n        try {\r\n            await userApi.create(user);\r\n            console.log('User created');\r\n            setName(''); \r\n            setJob(''); \r\n        } catch (error) {\r\n            console.error(error);\r\n        }\r\n    };\r\n\r\n    return (\r\n        <Container>\r\n            <Box\r\n                component=\"form\"\r\n                sx={{\r\n                    '& .MuiTextField-root': { m: 1, width: '25ch' },\r\n                }}\r\n                noValidate\r\n                autoComplete=\"off\"\r\n                onSubmit={handleSubmit}\r\n            >\r\n                <TextField\r\n                    error={error.name}\r\n                    helperText={error.name ? \"Name is required\" : \"\"}\r\n                    label=\"Name\"\r\n                    value={name}\r\n                    onChange={(e) => {\r\n                        setName(e.target.value);\r\n                        setError((prevError) => ({ ...prevError, name: false }));\r\n                    }}\r\n                    required\r\n                    sx={{ mb: 2 }}\r\n                />\r\n                <TextField\r\n                    error={error.job}\r\n                    helperText={error.job ? \"Job is required\" : \"\"}\r\n                    label=\"Job\"\r\n                    value={job}\r\n                    onChange={(e) => {\r\n                        setJob(e.target.value);\r\n                        setError((prevError) => ({ ...prevError, job: false }));\r\n                    }}\r\n                    required\r\n                    sx={{ mb: 2 }}\r\n                />\r\n                <Button \r\n                    type=\"submit\" \r\n                    variant=\"contained\" \r\n                    color=\"success\"\r\n                    sx={{ \r\n                        m: 1, \r\n                        width: '25ch', \r\n                        pt: '6px',\r\n                        pb: '6px',\r\n                        fontSize: '25px'\r\n                    }}\r\n                >\r\n                    CREATE\r\n                </Button>\r\n            </Box>\r\n        </Container>\r\n    );\r\n};\r\n\r\nexport default CreateUser;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/CreateUser.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/CreateUser.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/CreateUser.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/CreateUser.tsx	
+@@ -1,73 +1,77 @@
++// Импортируйте необходимые компоненты, зависимости и модули из Material-UI, React и проекта.
+ import { Container, TextField, Button, Box } from "@mui/material";
+ import { FC, useState } from "react";
+ import { INewUser } from "../../interfaces/users";
+ import * as userApi from "../../api/modules/users"
+ 
+ const CreateUser: FC = () => {
+-    const [name, setName] = useState('');
+-    const [job, setJob] = useState('');
+-    const [error, setError] = useState({ name: false, job: false });
++    // Объявите переменные состояния с помощью хука useState. 
++    const [name, setName] = useState(''); // имя
++    const [job, setJob] = useState(''); // должность
++    const [error, setError] = useState({ name: false, job: false }); // объект, который отслеживает, есть ли ошибка для полей name и job.
+ 
++    // Определите функцию handleSubmit для обработки отправки форм.
+     const handleSubmit = async (event: React.FormEvent) => {
+-        event.preventDefault();
+-        if (!name || !job) {
+-            setError({ name: !name, job: !job });
+-            return;
++        event.preventDefault(); // Она предотвращает стандартное поведение отправки формы.
++        if (!name || !job) { // Проверьте, пусты ли поля "Имя" и "Работа". Если одно из них пусто,
++            setError({ name: !name, job: !job }); // установите соответствующую ошибку в состоянии ошибки 
++            return; // и вернитесь из функции.
+         }
+-        const user: INewUser = {
++        const user: INewUser = { // Создайте объект пользователя, содержащий значения имени и должности.
+             name,
+             job,
+         };
+-        try {
++        try { // Попробуйте создать нового пользователя с помощью метода userApi.create.
+             await userApi.create(user);
+-            console.log('User created');
+-            setName(''); 
++            console.log('User created'); // В случае успеха выведите в лог сообщение
++            setName(''); // и сбросьте переменные имени и состояния задания. 
+             setJob(''); 
+-        } catch (error) {
+-            console.error(error);
++        } 
++        catch (error) { // Если произошла ошибка, 
++            console.error(error); // выведите ее в консоль.
+         }
+     };
+ 
+-    return (
++    return ( // Используйте компонент Material-UI Container, чтобы определить контейнер лейаута для компонента.
+         <Container>
+-            <Box
++            <Box // Используйте компонент Material-UI Box для создания обертки формы.
+                 component="form"
+-                sx={{
++                sx={{ // Настройте стили для применения интервалов и ширины к дочерним компонентам TextField
+                     '& .MuiTextField-root': { m: 1, width: '25ch' },
+                 }}
+-                noValidate
+-                autoComplete="off"
+-                onSubmit={handleSubmit}
++                noValidate // Отключите проверку формы 
++                autoComplete="off" // и выключите автозаполнение.
++                onSubmit={handleSubmit} // Прикрепите к форме обработчик onSubmit.
+             >
+-                <TextField
++                <TextField // Для ввода имени используйте компонент Material-UI TextField.
+                     error={error.name}
+-                    helperText={error.name ? "Name is required" : ""}
++                    helperText={error.name ? "Name is required" : ""} // Применяйте обработку ошибок и выводите вспомогательный текст при возникновении ошибки. 
+                     label="Name"
+                     value={name}
+-                    onChange={(e) => {
++                    onChange={(e) => { // Обновление состояния имени при изменении.
+                         setName(e.target.value);
+                         setError((prevError) => ({ ...prevError, name: false }));
+                     }}
+                     required
+                     sx={{ mb: 2 }}
+                 />
+-                <TextField
++                <TextField // Используйте компонент Material-UI TextField для ввода задания.
+                     error={error.job}
+-                    helperText={error.job ? "Job is required" : ""}
++                    helperText={error.job ? "Job is required" : ""} // Применяйте обработку ошибок и выводите вспомогательный текст при наличии ошибки.
+                     label="Job"
+                     value={job}
+-                    onChange={(e) => {
++                    onChange={(e) => { // Обновление состояния задания при изменении.
+                         setJob(e.target.value);
+                         setError((prevError) => ({ ...prevError, job: false }));
+                     }}
+                     required
+                     sx={{ mb: 2 }}
+                 />
+-                <Button 
+-                    type="submit" 
++                <Button // Для отправки формы используйте компонент Material-UI Button.
++                    type="submit" // Установите тип "submit"
+                     variant="contained" 
+                     color="success"
+-                    sx={{ 
++                    sx={{ // и настройте стилистику
+                         m: 1, 
+                         width: '25ch', 
+                         pt: '6px',
+@@ -82,4 +86,23 @@
+     );
+ };
+ 
+-export default CreateUser;
+\ No newline at end of file
++export default CreateUser; // Экспортируйте компонент CreateUser в качестве экспорта модуля по умолчанию.
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/api/auth.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import apiClient from './client'\r\n\r\nexport const login = ({ email, password }: { email: string, password: string }) => apiClient({\r\n    path: `login`,\r\n    method: 'post',\r\n    data: { email, password }\r\n})\r\n\r\nexport const register = ({ email, password }: { email: string, password: string }) => apiClient({\r\n    path: `register`,\r\n    method: 'post',\r\n    data: { email, password }\r\n});
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/auth.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/auth.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/auth.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/auth.ts	
+@@ -1,11 +1,15 @@
+ import apiClient from './client'
+ 
++// Ця функція login експортується з модуля. Вона очікує аргумент у вигляді об'єкта з полями email і password, кожне з яких має тип string. 
++// Ф-я викликає apiClient з наступними параметрами: метод post, шляхом login, та дані для входу, які передаються у вигляді об'єкта { email, password }. 
++// Здебільшого, це виклик API для входу користувача.
+ export const login = ({ email, password }: { email: string, password: string }) => apiClient({
+     path: `login`,
+     method: 'post',
+     data: { email, password }
+ })
+ 
++// Ця ф-я register аналогічна функції login, за винятком того, що вона викликає API для реєстрації користувача, використовуючи метод post та шлях register.
+ export const register = ({ email, password }: { email: string, password: string }) => apiClient({
+     path: `register`,
+     method: 'post',
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/Registration.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useContext } from 'react'\r\nimport { Box, Button, CircularProgress, TextField, Typography } from '@mui/material'\r\nimport RegistrationStore from \"./RegistrationStore\";\r\nimport { AppStoreContext } from \"../../App\";\r\nimport { observer } from \"mobx-react-lite\";\r\n\r\nconst Registration = () => {\r\n    const appStore = useContext(AppStoreContext);\r\n    const store = new RegistrationStore(appStore.authStore);\r\n\r\n    return (\r\n        <Box\r\n            sx={{\r\n                marginTop: 8,\r\n                display: 'flex',\r\n                flexDirection: 'column',\r\n                alignItems: 'center',\r\n            }}\r\n        >\r\n            <Typography component=\"h1\" variant=\"h5\">\r\n                Register\r\n            </Typography>\r\n            <Box component=\"form\"\r\n                 onSubmit={async (event) =>\r\n                 {\r\n                     event.preventDefault()\r\n                     await store.register()\r\n                 }}\r\n                 noValidate sx={{ mt: 1 }}>\r\n                <TextField\r\n                    margin=\"normal\"\r\n                    required\r\n                    fullWidth\r\n                    id=\"email\"\r\n                    label=\"Email Address\"\r\n                    name=\"email\"\r\n                    autoComplete=\"email\"\r\n                    onChange={(event) => store.changeEmail(event.target.value)}\r\n                    autoFocus\r\n                />\r\n                <TextField\r\n                    margin=\"normal\"\r\n                    required\r\n                    fullWidth\r\n                    name=\"password\"\r\n                    label=\"Password\"\r\n                    type=\"password\"\r\n                    id=\"password\"\r\n                    onChange={(event) => store.changePassword(event.target.value)}\r\n                    autoComplete=\"current-password\"\r\n                />\r\n                {!!store.error && (\r\n                    <p className=\"mt-3 mb-3\" style={{ color: 'red', fontSize: 14 }}>{`Error: ${store.error}`}</p>\r\n                )}\r\n                <Button\r\n                    type=\"submit\"\r\n                    fullWidth\r\n                    variant=\"contained\"\r\n                    sx={{ mt: 3, mb: 2 }}\r\n                >\r\n                    {store.isLoading ? (\r\n                        <CircularProgress />\r\n                    ) : (\r\n                        'Submit'\r\n                    )}\r\n                </Button>\r\n                {!!appStore.authStore.token && (\r\n                    <p className=\"mt-3 mb-3\" style={{ color: 'green', fontSize: 14, fontWeight: 700 }}>{`Success! Token is: ${appStore.authStore.token}`}</p>\r\n                )}              \r\n            </Box>\r\n        </Box>\r\n    )\r\n}\r\n\r\nexport default observer(Registration);
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/Registration.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/Registration.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/Registration.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Registration/Registration.tsx	
+@@ -1,15 +1,17 @@
+-import React, { useContext } from 'react'
+-import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material'
+-import RegistrationStore from "./RegistrationStore";
++import React, { useContext } from 'react' // Импортируйте необходимые компоненты и библиотеки из React,
++import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material' // Material-UI (@mui/material)
++import RegistrationStore from "./RegistrationStore"; // Также импортируйте класс RegistrationStore
+ import { AppStoreContext } from "../../App";
+-import { observer } from "mobx-react-lite";
++import { observer } from "mobx-react-lite"; // и MobX (mobx-react-lite).
+ 
++//  Определите функциональный компонент с именем Registration.
+ const Registration = () => {
++    // Используйте хук useContext для доступа к AppStoreContext и получения authStore из хранилища приложений.
+     const appStore = useContext(AppStoreContext);
+-    const store = new RegistrationStore(appStore.authStore);
++    const store = new RegistrationStore(appStore.authStore); // Создайте экземпляр RegistrationStore, передав ему в качестве параметра authStore
+ 
+     return (
+-        <Box
++        <Box // Используйте компонент Box из Material-UI, чтобы определить стиль и структуру формы регистрации.
+             sx={{
+                 marginTop: 8,
+                 display: 'flex',
+@@ -17,17 +19,20 @@
+                 alignItems: 'center',
+             }}
+         >
++            // Создайте заголовок для регистрационной формы.
+             <Typography component="h1" variant="h5">
+                 Register
+             </Typography>
+-            <Box component="form"
+-                 onSubmit={async (event) =>
++            
++            <Box component="form" // Используйте компонент Box для создания формы.
++                 onSubmit={async (event) => // Обработайте отправку формы с помощью onSubmit,
+                  {
+-                     event.preventDefault()
+-                     await store.register()
++                     event.preventDefault() // предотвращая поведение формы по умолчанию
++                     await store.register() // и вызывая метод register для экземпляра магазина.
+                  }}
+                  noValidate sx={{ mt: 1 }}>
+-                <TextField
++
++                <TextField // Используйте компонент TextField из Material-UI, чтобы создать поле ввода для email. 
+                     margin="normal"
+                     required
+                     fullWidth
+@@ -35,10 +40,10 @@
+                     label="Email Address"
+                     name="email"
+                     autoComplete="email"
+-                    onChange={(event) => store.changeEmail(event.target.value)}
++                    onChange={(event) => store.changeEmail(event.target.value)} // Прикрепите обработчик onChange для обновления зн-ния в магазине.
+                     autoFocus
+                 />
+-                <TextField
++                <TextField // Используйте компонент TextField из Material-UI, чтобы создать поле ввода для пароля. 
+                     margin="normal"
+                     required
+                     fullWidth
+@@ -46,25 +51,27 @@
+                     label="Password"
+                     type="password"
+                     id="password"
+-                    onChange={(event) => store.changePassword(event.target.value)}
++                    onChange={(event) => store.changePassword(event.target.value)} // Прикрепите обработчик onChange для обновления зн-ния в магазине.
+                     autoComplete="current-password"
+                 />
+-                {!!store.error && (
++
++                {!!store.error && ( // Выведите сообщение об ошибке, если в магазине произошла ошибка.
+                     <p className="mt-3 mb-3" style={{ color: 'red', fontSize: 14 }}>{`Error: ${store.error}`}</p>
+                 )}
+-                <Button
++
++                <Button // Отображение кнопки отправки. 
+                     type="submit"
+                     fullWidth
+                     variant="contained"
+                     sx={{ mt: 3, mb: 2 }}
+                 >
+-                    {store.isLoading ? (
+-                        <CircularProgress />
++                    {store.isLoading ? ( // если магазин находится в состоянии загрузки
++                        <CircularProgress /> 
+                     ) : (
+-                        'Submit'
++                        'Submit' // отображайте индикатор загрузки
+                     )}
+                 </Button>
+-                {!!appStore.authStore.token && (
++                {!!appStore.authStore.token && ( // Выведите сообщение об успехе, если токен присутствует в authStore.
+                     <p className="mt-3 mb-3" style={{ color: 'green', fontSize: 14, fontWeight: 700 }}>{`Success! Token is: ${appStore.authStore.token}`}</p>
+                 )}              
+             </Box>
+@@ -72,4 +79,25 @@
+     )
+ }
+ 
+-export default observer(Registration);
+\ No newline at end of file
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
++
++// Экспортируйте компонент Registration как экспортируемый по умолчанию, обернув его наблюдателем MobX, чтобы он реагировал на изменения в магазине.
++export default observer(Registration); 
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/resources.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import apiClient from \"../client\";\r\n\r\nexport const getById = (id: string) => apiClient({\r\n  path: `unknown/${id}`,\r\n  method: 'GET'\r\n})\r\n\r\nexport const getByPage = (page: number) => apiClient({\r\n  path: `unknown?page=${page}`,\r\n  method: 'GET'\r\n})
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/resources.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/resources.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/resources.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/resources.ts	
+@@ -1,10 +1,17 @@
+-import apiClient from "../client";
++// Цей код є частиною модуля, який експортує функції для взаємодії з API.
+ 
++import apiClient from "../client"; // імпортує модуль apiClient з шляхом ../client. Ймовірно, це модуль, який містить клієнт для виклику API 
++
++// експортує функцію з іменем getById. Ця функція приймає один аргумент id типу string.
++// У тілі функції викликається функція apiClient, яка, ймовірно, робить HTTP-запит методом GET за шляхом unknown/${id}.
++// Цей метод призначений, можливо, для отримання даних з API за конкретним ідентифікатором.
+ export const getById = (id: string) => apiClient({
+   path: `unknown/${id}`,
+   method: 'GET'
+ })
+ 
++// Експортує функцію getByPage, яка приймає аргумент page типу number. 
++// Ф-я викликає apiClient для здійснення HTTP-запиту методом GET за шляхом unknown?page=${page} для отримання даних з API для конкретної сторінки.
+ export const getByPage = (page: number) => apiClient({
+   path: `unknown?page=${page}`,
+   method: 'GET'
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/resources.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>export interface IResource {\r\n    'id': number,\r\n    'name': string,\r\n    'year': number,\r\n    'color': string,\r\n    'pantone_value': string\r\n}
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/resources.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/resources.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/resources.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/resources.ts	
+@@ -1,7 +1,11 @@
++// Объявляет начало интерфейса с именем IResource. Ключевое слово export делает интерфейс доступным за пределами модуля, в котором он определен.
+ export interface IResource {
+-    'id': number,
+-    'name': string,
+-    'year': number,
+-    'color': string,
+-    'pantone_value': string
+-}
+\ No newline at end of file
++    'id': number, // Объявляет свойство id в интерфейсе с типом number. Это означает, что свойство id должно содержать числовые значения.
++    'name': string, // Объявляет свойство name в интерфейсе с типом string. Это указывает на то, что свойство name должно содержать строковые значения.
++    'year': number, // Объявляет свойство year в интерфейсе с типом number. Подразумевается, что свойство year предназначено для хранения числовых значений.
++    'color': string, // Объявляет свойство color в интерфейсе с типом string. Указывает, что свойство color предназначено для хранения строковых значений.
++    'pantone_value': string // Объявляет свойство pantone_value в интерфейсе с типом string. Предполагается, что свойство pantone_value будет содержать строковые значения.
++}
++
++// В общем, этот интерфейс, IResource, определяет структуру объектов, которые, как ожидается, будут иметь такие свойства, как id, name, year, color и pantone_value. 
++// Каждое свойство имеет определенный тип данных, что обеспечивает ясность в отношении ожидаемой структуры объектов, соответствующих этому интерфейсу.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/index.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from 'react';\r\nimport ReactDOM from 'react-dom/client';\r\nimport App from './App';\r\nimport reportWebVitals from './reportWebVitals';\r\n\r\nconst root = ReactDOM.createRoot(\r\n  document.getElementById('root') as HTMLElement\r\n);\r\nroot.render(\r\n  <React.StrictMode>\r\n    <App />\r\n  </React.StrictMode>\r\n);\r\n\r\n// If you want to start measuring performance in your app, pass a function\r\n// to log results (for example: reportWebVitals(console.log))\r\n// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals\r\nreportWebVitals();
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/index.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/index.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/index.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/index.tsx	
+@@ -1,11 +1,16 @@
+-import React from 'react';
+-import ReactDOM from 'react-dom/client';
+-import App from './App';
+-import reportWebVitals from './reportWebVitals';
++import React from 'react'; // Импортирует объект React из библиотеки 'react'. Это необходимо для написания компонентов React.
++import ReactDOM from 'react-dom/client'; // Импортирует объект ReactDOM из модуля 'react-dom/client'. Он используется для взаимодействия с DOM (Document Object Model) и рендеринга компонентов React в браузере.
++import App from './App'; // Импортирует компонент App из модуля './App'. Предположительно, это корневой компонент вашего React-приложения.
++import reportWebVitals from './reportWebVitals'; // Импортирует функцию reportWebVitals из модуля './reportWebVitals'. Эта функция обычно используется для мониторинга производительности в React-приложении.
+ 
++// Создает корень для рендеринга React с помощью ReactDOM.createRoot(). 
++// Он выбирает HTML-элемент с идентификатором 'root' с помощью document.getElementById('root') и преобразует его в HTMLElement.
++// Именно в него будет выводиться все приложение React.
+ const root = ReactDOM.createRoot(
+   document.getElementById('root') as HTMLElement
+ );
++// Вызывает метод render на созданном корне. Он рендерит компонент App, обернутый в React.StrictMode. 
++// StrictMode - это инструмент для выделения потенциальных проблем в приложении во время разработки.
+ root.render(
+   <React.StrictMode>
+     <App />
+@@ -15,4 +20,5 @@
+ // If you want to start measuring performance in your app, pass a function
+ // to log results (for example: reportWebVitals(console.log))
+ // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+-reportWebVitals();
+\ No newline at end of file
++reportWebVitals(); // Вызывает функцию reportWebVitals, которая может записывать показатели производительности в консоль или отправлять их в конечную точку аналитики. 
++//Это необязательно и может быть использовано для мониторинга производительности в вашем приложении. По приведенной ссылке можно узнать больше о виталах CRA (Create React App).
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/components/UserCard.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Card, CardActionArea, CardContent, CardMedia, Typography} from \"@mui/material\"\r\nimport {FC, ReactElement} from \"react\";\r\nimport {IUser} from \"../../../interfaces/users\";\r\nimport {useNavigate} from \"react-router-dom\";\r\n\r\nconst UserCard: FC<IUser> = (props): ReactElement => {\r\n\r\n    const navigate = useNavigate()\r\n\r\n     return (\r\n        <Card sx={{ maxWidth: 250 }}>\r\n            <CardActionArea onClick={() => navigate(`/user/${props.id}`)}>\r\n                <CardMedia\r\n                    component=\"img\"\r\n                    height=\"250\"\r\n                    image={props.avatar}\r\n                    alt={props.email}\r\n                />\r\n                <CardContent>\r\n                    <Typography noWrap gutterBottom variant=\"h6\" component=\"div\">\r\n                        {props.email}\r\n                    </Typography>\r\n                    <Typography variant=\"body2\" color=\"text.secondary\">\r\n                        {props.first_name} {props.last_name}\r\n                    </Typography>\r\n                </CardContent>\r\n            </CardActionArea>\r\n        </Card>\r\n    )\r\n}\r\n\r\nexport default UserCard
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/components/UserCard.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/components/UserCard.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/components/UserCard.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/components/UserCard.tsx	
+@@ -1,27 +1,34 @@
+-import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material"
+-import {FC, ReactElement} from "react";
+-import {IUser} from "../../../interfaces/users";
+-import {useNavigate} from "react-router-dom";
++import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@mui/material" // Импортирует определенные компоненты (Card, CardActionArea, CardContent, CardMedia и Typography) из библиотеки Material-UI (@mui/material). Эти компоненты являются частью компонентов React, стилизованных под Material Design.
++import {FC, ReactElement} from "react"; // Импортирует типы и хуки из библиотек 'react' и 'react-router-dom'. FC: Тип, представляющий функциональный компонент в React.
++import {IUser} from "../../../interfaces/users"; // ReactElement: Тип, представляющий элемент React.
++import {useNavigate} from "react-router-dom"; // IUser: интерфейс, представляющий структуру пользователя.
+ 
++
++// Определяет функциональный компонент UserCard, который принимает реквизиты, соответствующие интерфейсу IUser, и возвращает ReactElement.
+ const UserCard: FC<IUser> = (props): ReactElement => {
+ 
+-    const navigate = useNavigate()
++    const navigate = useNavigate() // Использует хук useNavigate из 'react-router-dom' для получения функции navigate, которая может быть использована для перехода на различные страницы в приложении.
+ 
++    // Возвращает компонент Material-UI Card с заданной максимальной шириной.
+      return (
+         <Card sx={{ maxWidth: 250 }}>
++            {/* Обертывает содержимое карточки компонентом CardActionArea, позволяя ему реагировать на события нажатия. При нажатии он запускает функцию navigate для перехода к маршруту /user/${props.id}.*/}
+             <CardActionArea onClick={() => navigate(`/user/${props.id}`)}>
++                {/* Включает компонент CardMedia для отображения изображения.*/}
+                 <CardMedia
+                     component="img"
+                     height="250"
+-                    image={props.avatar}
++                    image={props.avatar} // Он использует изображение, указанное в props.avatar, и устанавливает высоту 250 пикселей.
+                     alt={props.email}
+                 />
++                {/* Включает в себя компоненты CardContent и Typography для отображения информации о пользователе, такой как e-mail, имя и фамилия. 
++                 Вся карточка обернута в CardActionArea, чтобы сделать ее кликабельной.*/}
+                 <CardContent>
+-                    <Typography noWrap gutterBottom variant="h6" component="div">
++                    <Typography noWrap gutterBottom variant="h6" component="div"> {/*Свойство noWrap гарантирует, что письмо не перейдет на следующую строку. */}
+                         {props.email}
+                     </Typography>
+-                    <Typography variant="body2" color="text.secondary">
+-                        {props.first_name} {props.last_name}
++                    <Typography variant="body2" color="text.secondary"> {/*variant устанавливает стиль шрифта для текста*/}
++                        {props.first_name} {props.last_name} {/*Это содержимое компонента Typography*/}
+                     </Typography>
+                 </CardContent>
+             </CardActionArea>
+@@ -29,4 +36,26 @@
+     )
+ }
+ 
+-export default UserCard
+\ No newline at end of file
++export default UserCard
++
++
++// Props - это аргументы, передаваемые в компоненты React. Они передаются компонентам через атрибуты HTML.
++// React Props аналогичны аргументам функции в JavaScript и атрибутам в HTML. Props are read-only.
++
++// Typography - это компонент из MUI, предназначенный для отображения текста с применением стилей.
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// В общем, этот компонент (UserCard) представляет собой карточку, отображающую информацию о пользователе.
++// При нажатии на нее происходит переход к подробному представлению пользователя с помощью хука useNavigate из 'react-router-dom'.
++// Карточка включает в себя изображение, электронную почту и полное имя пользователя.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/Home.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {ReactElement, FC, useEffect, useState} from \"react\";\r\nimport {Box, Button, CircularProgress, Container, Grid, Pagination} from '@mui/material'\r\nimport * as userApi from \"../../api/modules/users\"\r\nimport {IUser} from \"../../interfaces/users\";\r\nimport UserCard from \"./components/UserCard\";\r\nimport { useNavigate } from 'react-router-dom';\r\n\r\nconst Home: FC<any> = (): ReactElement => {\r\n    const [users, setUsers] = useState<IUser[] | null>(null)\r\n    const [totalPages, setTotalPages] = useState<number>(0)\r\n    const [currentPage, setCurrentPage] = useState<number>(1)\r\n    const [isLoading, setIsLoading] = useState<boolean>(false)\r\n    const navigate = useNavigate();\r\n\r\n    useEffect(() => {\r\n        const getUser = async () => {\r\n            try {\r\n                setIsLoading(true)\r\n                const res = await userApi.getByPage(currentPage)\r\n                setUsers(res.data)\r\n                setTotalPages(res.total_pages)\r\n            } catch (e) {\r\n                if (e instanceof Error) {\r\n                    console.error(e.message)\r\n                }\r\n            }\r\n            setIsLoading(false)\r\n        }\r\n        getUser()\r\n    }, [currentPage])\r\n\r\n  return (\r\n      <Container>\r\n          <Grid container spacing={4} justifyContent=\"center\" my={4}>\r\n              {isLoading ? (\r\n                  <CircularProgress />\r\n              ) : (\r\n                  <>\r\n                      {users?.map((item) => (\r\n                          <Grid key={item.id} item lg={2} md={4} xs={6}>\r\n                              <UserCard {...item} />\r\n                          </Grid>\r\n                      ))}\r\n                  </>\r\n              )}\r\n          </Grid>\r\n          <Box\r\n              sx={{\r\n                  display: 'flex',\r\n                  justifyContent: 'center'\r\n              }}\r\n          >\r\n              <Pagination count={totalPages} page={currentPage} onChange={ (event, page)=> setCurrentPage(page)} />\r\n          </Box>\r\n          <Button \r\n            onClick={() => navigate('/create-user')} \r\n            variant=\"contained\" \r\n            color=\"primary\"\r\n            sx={{ \r\n                mt: 2,\r\n                mb: 2,\r\n                width: '100%',\r\n                height: '50px',\r\n                fontSize: '20px',\r\n                fontWeight: 'bold',\r\n                display: 'flex',\r\n                justifyContent: 'center',\r\n                alignItems: 'center'\r\n            }}\r\n            size=\"large\"\r\n        >\r\n            Create User\r\n        </Button>\r\n      </Container>\r\n  );\r\n};\r\n\r\nexport default Home;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/Home.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/Home.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/Home.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Home/Home.tsx	
+@@ -1,3 +1,4 @@
++// Импортирует необходимые модули и компоненты из React, Material-UI, userApi и другие пользовательские компоненты.
+ import React, {ReactElement, FC, useEffect, useState} from "react";
+ import {Box, Button, CircularProgress, Container, Grid, Pagination} from '@mui/material'
+ import * as userApi from "../../api/modules/users"
+@@ -5,74 +6,103 @@
+ import UserCard from "./components/UserCard";
+ import { useNavigate } from 'react-router-dom';
+ 
+-const Home: FC<any> = (): ReactElement => {
+-    const [users, setUsers] = useState<IUser[] | null>(null)
+-    const [totalPages, setTotalPages] = useState<number>(0)
+-    const [currentPage, setCurrentPage] = useState<number>(1)
+-    const [isLoading, setIsLoading] = useState<boolean>(false)
+-    const navigate = useNavigate();
++const Home: FC<any> = (): ReactElement => { // Определяет функциональный компонент с именем Home, используя тип Function Component (FC). Он возвращает элемент ReactElement.
++    // Инициализирует переменные состояния с помощью хука useState:
++    const [users, setUsers] = useState<IUser[] | null>(null) // Представляет массив пользователей или null.
++    const [totalPages, setTotalPages] = useState<number>(0) // Представляет общее количество страниц.
++    const [currentPage, setCurrentPage] = useState<number>(1) // Представляет номер текущей страницы.
++    const [isLoading, setIsLoading] = useState<boolean>(false) // Представляет, загружаются ли данные в данный момент.
++    const navigate = useNavigate(); // Получает функцию navigate из библиотеки react-router-dom.
+ 
++    // Использует хук useEffect для получения пользовательских данных при монтировании компонента или при изменении currentPage. 
+     useEffect(() => {
+         const getUser = async () => {
+             try {
+-                setIsLoading(true)
+-                const res = await userApi.getByPage(currentPage)
+-                setUsers(res.data)
+-                setTotalPages(res.total_pages)
++                setIsLoading(true) // Он устанавливает загрузку в true, 
++                const res = await userApi.getByPage(currentPage) // получает данные с помощью функции userApi.getByPage 
++                setUsers(res.data) // и обновляет состояние с полученными данными 
++                setTotalPages(res.total_pages) // и общим количеством страниц.
+             } catch (e) {
+                 if (e instanceof Error) {
+                     console.error(e.message)
+                 }
+             }
+-            setIsLoading(false)
++            setIsLoading(false) // Наконец, он устанавливает загрузку в false.
+         }
+         getUser()
+     }, [currentPage])
+ 
+-  return (
+-      <Container>
+-          <Grid container spacing={4} justifyContent="center" my={4}>
+-              {isLoading ? (
+-                  <CircularProgress />
+-              ) : (
+-                  <>
+-                      {users?.map((item) => (
+-                          <Grid key={item.id} item lg={2} md={4} xs={6}>
+-                              <UserCard {...item} />
+-                          </Grid>
+-                      ))}
+-                  </>
+-              )}
+-          </Grid>
+-          <Box
+-              sx={{
+-                  display: 'flex',
+-                  justifyContent: 'center'
+-              }}
+-          >
+-              <Pagination count={totalPages} page={currentPage} onChange={ (event, page)=> setCurrentPage(page)} />
+-          </Box>
+-          <Button 
+-            onClick={() => navigate('/create-user')} 
+-            variant="contained" 
+-            color="primary"
+-            sx={{ 
+-                mt: 2,
+-                mb: 2,
+-                width: '100%',
+-                height: '50px',
+-                fontSize: '20px',
+-                fontWeight: 'bold',
+-                display: 'flex',
+-                justifyContent: 'center',
+-                alignItems: 'center'
+-            }}
++    // Возвращает JSX-структуру:
++    return (
++        // Компонент Container из Material-UI.
++        <Container>
++            // Компонент Grid с карточками пользователей, а также крутилка загрузки (CircularProgress) при загрузке данных.
++            // Он сопоставляет массив пользователей и отображает компонент UserCard для каждого пользователя.
++            <Grid container spacing={4} justifyContent="center" my={4}>
++                {isLoading ? (
++                    <CircularProgress />
++                ) : (
++                    <>
++                        {users?.map((item) => (
++                            <Grid key={item.id} item lg={2} md={4} xs={6}>
++                                <UserCard {...item} />
++                            </Grid>
++                        ))}
++                    </>
++                )}
++            </Grid>
++            // Отображает компонент Pagination для перехода между страницами. Он показывает общее количество страниц и текущую страницу, обновляя CurrentPage при выборе новой страницы.
++            <Box
++                sx={{
++                    display: 'flex',
++                    justifyContent: 'center'
++                }}
++            >
++                <Pagination count={totalPages} page={currentPage} onChange={ (event, page)=> setCurrentPage(page)} />
++            </Box>
++            // Добавляет кнопку, при нажатии на которую происходит переход к маршруту "/create-user" с помощью функции navigate.
++            <Button 
++              onClick={() => navigate('/create-user')} 
++              variant="contained" 
++              color="primary"
++              sx={{ 
++                  mt: 2,
++                  mb: 2,
++                  width: '100%',
++                  height: '50px',
++                  fontSize: '20px',
++                  fontWeight: 'bold',
++                  display: 'flex',
++                  justifyContent: 'center',
++                  alignItems: 'center'
++              }}
+             size="large"
+         >
+             Create User
+         </Button>
+       </Container>
+-  );
++    );
+ };
+ 
+-export default Home;
+\ No newline at end of file
++export default Home;
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
++
++// В общем, этот компонент (Home) получает и отображает список пользователей, поддерживает пагинацию и содержит кнопку для перехода на страницу создания пользователя.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/AuthStores/AuthStore.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { makeAutoObservable } from \"mobx\";\r\nimport * as authApi from \"../api/auth\";\r\n\r\nclass AuthStore {\r\n    token = \"\";\r\n    id = \"\";\r\n\r\n    constructor() {\r\n        makeAutoObservable(this);\r\n    }\r\n\r\n    async login(email: string, password: string) {\r\n        const result = await authApi.login({email, password});\r\n        this.token = result.token;\r\n    }\r\n\r\n    async register(email: string, password: string) {\r\n        const result = await authApi.register({email, password});\r\n        this.id = result.id;\r\n        this.token = result.token;\r\n    }\r\n\r\n    logout() {\r\n        this.token = \"\";\r\n    }\r\n}\r\n\r\nexport default AuthStore;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/AuthStores/AuthStore.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/AuthStores/AuthStore.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/AuthStores/AuthStore.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/AuthStores/AuthStore.ts	
+@@ -1,28 +1,44 @@
+-import { makeAutoObservable } from "mobx";
+-import * as authApi from "../api/auth";
++import { makeAutoObservable } from "mobx"; // Імпорт функції makeAutoObservable з бібліотеки MobX, яка дозволяє автоматично відслідковувати зміни властивостей та методів класу.
++import * as authApi from "../api/auth"; // Імпорт усіх функцій модуля auth з шляху "../api/auth".
+ 
+ class AuthStore {
+-    token = "";
+-    id = "";
++    token = ""; // Змінна для зберігання токену.  Ініціалізація властивості token як рядка (по замовчуванню пустої).
++    id = ""; // Змінна для зберігання ідентифікатора.  Ініціалізація властивості id як рядка (по замовчуванню пустої).
+ 
++    // Конструктор класу, в якому викликається makeAutoObservable для автоматичного відстеження змін.
+     constructor() {
+-        makeAutoObservable(this);
++        makeAutoObservable(this); // Зробити всі властивості та методи автоматично відстежуваними (реактивними).
+     }
+ 
++    //  Асинхронний метод для авторизації. Викликає функцію login з модуля authApi, отримує результат та зберігає токен.
+     async login(email: string, password: string) {
+-        const result = await authApi.login({email, password});
+-        this.token = result.token;
++        const result = await authApi.login({email, password}); // Виклик функції для авторизації через API
++        this.token = result.token; // Збереження токену в змінну класу
+     }
+ 
++    // Асинхронний метод для реєстрації. Викликає функцію register з модуля authApi, отримує результат та зберігає ідентифікатор і токен.
+     async register(email: string, password: string) {
+-        const result = await authApi.register({email, password});
+-        this.id = result.id;
+-        this.token = result.token;
++        const result = await authApi.register({email, password}); // Виклик функції для реєстрації через API
++        this.id = result.id; // Збереження ідентифікатора в змінну класу
++        this.token = result.token; // Збереження токену в змінну класу
+     }
+ 
+     logout() {
+-        this.token = "";
++        this.token = ""; // Метод для виходу (очищення токену)
+     }
+ }
+ 
+-export default AuthStore;
+\ No newline at end of file
++export default AuthStore; // Експорт класу AuthStore для використання в інших частинах програми.
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/User.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {ReactElement, FC, useEffect, useState} from \"react\";\r\nimport {\r\n    Box,\r\n    Card,\r\n    CardContent,\r\n    CardMedia,\r\n    CircularProgress,\r\n    Container,\r\n    Grid,\r\n    Pagination,\r\n    Typography\r\n} from '@mui/material'\r\nimport * as userApi from \"../../api/modules/users\"\r\nimport {IUser} from \"../../interfaces/users\";\r\nimport {useParams} from \"react-router-dom\";\r\n\r\nconst User: FC<any> = (): ReactElement => {\r\n    const [user, setUser] = useState<IUser | null>(null)\r\n    const [isLoading, setIsLoading] = useState<boolean>(false)\r\n    const { id } = useParams()\r\n\r\n    useEffect(() => {\r\n        if (id) {\r\n            const getUser = async () => {\r\n                try {\r\n                    setIsLoading(true)\r\n                    const res = await userApi.getById(id)\r\n                    setUser(res.data)\r\n                } catch (e) {\r\n                    if (e instanceof Error) {\r\n                        console.error(e.message)\r\n                    }\r\n                }\r\n                setIsLoading(false)\r\n            }\r\n            getUser()\r\n        }\r\n    }, [id])\r\n\r\n    return (\r\n        <Container>\r\n            <Grid container spacing={4} justifyContent=\"center\" m={4}>\r\n                {isLoading ? (\r\n                    <CircularProgress />\r\n                ) : (\r\n                    <>\r\n                        <Card sx={{ maxWidth: 250 }}>\r\n                            <CardMedia\r\n                                component=\"img\"\r\n                                height=\"250\"\r\n                                image={user?.avatar}\r\n                                alt={user?.email}\r\n                            />\r\n                            <CardContent>\r\n                                <Typography noWrap gutterBottom variant=\"h6\" component=\"div\">\r\n                                    {user?.email}\r\n                                </Typography>\r\n                                <Typography variant=\"body2\" color=\"text.secondary\">\r\n                                    {user?.first_name} {user?.last_name}\r\n                                </Typography>\r\n                            </CardContent>\r\n                        </Card>\r\n                    </>\r\n                )}\r\n            </Grid>\r\n        </Container>\r\n    );\r\n};\r\n\r\nexport default User;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/User.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/User.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/User.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/UserPage/User.tsx	
+@@ -1,3 +1,4 @@
++// Импортируйте необходимые компоненты, зависимости и модули из Material-UI, React и проекта.
+ import React, {ReactElement, FC, useEffect, useState} from "react";
+ import {
+     Box,
+@@ -14,21 +15,23 @@
+ import {IUser} from "../../interfaces/users";
+ import {useParams} from "react-router-dom";
+ 
++// Определите функциональный компонент с именем User, используя тип FC (Functional Component) из React.
+ const User: FC<any> = (): ReactElement => {
+-    const [user, setUser] = useState<IUser | null>(null)
+-    const [isLoading, setIsLoading] = useState<boolean>(false)
+-    const { id } = useParams()
++    // Объявите переменные состояния с помощью хука useState.
++    const [user, setUser] = useState<IUser | null>(null) // хранит информацию о пользователе, инициализируется как null.
++    const [isLoading, setIsLoading] = useState<boolean>(false) // isLoading указывает, загружаются ли данные. 
++    const { id } = useParams() // id извлекается из параметров маршрута с помощью хука useParams.
+ 
+-    useEffect(() => {
++    useEffect(() => { // Используйте хук useEffect для получения данных пользователя при изменении параметра id. 
+         if (id) {
+             const getUser = async () => {
+                 try {
+-                    setIsLoading(true)
++                    setIsLoading(true) // Он устанавливает значение isLoading в true перед выполнением вызова API 
+                     const res = await userApi.getById(id)
+-                    setUser(res.data)
++                    setUser(res.data) // и обновляет состояние пользователя в случае успеха.
+                 } catch (e) {
+                     if (e instanceof Error) {
+-                        console.error(e.message)
++                        console.error(e.message) // Любые ошибки отлавливаются и логаются.
+                     }
+                 }
+                 setIsLoading(false)
+@@ -37,13 +40,16 @@
+         }
+     }, [id])
+ 
+-    return (
++    return ( // Используйте компонент Material-UI Container, чтобы определить контейнер макета для компонента.
+         <Container>
++            // Используйте компонент Material-UI Grid, чтобы создать отзывчивый макет сетки.
++            // Установите интервалы, выровняйте содержимое по центру и сделайте отступ от края.
+             <Grid container spacing={4} justifyContent="center" m={4}>
+-                {isLoading ? (
+-                    <CircularProgress />
++                // Используйте подход условного рендеринга.
++                {isLoading ? ( // Если данные загружаются,
++                    <CircularProgress /> // отобразите компонент CircularProgress.
+                 ) : (
+-                    <>
++                    <> // Если данные загрузились, отобразите компонент Material-UI Card с CardMedia и CardContent.
+                         <Card sx={{ maxWidth: 250 }}>
+                             <CardMedia
+                                 component="img"
+@@ -52,11 +58,12 @@
+                                 alt={user?.email}
+                             />
+                             <CardContent>
++                                // Отобразите информацию о пользователе,
+                                 <Typography noWrap gutterBottom variant="h6" component="div">
+-                                    {user?.email}
++                                    {user?.email} //  включая электронную почту, 
+                                 </Typography>
+                                 <Typography variant="body2" color="text.secondary">
+-                                    {user?.first_name} {user?.last_name}
++                                    {user?.first_name} {user?.last_name} // имя и фамилию. 
+                                 </Typography>
+                             </CardContent>
+                         </Card>
+@@ -67,4 +74,23 @@
+     );
+ };
+ 
+-export default User;
+\ No newline at end of file
++export default User; // Экспортируйте компонент User как экспорт модуля по умолчанию.
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Navbar/Navbar.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { FC, ReactElement } from \"react\";\r\nimport {\r\n  Box,\r\n  Link,\r\n  Container,\r\n  IconButton,\r\n  Menu,\r\n  MenuItem,\r\n  Toolbar,\r\n  Typography,\r\n} from \"@mui/material\";\r\nimport MenuIcon from \"@mui/icons-material/Menu\";\r\nimport { NavLink } from \"react-router-dom\";\r\nimport { routes } from \"../../routes\";\r\n\r\nconst Navbar: FC = (): ReactElement => {\r\n  const [anchorElNav, setAnchorElNav] = React.useState(null);\r\n\r\n  const handleOpenNavMenu = (event: any) => {\r\n    setAnchorElNav(event.currentTarget);\r\n  };\r\n\r\n  const handleCloseNavMenu = () => {\r\n    setAnchorElNav(null);\r\n  };\r\n\r\n  return (\r\n    <Box\r\n      sx={{\r\n        width: \"100%\",\r\n        height: \"auto\",\r\n        backgroundColor: \"secondary.main\",\r\n      }}\r\n    >\r\n      <Container maxWidth=\"xl\">\r\n        <Toolbar disableGutters>\r\n          <Typography\r\n            variant=\"h6\"\r\n            noWrap\r\n            sx={{\r\n              mr: 2,\r\n              display: { xs: \"none\", md: \"flex\" },\r\n            }}\r\n          >\r\n            A-LEVEL CURSE\r\n          </Typography>\r\n          <Box sx={{ flexGrow: 1, display: { xs: \"flex\", md: \"none\" } }}>\r\n            <IconButton\r\n              size=\"large\"\r\n              aria-label=\"account of current user\"\r\n              aria-controls=\"menu-appbar\"\r\n              aria-haspopup=\"true\"\r\n              onClick={handleOpenNavMenu}\r\n              color=\"inherit\"\r\n            >\r\n              <MenuIcon />\r\n            </IconButton>\r\n            <Menu\r\n              id=\"menu-appbar\"\r\n              anchorEl={anchorElNav}\r\n              anchorOrigin={{\r\n                vertical: \"bottom\",\r\n                horizontal: \"left\",\r\n              }}\r\n              keepMounted\r\n              transformOrigin={{\r\n                vertical: \"top\",\r\n                horizontal: \"left\",\r\n              }}\r\n              open={Boolean(anchorElNav)}\r\n              onClose={handleCloseNavMenu}\r\n              sx={{\r\n                display: { xs: \"block\", md: \"none\" },\r\n              }}\r\n            >\r\n              {routes.map((page) => (\r\n              !!page.enabled && <Link\r\n                  key={page.key}\r\n                  component={NavLink}\r\n                  to={page.path}\r\n                  color=\"black\"\r\n                  underline=\"none\"\r\n                  variant=\"button\"\r\n                >\r\n                  <MenuItem onClick={handleCloseNavMenu}>\r\n                    <Typography textAlign=\"center\">{page.title}</Typography>\r\n                  </MenuItem>\r\n                </Link>\r\n              ))}\r\n            </Menu>\r\n          </Box>\r\n          <Typography\r\n            variant=\"h6\"\r\n            noWrap\r\n            component=\"div\"\r\n            sx={{ flexGrow: 1, display: { xs: \"flex\", md: \"none\" } }}\r\n          >\r\n            A-LEVEL CURSE\r\n          </Typography>\r\n          <Box sx={{ flexGrow: 1, display: { xs: \"none\", md: \"flex\" } }}>\r\n            <Box\r\n              sx={{\r\n                display: \"flex\",\r\n                flexDirection: \"row\",\r\n                justifyContent: \"flex-start\",\r\n                alignItems: \"center\",\r\n                marginLeft: \"1rem\",\r\n              }}\r\n            >\r\n              {routes.map((page) => (\r\n               !!page.enabled && <Link\r\n                  key={page.key}\r\n                  component={NavLink}\r\n                  to={page.path}\r\n                  color=\"black\"\r\n                  underline=\"none\"\r\n                  variant=\"button\"\r\n                  sx={{ fontSize: \"large\", marginLeft: \"2rem\" }}\r\n                >\r\n                  {page.title}\r\n                </Link>\r\n              ))}\r\n            </Box>\r\n          </Box>\r\n        </Toolbar>\r\n      </Container>\r\n    </Box>\r\n  );\r\n};\r\n\r\nexport default Navbar;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Navbar/Navbar.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Navbar/Navbar.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Navbar/Navbar.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Navbar/Navbar.tsx	
+@@ -13,38 +13,48 @@
+ import { NavLink } from "react-router-dom";
+ import { routes } from "../../routes";
+ 
++// Оголошення функціонального компонента Navbar
+ const Navbar: FC = (): ReactElement => {
++  // Локальний стан для управління відкриттям та закриттям меню
+   const [anchorElNav, setAnchorElNav] = React.useState(null);
+ 
++  // Функція для відкриття меню
+   const handleOpenNavMenu = (event: any) => {
+     setAnchorElNav(event.currentTarget);
+   };
+ 
++  // Функція для закриття меню
+   const handleCloseNavMenu = () => {
+     setAnchorElNav(null);
+   };
+ 
+   return (
++    // Верхній контейнер для навбару
+     <Box
+       sx={{
+         width: "100%",
+         height: "auto",
+-        backgroundColor: "secondary.main",
++        backgroundColor: "secondary.main",  // Встановлення колірного фону
+       }}
+     >
++      {/* Контейнер для вміщення компонентів та елементів в навбарі */}
+       <Container maxWidth="xl">
++        {/* Панель інструментів, що визначає навбар */}
+         <Toolbar disableGutters>
++          {/* Типографія для відображення тексту заголовку */}
+           <Typography
+             variant="h6"
+             noWrap
+             sx={{
+-              mr: 2,
+-              display: { xs: "none", md: "flex" },
++              mr: 2,  // Зовнішній відступ справа
++              display: { xs: "none", md: "flex" },  // Відображення на різних розмірах екрану
+             }}
+           >
+             A-LEVEL CURSE
+           </Typography>
++          {/* Контейнер для адаптивного меню на малих екранах */}
+           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
++            {/* Кнопка для відкриття меню на малих екранах */}
+             <IconButton
+               size="large"
+               aria-label="account of current user"
+@@ -55,9 +65,10 @@
+             >
+               <MenuIcon />
+             </IconButton>
++            {/* Меню, що відображається на малих екранах */}
+             <Menu
+               id="menu-appbar"
+-              anchorEl={anchorElNav}
++              anchorEl={anchorElNav} // anchorElNav указывает на элемент, к которому будет привязано меню
+               anchorOrigin={{
+                 vertical: "bottom",
+                 horizontal: "left",
+@@ -67,21 +78,25 @@
+                 vertical: "top",
+                 horizontal: "left",
+               }}
+-              open={Boolean(anchorElNav)}
+-              onClose={handleCloseNavMenu}
+-              sx={{
+-                display: { xs: "block", md: "none" },
+-              }}
++              open={Boolean(anchorElNav)} // преобразовать значение переменной anchorElNav в булево значение для контроля состояния открытия меню
++              onClose={handleCloseNavMenu} // открытие навигационного меню.
++              sx={{ // инлайн-стили. Этот объект стилей, переданный через sx, определяет свойства стилей для компонента.
++                display: { xs: "block", md: "none" }, // значение для отображения элемента в зависимости от размера экрана. Здесь адаптивное отображение.
++              }} // xs: "block": На экранах с маленькой шириной (extra small), элемент будет отображаться как блочный (block).
++                 // md: "none": На экранах с размером medium и выше, элемент будет скрыт (none).
+             >
++              {/* Мапінг через масив маршрутів для відображення пунктів меню */}
+               {routes.map((page) => (
+-              !!page.enabled && <Link
++                // Перевірка наявності enabled та рендеринг тільки активних пунктів
++                !!page.enabled && <Link
+                   key={page.key}
+-                  component={NavLink}
++                  component={NavLink} // компонент, предназначенный для создания ссылок в приложении React. Он работает подобно стандартному a (anchor) элементу, но с некоторыми дополнительными возможностями для работы с маршрутами (routes).
+                   to={page.path}
+                   color="black"
+                   underline="none"
+                   variant="button"
+                 >
++                  {/* Пункт меню з текстом маршруту */}
+                   <MenuItem onClick={handleCloseNavMenu}>
+                     <Typography textAlign="center">{page.title}</Typography>
+                   </MenuItem>
+@@ -89,6 +104,7 @@
+               ))}
+             </Menu>
+           </Box>
++          {/* Типографія для відображення заголовку на малих екранах */}
+           <Typography
+             variant="h6"
+             noWrap
+@@ -97,25 +113,29 @@
+           >
+             A-LEVEL CURSE
+           </Typography>
++          {/* Контейнер для меню на великих екранах */}
+           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
++            {/* Вбудований контейнер для елементів меню та їх посилань */}
+             <Box
+               sx={{
+                 display: "flex",
+                 flexDirection: "row",
+                 justifyContent: "flex-start",
+                 alignItems: "center",
+-                marginLeft: "1rem",
++                marginLeft: "1rem",  // Внутрішній відступ зліва
+               }}
+             >
++              {/* Мапінг через масив маршрутів для відображення пунктів меню */}
+               {routes.map((page) => (
+-               !!page.enabled && <Link
++                // Перевірка наявності enabled та рендеринг тільки активних пунктів
++                !!page.enabled && <Link
+                   key={page.key}
+-                  component={NavLink}
++                  component={NavLink} // компонент, предназначенный для создания ссылок в приложении React. Он работает подобно стандартному a (anchor) элементу, но с некоторыми дополнительными возможностями для работы с маршрутами (routes).
+                   to={page.path}
+                   color="black"
+                   underline="none"
+                   variant="button"
+-                  sx={{ fontSize: "large", marginLeft: "2rem" }}
++                  sx={{ fontSize: "large", marginLeft: "2rem" }}  // Розмір шрифту та внутрішній відступ зліва
+                 >
+                   {page.title}
+                 </Link>
+@@ -128,4 +148,11 @@
+   );
+ };
+ 
+-export default Navbar;
+\ No newline at end of file
++// Експорт компонента Navbar для використання в інших частинах програми
++export default Navbar;
++
++
++// Когда вы используете component={NavLink}, вы фактически указываете, что этот компонент будет использоваться для создания ссылок.
++// Это обычно используется вместе с библиотекой Material-UI и стилизованными компонентами для создания красивого пользовательского интерфейса с учетом маршрутизации.
++
++// Свойство display используется для реализации адаптивного дизайна, где в зависимости от размера экрана компонент будет визуально отображаться по-разному.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/apiClientProps.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>export interface apiClientProps {\r\n    path: string\r\n    method: string\r\n    data?: unknown\r\n  }
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/apiClientProps.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/apiClientProps.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/apiClientProps.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/apiClientProps.ts	
+@@ -1,5 +1,11 @@
+-export interface apiClientProps {
+-    path: string
+-    method: string
+-    data?: unknown
+-  }
+\ No newline at end of file
++export interface apiClientProps { //Объявляет начало интерфейса с именем apiClientProps. Ключевое слово export делает интерфейс доступным за пределами модуля, в котором он определен.
++    path: string  // Объявляет свойство path типа string в интерфейсе. Предназначено для хранения пути к конечной точке для запроса API.
++    method: string // Объявляет свойство method типа string в интерфейсе. Предназначено для хранения метода HTTP ("GET", "POST") для запроса API.
++    data?: unknown // Объявляет необязательное свойство data типа unknown в интерфейсе.
++                  // unknown - это тип, который представляет любое значение, подобно типу any, но с более тщательной проверкой типа.
++                  // Знак ? указывает на то, что это свойство является необязательным.
++  }
++
++// Этот интерфейс apiClientProps предназначен для описания свойств, ожидаемых от функции, выполняющей запросы к API.
++// Он указывает, что функция должна получать путь (строка), метод (строка) и, опционально, параметр данных (неизвестного типа).
++// Ожидается, что фактическая реализация ф-ии, использующей этот интерфейс, будет обрабатывать эти св-ва соответствующим образом при выполнении вызова API.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/Login.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useContext } from \"react\";\r\nimport { Box, Button, CircularProgress, TextField, Typography } from \"@mui/material\";\r\nimport LoginStore from \"./LoginStore\";\r\nimport { AppStoreContext } from \"../../App\";\r\nimport { observer } from \"mobx-react-lite\";\r\n\r\nconst Login = () => {\r\n  const appStore = useContext(AppStoreContext);\r\n  const store = new LoginStore(appStore.authStore);\r\n\r\n  return (\r\n    <Box\r\n      sx={{\r\n        marginTop: 8,\r\n        display: \"flex\",\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n      }}\r\n    >\r\n      <Typography component=\"h1\" variant=\"h5\">\r\n        Sign in\r\n      </Typography>\r\n      <Box\r\n        component=\"form\"\r\n        onSubmit={async (event) => {\r\n          event.preventDefault();\r\n          await store.login();\r\n        }}\r\n        noValidate\r\n        sx={{ mt: 1 }}\r\n      >\r\n        <TextField\r\n          margin=\"normal\"\r\n          required\r\n          fullWidth\r\n          id=\"email\"\r\n          label=\"Email Address\"\r\n          name=\"email\"\r\n          autoComplete=\"email\"\r\n          onChange={(event) => store.changeEmail(event.target.value)}\r\n          autoFocus\r\n        />\r\n        <TextField\r\n          margin=\"normal\"\r\n          required\r\n          fullWidth\r\n          name=\"password\"\r\n          label=\"Password\"\r\n          type=\"password\"\r\n          id=\"password\"\r\n          onChange={(event) => store.changePassword(event.target.value)}\r\n          autoComplete=\"current-password\"\r\n        />\r\n        {!!store.error && (\r\n          <p className=\"mt-3 mb-3\" style={{ color: \"red\", fontSize: 14 }}>\r\n            {`Error: ${store.error}`}\r\n          </p>\r\n        )}\r\n        <Button\r\n          type=\"submit\"\r\n          fullWidth\r\n          variant=\"contained\"\r\n          sx={{ mt: 3, mb: 2 }}\r\n        >\r\n          {store.isLoading ? <CircularProgress /> : \"Submit\"}\r\n        </Button>\r\n        {!!appStore.authStore.token && (\r\n          <p\r\n            className=\"mt-3 mb-3\"\r\n            style={{ color: \"green\", fontSize: 14, fontWeight: 700 }}\r\n          >\r\n            {`Success! Token is: ${appStore.authStore.token}`}\r\n          </p>\r\n        )}\r\n      </Box>\r\n    </Box>\r\n  );\r\n};\r\n\r\nexport default observer(Login);
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/Login.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/Login.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/Login.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/Login.tsx	
+@@ -2,13 +2,17 @@
+ import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
+ import LoginStore from "./LoginStore";
+ import { AppStoreContext } from "../../App";
++// Импортируйте функцию observer из mobx-react-lite. Она используется для обертывания компонента Login, превращая его в наблюдателя, который будет реактивно обновляться при изменении наблюдаемых магазинов.
+ import { observer } from "mobx-react-lite";
+ 
+-const Login = () => {
+-  const appStore = useContext(AppStoreContext);
+-  const store = new LoginStore(appStore.authStore);
++const Login = () => { //  Определите функциональный компонент с именем Login.
++  // Инициализация контекста и магазина: 
++  const appStore = useContext(AppStoreContext); // Используйте хук useContext для доступа к AppStoreContext и создания экземпляра LoginStore,
++  const store = new LoginStore(appStore.authStore); // передавая authStore из хранилища приложений.
+ 
++  // JSX-структура: Возвращает JSX-структуру с использованием компонентов Material-UI
+   return (
++    // Компонент Box служит контейнером с заданными стилями.
+     <Box
+       sx={{
+         marginTop: 8,
+@@ -17,19 +21,23 @@
+         alignItems: "center",
+       }}
+     >
+-      <Typography component="h1" variant="h5">
++
++      <Typography component="h1" variant="h5"> //  Отобразите типографский компонент с надписью "Sign in" в качестве содержимого.
+         Sign in
+       </Typography>
++
++      // Используйте компонент Box в качестве контейнера формы. 
+       <Box
+         component="form"
++        // Определите обработчик onSubmit, 
+         onSubmit={async (event) => {
+-          event.preventDefault();
+-          await store.login();
++          event.preventDefault(); // который предотвращает отправку формы по умолчанию, 
++          await store.login(); // вызывает метод входа в магазин и ожидает результата
+         }}
+         noValidate
+         sx={{ mt: 1 }}
+       >
+-        <TextField
++        <TextField // // Отобразите текстовое поле Material-UI для ввода адреса электронной почты.
+           margin="normal"
+           required
+           fullWidth
+@@ -37,10 +45,11 @@
+           label="Email Address"
+           name="email"
+           autoComplete="email"
++          // Прикрепите обработчик onChange для обновления адреса электронной почты в store.
+           onChange={(event) => store.changeEmail(event.target.value)}
+           autoFocus
+         />
+-        <TextField
++        <TextField // Отобразите еще одно текстовое поле для ввода пароля. 
+           margin="normal"
+           required
+           fullWidth
+@@ -48,23 +57,28 @@
+           label="Password"
+           type="password"
+           id="password"
++          // Прикрепите обработчик onChange для обновления пароля в магазине.
+           onChange={(event) => store.changePassword(event.target.value)}
+           autoComplete="current-password"
+         />
+-        {!!store.error && (
++        {!!store.error && ( // Если в магазине произошла ошибка,
++          // отобразите сообщение об ошибке красным цветом.
+           <p className="mt-3 mb-3" style={{ color: "red", fontSize: 14 }}>
+             {`Error: ${store.error}`}
+           </p>
+         )}
+-        <Button
+-          type="submit"
++        <Button // Отобразите кнопку, которая показывает
++          type="submit" //либо "Submit",
+           fullWidth
+           variant="contained"
+           sx={{ mt: 3, mb: 2 }}
+         >
++          // либо круговой волчок CircularProgress в зависимости от состояния загрузки магазина.
+           {store.isLoading ? <CircularProgress /> : "Submit"}
+         </Button>
++        // Если в authStore хранилища приложений есть токен,
+         {!!appStore.authStore.token && (
++          // отобразите сообщение об успехе зеленым цветом, показывая токен
+           <p
+             className="mt-3 mb-3"
+             style={{ color: "green", fontSize: 14, fontWeight: 700 }}
+@@ -77,4 +91,27 @@
+   );
+ };
+ 
+-export default observer(Login);
+\ No newline at end of file
++export default observer(Login); // Оберните компонент Login функцией observer, чтобы он реагировал на изменения в наблюдаемых магазинах.
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
++
++// В целом, компонент Login объединяет компоненты Material-UI, управление состоянием MobX через LoginStore и контекст из компонента App.
++// Он предоставляет форму для входа пользователя в систему, отображает ошибки и выдает сообщение об успехе при успешном входе.
++// Компонент предназначен для реактивного обновления на основе изменений в наблюдаемых хранилищах.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/LoginStore.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { makeAutoObservable } from \"mobx\";\r\nimport AuthStore from \"../../AuthStores/AuthStore\";\r\n\r\nclass LoginStore {\r\n  private authStore: AuthStore;\r\n  email = \"\";\r\n  password = \"\";\r\n  error = \"\";\r\n  isLoading = false;\r\n\r\n  constructor(authStore: AuthStore) {\r\n    this.authStore = authStore;\r\n    makeAutoObservable(this);\r\n  }\r\n\r\n  changeEmail(email: string) {\r\n    this.email = email;\r\n    if (!!this.error) {\r\n      this.error = \"\";\r\n    }\r\n  }\r\n\r\n  changePassword(password: string) {\r\n    this.password = password;\r\n    if (!!this.error) {\r\n      this.error = \"\";\r\n    }\r\n  }\r\n\r\n  async login() {\r\n    try {\r\n      this.isLoading = true;\r\n      await this.authStore.login(this.email, this.password);\r\n    } catch (e) {\r\n      this.error = \"Login Error\";\r\n    } finally {\r\n      this.isLoading = false;\r\n    }\r\n  }\r\n}\r\n\r\nexport default LoginStore;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/LoginStore.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/LoginStore.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/LoginStore.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Login/LoginStore.ts	
+@@ -1,42 +1,72 @@
+-import { makeAutoObservable } from "mobx";
+-import AuthStore from "../../AuthStores/AuthStore";
++import { makeAutoObservable } from "mobx"; // Импортируйте функцию makeAutoObservable из MobX для автоматического создания наблюдаемых
++import AuthStore from "../../AuthStores/AuthStore"; // импортируйте класс AuthStore.
+ 
++//  Определите класс с именем LoginStore.
+ class LoginStore {
+-  private authStore: AuthStore;
++  private authStore: AuthStore; // Объявите свойства класса для authStore (экземпляр AuthStore),
+   email = "";
+   password = "";
+-  error = "";
+-  isLoading = false;
++  error = ""; // для ошибок входа
++  isLoading = false; // для отслеживания состояния загрузки
+ 
++  // Определите конструктор, который принимает в качестве параметра экземпляр AuthStore,
+   constructor(authStore: AuthStore) {
+-    this.authStore = authStore;
+-    makeAutoObservable(this);
++    this.authStore = authStore; // инициализирует свойство authStore
++    makeAutoObservable(this); // и вызывает makeAutoObservable(this), чтобы сделать класс наблюдаемым.
+   }
+ 
++  // Определите метод changeEmail для обновления свойства email.
+   changeEmail(email: string) {
+     this.email = email;
+     if (!!this.error) {
+-      this.error = "";
++      this.error = ""; // Если существует существующая ошибка, очистите ее.
+     }
+   }
+ 
++  // Определите метод changePassword для обновления свойства password.
+   changePassword(password: string) {
+     this.password = password;
+     if (!!this.error) {
+-      this.error = "";
++      this.error = ""; // Если существует существующая ошибка, очистите ее.
+     }
+   }
+ 
++  // Определите асинхронный метод login для обработки процесса входа в систему.
+   async login() {
+     try {
+-      this.isLoading = true;
+-      await this.authStore.login(this.email, this.password);
+-    } catch (e) {
+-      this.error = "Login Error";
+-    } finally {
+-      this.isLoading = false;
++      this.isLoading = true; // Установите значение isLoading в true,
++      await this.authStore.login(this.email, this.password); // вызовите метод login на authStore с указанными email и паролем, 
++    } 
++    catch (e) { //  отловите все ошибки,
++      this.error = "Login Error"; // установите свойство error, если произошла ошибка,
++    } 
++    finally {
++      this.isLoading = false; // и установите isLoading обратно в false в блоке finally.
+     }
+   }
+ }
+ 
+-export default LoginStore;
+\ No newline at end of file
++export default LoginStore; // Экспортируйте класс LoginStore в качестве экспорта по умолчанию в модуле
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
++
++// В общем, класс LoginStore управляет состоянием, связанным с входом пользователя в систему, 
++// включая электронную почту, пароль, сообщения об ошибках и состояние загрузки. 
++// Он взаимодействует с AuthStore для фактического процесса входа в систему и использует MobX для управления состоянием и реактивностью.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/routes.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {FC} from \"react\";\r\nimport Home from \"./pages/Home/Home\";\r\nimport Route from \"./interfaces/route\";\r\nimport User from \"./pages/UserPage/User\";\r\nimport Resource from \"./pages/Resources/Resource\";\r\nimport ResourcePage from \"./pages/ResourcesPage/Resource\";\r\nimport CreateUser from \"./pages/UserPage/CreateUser\";\r\nimport Login from \"./pages/Login/Login\";\r\nimport Registration from \"./pages/Registration/Registration\";\r\n\r\n\r\nexport const routes: Array<Route> = [\r\n    {\r\n        key: 'home-route',\r\n        title: 'Users',\r\n        path: '/',\r\n        enabled: true,\r\n        component: Home\r\n    },\r\n\r\n    {\r\n        key: 'user-route',\r\n        title: 'User',\r\n        path: '/user/:id',\r\n        enabled: false,\r\n        component: User\r\n    },\r\n\r\n    {\r\n        key: 'users-route',\r\n        title: 'User',\r\n        path: '/users',\r\n        enabled: false,\r\n        component: Home\r\n    },\r\n\r\n    {\r\n        key: 'resources-route',\r\n        title: 'Resources',\r\n        path: '/resources',\r\n        enabled: true,\r\n        component: Resource\r\n    },\r\n\r\n    {\r\n        key: 'resource-route',\r\n        title: 'Resource',\r\n        path: '/resource/:id',\r\n        enabled: false,\r\n        component: ResourcePage\r\n    },\r\n\r\n    {\r\n        key: 'create-user-route',\r\n        title: 'Create User',\r\n        path: '/create-user',\r\n        enabled: false,\r\n        component: CreateUser\r\n    },\r\n\r\n    {\r\n        key: 'login-route',\r\n        title: 'Login',\r\n        path: '/login',\r\n        enabled: true,\r\n        component: Login\r\n    },\r\n\r\n    {\r\n        key: 'registration-route',\r\n        title: 'Register',\r\n        path: '/register',\r\n        enabled: true,\r\n        component: Registration\r\n    }\r\n]
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/routes.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/routes.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/routes.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/routes.ts	
+@@ -1,4 +1,5 @@
+-import {FC} from "react";
++import {FC} from "react"; // Импортирует тип FC (Functional Component) из библиотеки 'react'. Этот тип используется для определения функциональных компонентов в React
++// Импортирует различные компоненты из разных файлов. Эти компоненты, по-видимому, представляют различные страницы или представления в приложении React.
+ import Home from "./pages/Home/Home";
+ import Route from "./interfaces/route";
+ import User from "./pages/UserPage/User";
+@@ -9,13 +10,14 @@
+ import Registration from "./pages/Registration/Registration";
+ 
+ 
++// Экспортирует константу с именем routes, которая представляет собой массив объектов. Каждый объект представляет собой маршрут в приложении.
+ export const routes: Array<Route> = [
+-    {
+-        key: 'home-route',
+-        title: 'Users',
+-        path: '/',
+-        enabled: true,
+-        component: Home
++    {   // Определяет объект, представляющий маршрут. Каждый маршрут имеет следующие свойства:
++        key: 'home-route', // Уникальный идентификатор маршрута.
++        title: 'Users', // Название или имя маршрута.
++        path: '/', // URL-путь для маршрута.
++        enabled: true, // Булево значение, указывающее, включен маршрут или нет.
++        component: Home // Компонент React, связанный с маршрутом.
+     },
+ 
+     {
+@@ -73,4 +75,9 @@
+         enabled: true,
+         component: Registration
+     }
+-]
+\ No newline at end of file
++]
++
++
++// В общем, код экспортирует массив объектов route, каждый из которых описывает отдельный маршрут в приложении.
++// Каждый маршрут имеет такие свойства, как ключ, название, путь, включенный статус и связанный с ним React-компонент.
++// Эти маршруты можно использовать для навигации и отображения различных компонентов в зависимости от текущего пути URL в приложении React.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/components/ResourceCard.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {Card, CardActionArea, CardContent, Typography} from \"@mui/material\"\r\nimport {FC, ReactElement} from \"react\";\r\nimport {IResource} from \"../../../interfaces/resources\";\r\nimport {useNavigate} from \"react-router-dom\";\r\n\r\nconst ResourceCard: FC<IResource> = (props): ReactElement => {\r\n\r\n    const navigate = useNavigate()\r\n\r\n     return (\r\n        <Card sx={{ maxWidth: 250, backgroundColor: props.color }}> \r\n            <CardActionArea onClick={() => navigate(`/resource/${props.id}`)}>\r\n                <CardContent>\r\n                    <Typography noWrap gutterBottom variant=\"h6\" component=\"div\">\r\n                        {props.name}\r\n                    </Typography>\r\n                    <Typography variant=\"body2\" color=\"text.secondary\">\r\n                        Year: {props.year}\r\n                    </Typography>\r\n                    <Typography variant=\"body2\" color=\"text.secondary\">\r\n                        Color: {props.color}\r\n                    </Typography>\r\n                    <Typography variant=\"body2\" color=\"text.secondary\">\r\n                        Pantone Value: {props.pantone_value}\r\n                    </Typography>\r\n                </CardContent>\r\n            </CardActionArea>\r\n        </Card>\r\n    )\r\n}\r\n\r\nexport default ResourceCard
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/components/ResourceCard.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/components/ResourceCard.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/components/ResourceCard.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/components/ResourceCard.tsx	
+@@ -1,25 +1,39 @@
++//  Import necessary components and dependencies from Material-UI and React.
+ import {Card, CardActionArea, CardContent, Typography} from "@mui/material"
+ import {FC, ReactElement} from "react";
+ import {IResource} from "../../../interfaces/resources";
+ import {useNavigate} from "react-router-dom";
+ 
++// Объявите функциональный компонент ResourceCard, который принимает реквизиты типа IResource и возвращает ReactElement.
+ const ResourceCard: FC<IResource> = (props): ReactElement => {
+ 
++    // Объявите переменную navigate, используя хук useNavigate из React Router. Она будет использоваться для перехода к различным маршрутам.
+     const navigate = useNavigate()
+ 
++    // Начните оператор возврата компонента.
+      return (
++        // Рендеринг компонента MUI Card с пользовательскими стилями. Максимальная ширина установлена на 250, а цвет фона определяется свойством color из реквизита.
+         <Card sx={{ maxWidth: 250, backgroundColor: props.color }}> 
+-            <CardActionArea onClick={() => navigate(`/resource/${props.id}`)}>
+-                <CardContent>
++            // Рендеринг компонента MUI CardActionArea, который предоставляет область, реагирующую на действия пользователя.
++            <CardActionArea onClick={() => navigate(`/resource/${props.id}`)}> // При нажатии он использует ф-ю navigate для перенаправления на страницу ресурса с соответствующим id.
++                <CardContent> // Рендеринг компонента Material-UI CardContent, который содержит содержимое карточки.
++                    
++                    // Создайте компонент Material-UI Typography для отображения названия ресурса: 
++                    // Св-во noWrap предотвращает заворачивание текста, gutterBottom добавляет пространство под элементом, а variant="h6" задает уровень заголовка.
+                     <Typography noWrap gutterBottom variant="h6" component="div">
+                         {props.name}
+                     </Typography>
++
++                    // Создайте еще один компонент Typography для отображения года ресурса.
+                     <Typography variant="body2" color="text.secondary">
+                         Year: {props.year}
+                     </Typography>
++
++                    // Создайте еще один компонент Typography для отображения цвета ресурса.
+                     <Typography variant="body2" color="text.secondary">
+                         Color: {props.color}
+                     </Typography>
++
+                     <Typography variant="body2" color="text.secondary">
+                         Pantone Value: {props.pantone_value}
+                     </Typography>
+@@ -29,4 +43,23 @@
+     )
+ }
+ 
+-export default ResourceCard
+\ No newline at end of file
++export default ResourceCard // Экспортируйте компонент ResourceCard в качестве экспорта модуля по умолчанию.
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/users.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { INewUser } from \"../../interfaces/users\";\r\nimport apiClient from \"../client\";\r\n\r\nexport const getById = (id: string) => apiClient({\r\n  path: `users/${id}`,\r\n  method: 'GET'\r\n})\r\n\r\nexport const getByPage = (page: number) => apiClient({\r\n  path: `users?page=${page}`,\r\n  method: 'GET'\r\n})\r\n\r\nexport const create = (user: INewUser) => apiClient({\r\n  path: `users`,\r\n  method: 'POST',\r\n  data: user,\r\n});\r\n\r\nexport const update = (id: number, user: INewUser) => apiClient({\r\n  path: `users/${id}`,\r\n  method: 'PUT',\r\n  data: user,\r\n});
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/users.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/users.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/users.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/api/modules/users.ts	
+@@ -1,22 +1,31 @@
+ import { INewUser } from "../../interfaces/users";
+ import apiClient from "../client";
+ 
++// експортує функцію з іменем getById. Ця функція приймає один аргумент id типу string.
++// У тілі функції викликається функція apiClient, яка, ймовірно, робить HTTP-запит методом GET за шляхом users/${id}.
++// Цей метод призначений, можливо, для отримання даних з API за конкретним ідентифікатором.
+ export const getById = (id: string) => apiClient({
+   path: `users/${id}`,
+   method: 'GET'
+ })
+ 
++// Експортує функцію getByPage, яка приймає аргумент page типу number. 
++// Ф-я викликає apiClient для здійснення HTTP-запиту методом GET за шляхом users?page=${page} для отримання даних з API для конкретної сторінки.
+ export const getByPage = (page: number) => apiClient({
+   path: `users?page=${page}`,
+   method: 'GET'
+ })
+ 
++// експортує ф-ю create. Ця ф-я очікує аргумент user типу INewUser (об'єкт, що представляє нового користувача). 
++// У тілі ф-ї викликається ф-я apiClient, яка робить HTTP-запит методом POST за шляхом users і передає дані користувача як тіло запиту.
+ export const create = (user: INewUser) => apiClient({
+   path: `users`,
+   method: 'POST',
+   data: user,
+ });
+ 
++// експортує ф-ю update, яка очікує два аргументи: id типу number (ідентифікатор користувача) і user типу INewUser (нові дані користувача для оновлення). 
++// Ф-я викликає apiClient для здійснення HTTP-запиту методом PUT за шляхом users/${id}, передаючи нові дані користувача як тіло запиту.
+ export const update = (id: number, user: INewUser) => apiClient({
+   path: `users/${id}`,
+   method: 'PUT',
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/users.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>export interface IUser {\r\n    'id': number,\r\n    'email': string,\r\n    'first_name': string,\r\n    'last_name': string,\r\n    'avatar': string\r\n}\r\n\r\nexport interface INewUser {\r\n    'name': string,\r\n    'job': string,\r\n}
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/users.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/users.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/users.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/users.ts	
+@@ -1,3 +1,4 @@
++// Объявляет начало интерфейса с именем IUser. Ключевое слово export делает интерфейс доступным за пределами модуля, в котором он определен.
+ export interface IUser {
+     'id': number,
+     'email': string,
+@@ -6,7 +7,13 @@
+     'avatar': string
+ }
+ 
++// Объявляет начало интерфейса с именем INewUser. Ключевое слово export делает интерфейс доступным за пределами модуля, в котором он определен.
+ export interface INewUser {
+     'name': string,
+     'job': string,
+-}
+\ No newline at end of file
++}
++
++
++// В общем, эти интерфейсы TypeScript (IUser и INewUser) обеспечивают структуру для объектов, представляющих данные пользователя.
++// Интерфейс IUser включает такие свойства, как id, email, first_name, last_name и avatar, 
++// а интерфейс INewUser включает свойства name и job, которые обычно используются для создания новых данных пользователя.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/public/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n  <head>\r\n    <meta charset=\"utf-8\" />\r\n    <link rel=\"icon\" href=\"%PUBLIC_URL%/favicon.ico\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\r\n    <meta name=\"theme-color\" content=\"#000000\" />\r\n    <meta\r\n      name=\"description\"\r\n      content=\"Web site created using create-react-app\"\r\n    />\r\n    <link rel=\"apple-touch-icon\" href=\"%PUBLIC_URL%/logo192.png\" />\r\n    <!--\r\n      manifest.json provides metadata used when your web app is installed on a\r\n      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/\r\n    -->\r\n    <link rel=\"manifest\" href=\"%PUBLIC_URL%/manifest.json\" />\r\n    <!--\r\n      Notice the use of %PUBLIC_URL% in the tags above.\r\n      It will be replaced with the URL of the `public` folder during the build.\r\n      Only files inside the `public` folder can be referenced from the HTML.\r\n      Unlike \"/favicon.ico\" or \"favicon.ico\", \"%PUBLIC_URL%/favicon.ico\" will\r\n      work correctly both with client-side routing and a non-root public URL.\r\n      Learn how to configure a non-root public URL by running `npm run build`.\r\n    -->\r\n    <title>React App</title>\r\n  </head>\r\n  <body>\r\n    <noscript>You need to enable JavaScript to run this app.</noscript>\r\n    <div id=\"root\"></div>\r\n    <!--\r\n      This HTML file is a template.\r\n      If you open it directly in the browser, you will see an empty page.\r\n      You can add webfonts, meta tags, or analytics to this file.\r\n      The build step will place the bundled scripts into the <body> tag.\r\n      To begin the development, run `npm start` or `yarn start`.\r\n      To create a production bundle, use `npm run build` or `yarn build`.\r\n    -->\r\n  </body>\r\n</html>\r\n
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/public/index.html b/../Mod5.Lection7.Hw/mod5lecture7hw/public/index.html
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/public/index.html	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/public/index.html	
+@@ -1,40 +1,22 @@
+-<!DOCTYPE html>
+-<html lang="en">
+-  <head>
+-    <meta charset="utf-8" />
+-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+-    <meta name="theme-color" content="#000000" />
+-    <meta
+-      name="description"
++<!DOCTYPE html> <!-- Указывает используемую версию HTML, в данном случае HTML5. -->
++<html lang="en"> <!-- Открывающий тег для HTML-документа. Атрибут lang указывает язык документа (английский) -->
++  <head> <!-- Открывающий тег для раздела head HTML-документа. -->
++    <meta charset="utf-8" /> <!-- Внутри него метатег с атрибутом charset устанавливает кодировку символов в UTF-8. -->
++    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> <!-- Эти строки включают ссылку на фавикон (маленький значок, отображаемый на вкладке браузера), -->
++    <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- задают свойства области просмотра для отзывчивого дизайна -->
++    <meta name="theme-color" content="#000000" /> <!-- и определяют цвет темы для мобильных браузеров. -->
++    <!-- Дополнительная метаинформация, например описание веб-сайта. -->
++    <meta 
++      name="description" 
+       content="Web site created using create-react-app"
+     />
+-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+-    <!--
+-      manifest.json provides metadata used when your web app is installed on a
+-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+-    -->
+-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+-    <!--
+-      Notice the use of %PUBLIC_URL% in the tags above.
+-      It will be replaced with the URL of the `public` folder during the build.
+-      Only files inside the `public` folder can be referenced from the HTML.
+-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+-      work correctly both with client-side routing and a non-root public URL.
+-      Learn how to configure a non-root public URL by running `npm run build`.
+-    -->
+-    <title>React App</title>
++    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> <!-- Используется для отображения иконки, когда пользователь добавляет веб-приложение на домашний экран на устройстве iOS.  -->
++    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> <!-- Указывает на файл JSON, содержащий метаданные о веб-приложении. -->
++    <title>React App</title> <!--  Устанавливает заголовок веб-страницы, который отображается на вкладке браузера. -->
+   </head>
+-  <body>
+-    <noscript>You need to enable JavaScript to run this app.</noscript>
+-    <div id="root"></div>
+-    <!--
+-      This HTML file is a template.
+-      If you open it directly in the browser, you will see an empty page.
+-      You can add webfonts, meta tags, or analytics to this file.
+-      The build step will place the bundled scripts into the <body> tag.
+-      To begin the development, run `npm start` or `yarn start`.
+-      To create a production bundle, use `npm run build` or `yarn build`.
+-    -->
++  <body> <!-- Открывающий тег для раздела body HTML-документа. -->
++    <noscript>You need to enable JavaScript to run this app.</noscript> <!-- Выводит сообщение для пользователей, у которых отключен JavaScript, с указанием включить его для запуска приложения.  -->
++    <div id="root"></div> <!-- Пустой div с идентификатором "root". Это обычное соглашение в приложениях React. 
++      React будет рендерить свои компоненты внутри этого div, фактически становясь корнем дерева компонентов React. Компоненты внедряются в этот div во время выполнения. -->
+   </body>
+ </html>
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/Resource.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {ReactElement, FC, useEffect, useState} from \"react\";\r\nimport {Box, CircularProgress, Container, Grid, Pagination} from '@mui/material'\r\nimport * as resourceApi from \"../../api/modules/resources\"\r\nimport {IResource} from \"../../interfaces/resources\"; \r\nimport ResourceCard from \"./components/ResourceCard\"; \r\n\r\nconst Resource: FC<any> = (): ReactElement => {\r\n    const [resources, setResources] = useState<IResource[] | null>(null)\r\n    const [totalPages, setTotalPages] = useState<number>(0)\r\n    const [currentPage, setCurrentPage] = useState<number>(1)\r\n    const [isLoading, setIsLoading] = useState<boolean>(false)\r\n\r\n    useEffect(() => {\r\n        const getResources = async () => {\r\n            try {\r\n                setIsLoading(true)\r\n                const res = await resourceApi.getByPage(currentPage) \r\n                setResources(res.data)\r\n                setTotalPages(res.total_pages)\r\n            } catch (e) {\r\n                if (e instanceof Error) {\r\n                    console.error(e.message)\r\n                }\r\n            }\r\n            setIsLoading(false)\r\n        }\r\n        getResources()\r\n    }, [currentPage])\r\n\r\n  return (\r\n      <Container>\r\n          <Grid container spacing={4} justifyContent=\"center\" my={4}>\r\n              {isLoading ? (\r\n                  <CircularProgress />\r\n              ) : (\r\n                  <>\r\n                      {resources?.map((item) => (\r\n                          <Grid key={item.id} item lg={2} md={4} xs={6}>\r\n                              <ResourceCard {...item} />\r\n                          </Grid>\r\n                      ))}\r\n                  </>\r\n              )}\r\n          </Grid>\r\n          <Box\r\n              sx={{\r\n                  display: 'flex',\r\n                  justifyContent: 'center'\r\n              }}\r\n          >\r\n              <Pagination count={totalPages} page={currentPage} onChange={ (event, page)=> setCurrentPage(page)} />\r\n          </Box>\r\n      </Container>\r\n  );\r\n};\r\n\r\nexport default Resource;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/Resource.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/Resource.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/Resource.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/pages/Resources/Resource.tsx	
+@@ -1,15 +1,19 @@
++// Импортируйте необходимые компоненты, зависимости и модули из React, Material-UI и проекта.
+ import React, {ReactElement, FC, useEffect, useState} from "react";
+ import {Box, CircularProgress, Container, Grid, Pagination} from '@mui/material'
+ import * as resourceApi from "../../api/modules/resources"
+ import {IResource} from "../../interfaces/resources"; 
+ import ResourceCard from "./components/ResourceCard"; 
+ 
+-const Resource: FC<any> = (): ReactElement => {
+-    const [resources, setResources] = useState<IResource[] | null>(null)
+-    const [totalPages, setTotalPages] = useState<number>(0)
+-    const [currentPage, setCurrentPage] = useState<number>(1)
+-    const [isLoading, setIsLoading] = useState<boolean>(false)
++// Объявите функциональный компонент Resource, который принимает любой тип props и возвращает ReactElement.
++const Resource: FC<any> = (): ReactElement => { // Объявите переменные состояния с помощью хука useState:
++    const [resources, setResources] = useState<IResource[] | null>(null) // хранит массив ресурсов или null
++    const [totalPages, setTotalPages] = useState<number>(0) // общее количество страниц
++    const [currentPage, setCurrentPage] = useState<number>(1) // номер текущей страницы
++    const [isLoading, setIsLoading] = useState<boolean>(false) // указывает, загружаются ли данные.
+ 
++    // Используйте хук useEffect для получения ресурсов при монтировании компонента или при изменении CurrentPage.
++    // Этот хук помогает управлять побочными эффектами в функциональных компонентах.
+     useEffect(() => {
+         const getResources = async () => {
+             try {
+@@ -27,31 +31,54 @@
+         getResources()
+     }, [currentPage])
+ 
+-  return (
+-      <Container>
+-          <Grid container spacing={4} justifyContent="center" my={4}>
+-              {isLoading ? (
+-                  <CircularProgress />
+-              ) : (
+-                  <>
+-                      {resources?.map((item) => (
+-                          <Grid key={item.id} item lg={2} md={4} xs={6}>
+-                              <ResourceCard {...item} />
+-                          </Grid>
+-                      ))}
+-                  </>
+-              )}
+-          </Grid>
+-          <Box
+-              sx={{
+-                  display: 'flex',
+-                  justifyContent: 'center'
+-              }}
+-          >
+-              <Pagination count={totalPages} page={currentPage} onChange={ (event, page)=> setCurrentPage(page)} />
+-          </Box>
+-      </Container>
+-  );
++    return (
++        // Используйте компонент Material-UI Container, чтобы определить контейнер макета для компонента.
++        <Container>
++            // Используйте компонент Material-UI Grid для создания макета сетки для отображения ресурсов. 
++            <Grid container spacing={4} justifyContent="center" my={4}>
++                {isLoading ? (  // Если данные все еще загружаются
++                    <CircularProgress /> // отобразите компонент CircularProgress
++                ) : (
++                    <>
++                        {resources?.map((item) => ( //  в противном случае отобразите массив ресурсов
++                            <Grid key={item.id} item lg={2} md={4} xs={6}>
++                                <ResourceCard {...item} /> // и выведите компонент ResourceCard для каждого ресурса.
++                            </Grid>
++                        ))}
++                    </>
++                )}
++            </Grid>
++
++            <Box // Используйте компонент Material-UI Pagination для отображения элементов управления пагинацией. 
++                sx={{
++                    display: 'flex', 
++                    justifyContent: 'center'
++                }}
++            >
++                {/*Он показывает общее количество страниц (totalPages), текущую страницу (currentPage) и обновляет currentPage, когда пользователь взаимодействует с элементом управления пагинацией.*/}
++                <Pagination count={totalPages} page={currentPage} onChange={ (event, page)=> setCurrentPage(page)} />
++            </Box>
++        </Container>
++    );
+ };
+ 
+-export default Resource;
+\ No newline at end of file
++export default Resource; // Экспортируйте компонент Resource в качестве экспорта модуля по умолчанию.
++
++
++// Токен - это нечто, чем должен обладать пользователь, чтобы получить доступ к ресурсу.
++// В MobX, когда объект или переменная становится наблюдаемым, ему присваивается уникальный идентификатор, который называется "токеном". 
++// Этот токен используется для отслеживания зависимостей и обновления компонентов, которые используют этот объект.
++
++// Пагинация - это техника разделения большого объема контента на отдельные страницы для более удобного и управляемого отображения.
++// Она часто используется в веб-приложениях для разделения длинных списков данных или результатов запросов на более мелкие порции.
++// Примеры пагинации в веб-приложении:
++// 1. Нумерация страниц: Когда результаты разбиваются на отдельные страницы, пользователь видит номера страниц и может выбирать, на какую страницу перейти.
++// 2. Бесконечная прокрутка (Infinite Scroll): Некоторые приложения используют бесконечную прокрутку, где новые элементы автоматически подгружаются при прокрутке вниз, вместо перехода на новые страницы.
++// 3. "Предыдущая" и "Следующая" кнопки
++// В React-приложениях для реализации пагинации часто используются библиотеки или создаются компоненты, которые обрабатывают логику отображения и переключения страниц.
++
++// Хуки (Hooks) в React — это функции, которые позволяют использовать состояние и другие возможности React в функциональных компонентах. 
++// Например, некоторые из основных хуков в React включают:
++// 1. useState: Позволяет добавить локальное состояние в функциональный компонент.
++// 2. useEffect: Позволяет выполнять побочные эффекты в функциональных компонентах, например, загрузку данных или подписку на события.
++// 3. useContext: Позволяет использовать значение контекста внутри функционального компонента.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Footer/Footer.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { FC, ReactElement } from \"react\";\r\nimport { Box, Container, Grid, Typography } from \"@mui/material\";\r\n\r\nexport const Footer: FC = (): ReactElement => {\r\n  return (\r\n    <Box\r\n      sx={{\r\n        width: \"100%\",\r\n        height: \"auto\",\r\n        backgroundColor: \"secondary.main\",\r\n        paddingTop: \"1rem\",\r\n        paddingBottom: \"1rem\",\r\n      }}\r\n    >\r\n      <Container maxWidth=\"lg\">\r\n        <Grid container direction=\"column\" alignItems=\"center\">\r\n          <Grid item xs={12}>\r\n            <Typography color=\"black\" variant=\"h5\">\r\n                A-LEVEL COURSE\r\n            </Typography>\r\n          </Grid>\r\n          <Grid item xs={12}>\r\n            <Typography color=\"textSecondary\" variant=\"subtitle1\">\r\n              {`${new Date().getFullYear()} | React | Material UI | React Router`}\r\n            </Typography>\r\n          </Grid>\r\n        </Grid>\r\n      </Container>\r\n    </Box>\r\n  );\r\n};\r\n\r\nexport default Footer;
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Footer/Footer.tsx b/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Footer/Footer.tsx
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Footer/Footer.tsx	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/components/Footer/Footer.tsx	
+@@ -1,24 +1,31 @@
+-import React, { FC, ReactElement } from "react";
+-import { Box, Container, Grid, Typography } from "@mui/material";
++import React, { FC, ReactElement } from "react"; // Імпорт необхідних бібліотек React.
++import { Box, Container, Grid, Typography } from "@mui/material"; //  Імпорт компонентів MUI (Material-UI).
+ 
++// Оголошення функціонального компонента Footer за допомогою стрілкової функції.
+ export const Footer: FC = (): ReactElement => {
+   return (
+-    <Box
++    <Box // Віджет Box, який представляє собою контейнер для інших елементів;  для стилізації контейнера з допомогою теми MUI.
+       sx={{
+-        width: "100%",
+-        height: "auto",
+-        backgroundColor: "secondary.main",
+-        paddingTop: "1rem",
+-        paddingBottom: "1rem",
++        width: "100%",  // Ширина віджету на 100% від ширини батьківського контейнера
++        height: "auto",  // Висота автоматично підлаштовується
++        backgroundColor: "secondary.main",  // Колір фону, визначений у темі MUI
++        paddingTop: "1rem",  // Внутрішній відступ угорі
++        paddingBottom: "1rem",  // Внутрішній відступ знизу
+       }}
+     >
++      
++      {/* Container - контейнер MUI, який регулює макет і ширину вмісту */}
+       <Container maxWidth="lg">
++        {/* Grid - контейнер для розміщення елементів в сітці (горизонтально та вертикально) */}
+         <Grid container direction="column" alignItems="center">
++          {/* Grid item - елемент сітки, який вміщується в колонку (займає всю ширину на всіх розташованих колонках на різних розширеннях екрану) */}
+           <Grid item xs={12}>
++            {/* Typography - компонент для тексту з заданим стилем (певного розміру та кольору) */}
+             <Typography color="black" variant="h5">
+-                A-LEVEL COURSE
++              A-LEVEL COURSE
+             </Typography>
+           </Grid>
++          {/* Ще один Grid item для другого рядка тексту; для отримання поточного року та тексту, що виводиться. */}
+           <Grid item xs={12}>
+             <Typography color="textSecondary" variant="subtitle1">
+               {`${new Date().getFullYear()} | React | Material UI | React Router`}
+@@ -30,4 +37,4 @@
+   );
+ };
+ 
+-export default Footer;
+\ No newline at end of file
++export default Footer; // Експорт компонента Footer для використання в інших частинах програми.
+\ No newline at end of file
+Index: ../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/appStore.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import AuthStore from \"../AuthStores/AuthStore\";\r\n\r\nexport interface IAppStore {\r\n    'authStore': AuthStore\r\n}
+===================================================================
+diff --git a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/appStore.ts b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/appStore.ts
+--- a/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/appStore.ts	
++++ b/../Mod5.Lection7.Hw/mod5lecture7hw/src/interfaces/appStore.ts	
+@@ -1,5 +1,10 @@
+-import AuthStore from "../AuthStores/AuthStore";
++import AuthStore from "../AuthStores/AuthStore"; // Импортирует класс AuthStore из файла, расположенного по относительному пути "../AuthStores/AuthStore".
++//AuthStore - это, скорее всего, определение класса, представляющего хранилище для состояния, связанного с аутентификацией.
+ 
+-export interface IAppStore {
+-    'authStore': AuthStore
+-}
+\ No newline at end of file
++export interface IAppStore {  //Объявляет начало интерфейса с именем IAppStore. Ключевое слово export делает интерфейс доступным за пределами модуля, в котором он определен.
++    'authStore': AuthStore // Объявляет св-во authStore в интерфейсе. Св-ву authStore присваивается тип AuthStore, что указывает на то, что оно должно содержать экземпляр класса AuthStore.
++}
++
++// Этот интерфейс IAppStore определяет структуру объекта, который представляет общее состояние хранилища приложений. 
++// Он включает свойство authStore, которое, как ожидается, будет содержать экземпляр класса AuthStore. 
++// Подобный паттерн часто используется в системах управления состоянием, особенно в таких фреймворках, как MobX или Redux, где различные части состояния приложения организованы в отдельные хранилища.
+\ No newline at end of file
