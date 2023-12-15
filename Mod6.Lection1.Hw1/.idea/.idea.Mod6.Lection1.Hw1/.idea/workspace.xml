@@ -10,10 +10,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="77639bc9-a48f-4196-8358-77e001cfaa7a" name="Changes" comment="Step 1">
-      <change beforePath="$PROJECT_DIR$/Catalog.Host/Controllers/WeatherForecastController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Catalog.Host/Controllers/WeatherForecastController.cs" afterDir="false" />
+    <list default="true" id="77639bc9-a48f-4196-8358-77e001cfaa7a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Catalog.Host/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mod6.Lection1.Hw1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mod6.Lection1.Hw1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Catalog.Host/Controllers/WeatherForecastController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Catalog.Host/Controllers/CatalogProductController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Catalog.Host/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Catalog.Host/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Catalog.Host/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Catalog.Host/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Catalog.Host/WeatherForecast.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Catalog.Host/Product.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mod6.Lection1.Hw1.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Mod6.Lection1.Hw1.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,26 +54,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/hw__6__1&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.Catalog.Host.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feature/hw__6__1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "HotReloadSettingsPage",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Taisiia\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Taisiia\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Taisiia\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "PLAIN_TEXT"
+    ],
+    "rider.external.source.directories": [
+      "C:\\Users\\Taisiia\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Taisiia\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\Taisiia\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Catalog.Host">
     <configuration name="Catalog.Host" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Catalog.Host/Catalog.Host.csproj" />
@@ -162,7 +170,8 @@
       <updated>1702546836336</updated>
       <workItem from="1702546842642" duration="2046000" />
       <workItem from="1702553023915" duration="890000" />
-      <workItem from="1702556398038" duration="7390000" />
+      <workItem from="1702556398038" duration="15465000" />
+      <workItem from="1702648099516" duration="3367000" />
     </task>
     <task id="LOCAL-00001" summary="Step 1">
       <option name="closed" value="true" />
@@ -172,7 +181,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702561333476</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Step 2">
+      <option name="closed" value="true" />
+      <created>1702569562442</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702569562442</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,6 +211,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Create .gitignore" />
     <MESSAGE value="Step 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Step 1" />
+    <MESSAGE value="Step 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

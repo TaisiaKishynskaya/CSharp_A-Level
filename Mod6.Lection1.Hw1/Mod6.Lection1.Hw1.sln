@@ -2,14 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{83ACA568-BEE2-4C57-90C4-B29C86F96E6D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{CD25CDC8-81E9-423C-B84C-705EB3161BCC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{E5B8BF01-538B-4653-B422-2A53129AF824}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{69FD759A-59D2-4E03-8683-63A5B392787A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{A9898F32-5C1A-4E45-A7AE-191175302B7E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Host", "Catalog.Host\Catalog.Host.csproj", "{EB2FAE10-13ED-47FA-93A3-0FB353112F4D}"
 EndProject
 Global
