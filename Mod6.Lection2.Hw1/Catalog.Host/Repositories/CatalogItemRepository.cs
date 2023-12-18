@@ -1,5 +1,6 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Models.Requests;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -35,20 +36,41 @@ public class CatalogItemRepository : ICatalogItemRepository
         return new PaginatedItems<CatalogItem>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 
-    public async Task<int?> Add(string name, string description, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string pictureFileName)
+    public async Task<int?> Add(CreateProductRequest catalog)
     {
         var item = await _dbContext.AddAsync(new CatalogItem
         {
-            CatalogBrandId = catalogBrandId,
-            CatalogTypeId = catalogTypeId,
-            Description = description,
-            Name = name,
-            PictureFileName = pictureFileName,
-            Price = price
+            CatalogBrandId = catalog.CatalogBrandId,
+            CatalogTypeId = catalog.CatalogTypeId,
+            Description = catalog.Description,
+            Name = catalog.Name,
+            PictureFileName = catalog.PictureFileName,
+            Price = catalog.Price
         });
 
         await _dbContext.SaveChangesAsync();
 
         return item.Entity.Id;
+    }
+
+    public async Task<CatalogItem?> GetByIdAsync(int id)
+    {
+        var item = await _dbContext.CatalogItems.FirstOrDefaultAsync(i => i.Id == id);
+
+        return item;
+    }
+
+    public async Task<IEnumerable<CatalogItem>> GetByBrandAsync(string brand)
+    {
+        var items = await _dbContext.CatalogItems.Where(i => i.CatalogBrand.Brand == brand).ToListAsync();
+
+        return items;
+    }
+
+    public async Task<IEnumerable<CatalogItem>> GetByTypeAsync(string type)
+    {
+        var items = await _dbContext.CatalogItems.Where(i => i.CatalogType.Type == type).ToListAsync();
+
+        return items;
     }
 }

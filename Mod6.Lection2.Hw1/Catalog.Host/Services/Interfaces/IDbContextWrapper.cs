@@ -1,11 +1,11 @@
+namespace Catalog.Host.Services.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Catalog.Host.Services.Interfaces;
-
 public interface IDbContextWrapper<T>
-     where T : DbContext
+    where T : DbContext
 {
-     T DbContext { get; }
-     Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
+    T DbContext { get; }
+    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
 }

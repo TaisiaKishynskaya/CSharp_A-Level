@@ -38,4 +38,25 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             };
         });
     }
+
+    public async Task<CatalogItemDto> GetByIdAsync(int id)
+    {
+        var result = await _catalogItemRepository.GetByIdAsync(id);
+
+        return _mapper.Map<CatalogItemDto>(result);
+    }
+
+    public Task<IEnumerable<CatalogItemDto>> GetByBrandAsync(string brand)
+    {
+        var result = _catalogItemRepository.GetByBrandAsync(brand);
+
+        return Task.FromResult(result.Result.Select(s => _mapper.Map<CatalogItemDto>(s)));
+    }
+
+    public Task<IEnumerable<CatalogItemDto>> GetByTypeAsync(string type)
+    {
+        var result = _catalogItemRepository.GetByTypeAsync(type);
+
+        return Task.FromResult(result.Result.Select(s => _mapper.Map<CatalogItemDto>(s)));
+    }
 }
