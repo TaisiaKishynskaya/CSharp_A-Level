@@ -30,7 +30,6 @@
       <Folder Include="Data\Entities\" />
       <Folder Include="Data\EntityConfigurations\" />
       <Folder Include="Mapping\" />
-      <Folder Include="Migrations\" />
       <Folder Include="Models\DTOs\" />
       <Folder Include="Models\Requests\" />
       <Folder Include="Models\Response\" />
