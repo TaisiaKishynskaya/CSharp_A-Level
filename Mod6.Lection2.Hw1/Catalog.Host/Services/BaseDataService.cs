@@ -3,23 +3,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Services;
 
-public abstract class BaseDataService<T>
-    where T : DbContext
+public abstract class BaseDataService<T> where T : DbContext
 {
     private readonly IDbContextWrapper<T> _dbContextWrapper;
     private readonly ILogger<BaseDataService<T>> _logger;
 
-    protected BaseDataService(
-        IDbContextWrapper<T> dbContextWrapper,
-        ILogger<BaseDataService<T>> logger)
+    protected BaseDataService(IDbContextWrapper<T> dbContextWrapper, ILogger<BaseDataService<T>> logger)
     {
         _dbContextWrapper = dbContextWrapper;
         _logger = logger;
     }
 
-    protected Task ExecuteSafeAsync(Func<Task> action, CancellationToken cancellationToken = default) => ExecuteSafeAsync(token => action(), cancellationToken);
+    protected Task ExecuteSafeAsync(Func<Task> action, CancellationToken cancellationToken = default)
+        => ExecuteSafeAsync(token => action(), cancellationToken);
 
-    protected Task<TResult> ExecuteSafeAsync<TResult>(Func<Task<TResult>> action, CancellationToken cancellationToken = default) => ExecuteSafeAsync(token => action(), cancellationToken);
+    protected Task<TResult> ExecuteSafeAsync<TResult>(Func<Task<TResult>> action, CancellationToken cancellationToken = default)
+        => ExecuteSafeAsync(token => action(), cancellationToken);
 
     private async Task ExecuteSafeAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken = default)
     {
@@ -29,7 +28,7 @@ public abstract class BaseDataService<T>
         {
             await action(cancellationToken);
 
-            await transaction.CommitAsync(cancellationToken);
+            await transaction.CommitAsync();
         }
         catch (Exception ex)
         {
@@ -38,7 +37,7 @@ public abstract class BaseDataService<T>
         }
     }
 
-    private async Task<TResult> ExecuteSafeAsync<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken = default)
+    private async Task<TResult> ExecuteSafeAsync<TResult>(Func<CancellationToken,Task<TResult>> action, CancellationToken cancellationToken = default)
     {
         await using var transaction = await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
 
@@ -58,4 +57,5 @@ public abstract class BaseDataService<T>
 
         return default(TResult) !;
     }
+
 }

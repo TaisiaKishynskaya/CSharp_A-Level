@@ -1,16 +1,18 @@
 using Catalog.Host.Data.Entities;
-using Catalog.Host.Models.Requests;
+using Catalog.Host.Data;
+using Catalog.Host.Models.Requests.AddRequests;
+using Catalog.Host.Models.Requests.UpdateRequests;
+using Catalog.Host.Models.Requests.DeleteRequests;
 
-namespace Catalog.Host.Repositories.Interfaces
+namespace Catalog.Host.Repositories.Interfaces;
+
+public interface ICatalogBrandRepository
 {
-    public interface ICatalogBrandRepository
-    {
-        Task<IEnumerable<CatalogBrand>> GetBrandsAsync();
+    Task<PaginatedItems<CatalogBrand>> GetBrandsByPageAsync(int pageIndex, int pageSize);
+    Task<CatalogBrand> GetBrandByIdAsync(int id);
 
-        Task<int?> Add(CatalogBrand catalogBrand);
-
-        Task<bool?> Delete(CatalogBrand catalogBrand);
-
-        Task<int?> Update(CatalogBrand catalogBrand);
-    }
+    Task<PaginatedItems<CatalogBrand>> GetByPageAsyncHttpGet(int pageIndex, int pageSize);
+    Task<int?> AddAsync(AddCatalogBrandRequest brandToAdd);
+    Task<CatalogBrand> UpdateAsync(UpdateCatalogBrandRequest brandToUpdate);
+    Task DeleteAsync(DeleteCatalogBrandRequest brandToDelete);
 }

@@ -1,6 +1,13 @@
-namespace Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public static class ComponentDefaults
+namespace Infrastructure
 {
-    public const string DefaultRoute = "api/v1/[controller]/[action]";
+    public static class ComponentDefaults
+    {
+        public const string DefaultRoute = "api/v1";
+    }
 }
