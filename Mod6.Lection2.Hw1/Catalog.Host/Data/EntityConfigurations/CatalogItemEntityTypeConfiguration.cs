@@ -4,33 +4,37 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Catalog.Host.Data.EntityConfigurations;
 
-public class CatalogItemEntityTypeConfiguration
-    : IEntityTypeConfiguration<CatalogItem>
+public class CatalogItemEntityTypeConfiguration : IEntityTypeConfiguration<CatalogItem>
 {
     public void Configure(EntityTypeBuilder<CatalogItem> builder)
     {
-        builder.ToTable("Catalog");
+        builder.ToTable("CatalogItem");
 
-        builder.Property(ci => ci.Id)
-            .UseHiLo("catalog_hilo")
+        builder.HasKey(catalogItem => catalogItem.Id);
+
+        builder.Property(catalogItem => catalogItem.Id)
+            .UseHiLo()
             .IsRequired();
 
-        builder.Property(ci => ci.Name)
-            .IsRequired(true)
-            .HasMaxLength(50);
+        builder.Property(catalogItem => catalogItem.Name)
+            .IsRequired()
+            .HasMaxLength(100);
 
-        builder.Property(ci => ci.Price)
-            .IsRequired(true);
+        builder.Property(catalogItem => catalogItem.Price)
+            .IsRequired();
 
-        builder.Property(ci => ci.PictureFileName)
+        builder.Property(catalogItem => catalogItem.PictureFileName)
             .IsRequired(false);
 
-        builder.HasOne(ci => ci.CatalogBrand)
-            .WithMany()
-            .HasForeignKey(ci => ci.CatalogBrandId);
+        builder.Property(catalogItem => catalogItem.Description)
+            .IsRequired(false);
 
-        builder.HasOne(ci => ci.CatalogType)
+        builder.HasOne(catalogType => catalogType.CatalogBrand)
             .WithMany()
-            .HasForeignKey(ci => ci.CatalogTypeId);
+            .HasForeignKey(catalogItem => catalogItem.CatalogTypeId);
+
+        builder.HasOne(catalogBrand => catalogBrand.CatalogBrand)
+            .WithMany()
+            .HasForeignKey(catalogItem => catalogItem.CatalogBrandId);
     }
 }

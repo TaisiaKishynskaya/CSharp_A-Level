@@ -1,4 +1,3 @@
-#pragma warning disable CS8618
 using Catalog.Host.Data.Entities;
 using Catalog.Host.Data.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
@@ -7,19 +6,17 @@ namespace Catalog.Host.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<CatalogItem> CatalogItems { get; set; }
     public DbSet<CatalogBrand> CatalogBrands { get; set; }
     public DbSet<CatalogType> CatalogTypes { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
-        builder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
-        builder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
     }
+
 }

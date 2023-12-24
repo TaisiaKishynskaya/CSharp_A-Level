@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Catalog.Host.Services;
 
-public class DbContextWrapper<T>(IDbContextFactory<T> dbContextFactory) : IDbContextWrapper<T>
-    where T : DbContext
+public class DbContextWrapper<T> : IDbContextWrapper<T> where T : DbContext
 {
-    private readonly T _dbContext = dbContextFactory.CreateDbContext();
+    private readonly T _dbContext;
 
+    public DbContextWrapper(IDbContextFactory<T> dbContextFactory)
+    {
+        _dbContext = dbContextFactory.CreateDbContext();
+    }
     public T DbContext => _dbContext;
 
     public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken)

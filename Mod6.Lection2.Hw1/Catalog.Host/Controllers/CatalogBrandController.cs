@@ -1,56 +1,67 @@
-using System.Net;
-using Catalog.Host.Data.Entities;
-using Catalog.Host.Models.Response;
-using Catalog.Host.Repositories.Interfaces;
+using Catalog.Host.Models.Requests.AddRequests;
+using Catalog.Host.Models.Requests.DeleteRequests;
+using Catalog.Host.Models.Requests.UpdateRequests;
+using Catalog.Host.Services.Interfaces;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using Catalog.Host.Models.Responses.AddResponses;
+using Catalog.Host.Models.Responses.UpdateResponses;
 
 namespace Catalog.Host.Controllers;
 
 [ApiController]
-[Route(ComponentDefaults.DefaultRoute)]
+[Route($"{ComponentDefaults.DefaultRoute}/catalog")]
 public class CatalogBrandController : ControllerBase
 {
     private readonly ILogger<CatalogBrandController> _logger;
-    private readonly ICatalogBrandRepository _catalogBrandRepository;
+    private readonly ICatalogBrandService _catalogBrandService;
 
     public CatalogBrandController(
         ILogger<CatalogBrandController> logger,
-        ICatalogBrandRepository catalogBrandRepository)
+        ICatalogBrandService catalogBrandService)
     {
         _logger = logger;
-        _catalogBrandRepository = catalogBrandRepository;
+        _catalogBrandService = catalogBrandService;
     }
 
-    [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<CatalogBrand>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetBrands()
+    [HttpGet("brands")]
+    public async Task<IActionResult> GetBrandsByPage(int pageIndex = 1, int pageSize = 10)
     {
-        var result = await _catalogBrandRepository.GetBrandsAsync();
+        var result = await _catalogBrandService.GetByPageAsyncHttpGet(pageIndex, pageSize);
         return Ok(result);
     }
 
-    [HttpPost]
-    [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Add(CatalogBrand catalogBrand)
+    [HttpPost("brands")]
+    [ProducesResponseType(typeof(AddCatalogBrandResponse<int?>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> AddBrand(AddCatalogBrandRequest request)
     {
-        var result = await _catalogBrandRepository.Add(catalogBrand);
-        return Ok(new AddItemResponse<int?>() { Id = result });
+        var result = await _catalogBrandService.AddAsync(request);
+        return Ok(new AddCatalogBrandResponse<int?>() { Id = result });
     }
 
-    [HttpPut]
-    [ProducesResponseType(typeof(AddItemResponse<int?>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Update(CatalogBrand catalogBrand)
+    [HttpPut("brands/{id}")]
+    [ProducesResponseType(typeof(UpdateCatalogBrandResponse<int>), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> UpdateBrand(int id, UpdateCatalogBrandRequest request)
     {
-        var result = await _catalogBrandRepository.Update(catalogBrand);
-        return Ok(new AddItemResponse<int?>() { Id = result });
+        var result = await _catalogBrandService.UpdateAsync(request);
+        return Ok(result);
     }
 
-    [HttpDelete]
-    [ProducesResponseType(typeof(AddItemResponse<bool?>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Delete(CatalogBrand catalogBrand)
+    [HttpDelete("brands/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> DeleteBrand(int id)
     {
-        var result = await _catalogBrandRepository.Delete(catalogBrand);
-        return Ok(new AddItemResponse<bool?>() { Id = result });
+        try
+        {
+            await _catalogBrandService.DeleteAsync(new DeleteCatalogBrandRequest { Id = id });
+            return Ok("Brand successfully deleted");
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound("Brand not found");
+        }
     }
+
+
 }
