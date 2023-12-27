@@ -1,57 +1,79 @@
-namespace Catalog.Host.Controllers;
-
-using System.Net;
-using Catalog.Host.Models.Dtos;
-using Catalog.Host.Models.Requests;
-using Catalog.Host.Models.Response;
 using Catalog.Host.Services.Interfaces;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
+namespace Catalog.Host.Controllers;
+
 [ApiController]
-[Route(ComponentDefaults.DefaultRoute)]
+[Route(ComponentDefaults.DefaultRoute + "/catalog-bff")]
 public class CatalogBffController : ControllerBase
 {
     private readonly ILogger<CatalogBffController> _logger;
-    private readonly ICatalogService _catalogService;
+    private readonly ICatalogBffService _catalogService;
 
     public CatalogBffController(
         ILogger<CatalogBffController> logger,
-        ICatalogService catalogService)
+        ICatalogBffService catalogService)
     {
-        this._logger = logger;
-        this._catalogService = catalogService;
+        _logger = logger;
+        _catalogService = catalogService;
     }
-    
-    [HttpGet]
-    [ProducesResponseType(typeof(CatalogItemDto), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetById(int id)
+
+    [HttpGet("items")]
+    public async Task<IActionResult> GetItemsByPageAsync([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
-        var result = await this._catalogService.GetByIdAsync(id);
+        var result = await _catalogService.GetCatalogItemsAsync(pageIndex, pageSize);
         return Ok(result);
     }
 
-    [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetByBrand(string brand)
+    [HttpGet("item/{id}")]
+    public async Task<IActionResult> GetItemByIdAsync(int id)
     {
-        var result = await this._catalogService.GetByBrandAsync(brand);
+        var result = await _catalogService.GetItemByIdAsync(id);
         return Ok(result);
     }
 
-    [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetByType(string type)
+    [HttpGet("items/brand/{brandId}")]
+    public async Task<IActionResult> GetItemsByBrandAsync(int brandId)
     {
-        var result = await this._catalogService.GetByTypeAsync(type);
+        var result = await _catalogService.GetItemsByBrandAsync(brandId);
         return Ok(result);
     }
 
-    [HttpPost]
-    [ProducesResponseType(typeof(PaginatedItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Items(PaginatedItemsRequest request)
+    [HttpGet("items/type/{typeId}")]
+    public async Task<IActionResult> GetItemsByTypeAsync(int typeId)
     {
-        var result = await this._catalogService.GetCatalogItemsAsync(request.PageSize, request.PageIndex);
-        return this.Ok(result);
+        var result = await _catalogService.GetItemsByTypeAsync(typeId);
+        return Ok(result);
+    }
+
+    // Brand
+    [HttpGet("brand/{id}")]
+    public async Task<IActionResult> GetBrandByIdAsync(int id)
+    {
+        var result = await _catalogService.GetBrandByIdAsync(id);
+        return Ok(result);
+    }
+
+    [HttpGet("brands")]
+    public async Task<IActionResult> GetBrandsByPageAsync([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _catalogService.GetBrandsByPageAsync(pageIndex, pageSize);
+        return Ok(result);
+    }
+
+    // Type
+    [HttpGet("type/{id}")]
+    public async Task<IActionResult> GetTypeByIdAsync(int id)
+    {
+        var result = await _catalogService.GetTypeByIdAsync(id);
+        return Ok(result);
+    }
+
+    [HttpGet("types")]
+    public async Task<IActionResult> GetTypesByPageAsync([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _catalogService.GetTypesByPageAsync(pageIndex, pageSize);
+        return Ok(result);
     }
 }
