@@ -4,19 +4,19 @@ using Catalog.Host.Data.Entities;
 using Catalog.Host.Models.DTOs;
 using Microsoft.Extensions.Options;
 
-namespace Catalog.Host.Mapping;
-
-public class CatalogItemPictureResolver : IMemberValueResolver<CatalogItem, CatalogItemDto, string, object>
+namespace Catalog.Host.Mapping
 {
-    private readonly CatalogConfig _config;
-
-    public CatalogItemPictureResolver(IOptionsSnapshot<CatalogConfig> config)
+    public class CatalogItemPictureResolver : IMemberValueResolver<CatalogItem, CatalogItemDto, string, object>
     {
-        _config = config.Value;
-    }
+        private readonly CatalogConfig _config;
 
-    public object Resolve(CatalogItem source, CatalogItemDto destination, string sourceMember, object destMember, ResolutionContext context)
-    {
-        return $"{_config.Host}/{_config.ImgUrl}/{sourceMember}";
+        public CatalogItemPictureResolver(IOptionsSnapshot<CatalogConfig> config)
+        {
+            _config = config.Value;
+        }
+        public object Resolve(CatalogItem source, CatalogItemDto destination, string sourceMember, object destMember, ResolutionContext context)
+        {
+            return $"/{_config.ImgUrl}/{sourceMember}";
+        }
     }
 }

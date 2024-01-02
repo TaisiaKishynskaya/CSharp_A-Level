@@ -29,6 +29,17 @@ builder.Services.Configure<CatalogConfig>(configuration);
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options => options.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "CorsPolicy",
+        builder => builder
+            .SetIsOriginAllowed((host) => true)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 var app = builder.Build();
 
 
@@ -36,6 +47,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("CorsPolicy");
 }
 
 app.UseHttpsRedirection();
@@ -50,29 +62,29 @@ app.Run();
 
 IConfiguration GetConfiguration()
 {
-	var builder = new ConfigurationBuilder()
-		.SetBasePath(Directory.GetCurrentDirectory())
-		.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-		.AddEnvironmentVariables();
+    var builder = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddEnvironmentVariables();
 
-	return builder.Build();
+    return builder.Build();
 }
 void CreateDbIfNotExists(IHost host)
 {
     using var scope = host.Services.CreateScope();
-	var services = scope.ServiceProvider;
+    var services = scope.ServiceProvider;
 
-	try
-	{
-		var context = services.GetRequiredService<ApplicationDbContext>();
-		DbInitializer.Initialize(context).GetAwaiter().GetResult();
-	}
-	catch (Exception e)
-	{
-		var logger = services.GetRequiredService<ILogger<Program>>();
-		logger.LogError(e, "An error occured creating the DB.");
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        DbInitializer.Initialize(context).GetAwaiter().GetResult();
+    }
+    catch (Exception e)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(e, "An error occured creating the DB.");
 
-		Console.WriteLine(e);
-		throw;
-	}
+        Console.WriteLine(e);
+        throw;
+    }
 }
