@@ -64,7 +64,4 @@ public class CatalogBrandService : BaseDataService<ApplicationDbContext>, ICatal
     {
         return ExecuteSafeAsync(() => _catalogBrandRepository.DeleteAsync(deleteCatalogBrand));
     }
-
-
-
 }

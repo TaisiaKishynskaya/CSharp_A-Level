@@ -63,6 +63,4 @@ public static class DbInitializer
             new() { CatalogTypeId = 2, CatalogBrandId = 5, AvailableStock = 100, Description = "Prism White TShirt", Name = "Prism White TShirt", Price = 12, PictureFileName = "12.png" },
         };
     }
-
-
 }

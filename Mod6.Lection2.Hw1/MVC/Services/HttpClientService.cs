@@ -2,47 +2,46 @@ using MVC.Services.Interfaces;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace MVC.Services
+namespace MVC.Services;
+
+public class HttpClientService : IHttpClientService
 {
-    public class HttpClientService : IHttpClientService
+    private readonly IHttpClientFactory _clientFactory;
+
+    public HttpClientService(IHttpClientFactory clientFactory)
     {
-        private readonly IHttpClientFactory _clientFactory;
+        _clientFactory = clientFactory;
+    }
 
-        public HttpClientService(IHttpClientFactory clientFactory)
+    public async Task<TResponse> SendAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest? content)
+    {
+        var client = _clientFactory.CreateClient();
+
+        var httpMessage = new HttpRequestMessage();
+        httpMessage.RequestUri = new Uri(url);
+        httpMessage.Method = method;
+
+        if (content != null)
         {
-            _clientFactory = clientFactory;
+            httpMessage.Content =
+                new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
         }
 
-        public async Task<TResponse> SendAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest? content)
+        var result = await client.SendAsync(httpMessage);
+
+        if (result.IsSuccessStatusCode)
         {
-            var client = _clientFactory.CreateClient();
+            var resultContent = await result.Content.ReadAsStringAsync();
 
-            var httpMessage = new HttpRequestMessage();
-            httpMessage.RequestUri = new Uri(url);
-            httpMessage.Method = method;
-
-            if (content != null)
+            if (string.IsNullOrEmpty(resultContent))
             {
-                httpMessage.Content =
-                    new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+                return default(TResponse)!;
             }
 
-            var result = await client.SendAsync(httpMessage);
-
-            if (result.IsSuccessStatusCode)
-            {
-                var resultContent = await result.Content.ReadAsStringAsync();
-
-                if (string.IsNullOrEmpty(resultContent))
-                {
-                    return default(TResponse)!;
-                }
-
-                var response = JsonConvert.DeserializeObject<TResponse>(resultContent);
-                return response;
-            }
-
-            return default(TResponse)!;
+            var response = JsonConvert.DeserializeObject<TResponse>(resultContent);
+            return response;
         }
+
+        return default(TResponse)!;
     }
 }

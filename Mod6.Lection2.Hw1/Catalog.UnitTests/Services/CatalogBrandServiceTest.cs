@@ -157,6 +157,4 @@ public class CatalogBrandServiceTest
         // Assert
         Assert.Null(exception);
     }
-
-
 }

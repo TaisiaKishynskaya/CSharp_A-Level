@@ -3,23 +3,22 @@ using Catalog.Host.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
 
-namespace Infrastructure.UnitTests.Mocks
+namespace Infrastructure.UnitTests.Mocks;
+
+public class MockService : BaseDataService<MockDbContext>
 {
-    public class MockService : BaseDataService<MockDbContext>
+    public MockService(
+        IDbContextWrapper<MockDbContext> dbContextWrapper,
+        ILogger<MockService> logger)
+        : base(dbContextWrapper, logger){}
+
+    public async Task RunWithException()
     {
-        public MockService(
-            IDbContextWrapper<MockDbContext> dbContextWrapper,
-            ILogger<MockService> logger)
-            : base(dbContextWrapper, logger){}
+        await ExecuteSafeAsync(() => throw new Exception());
+    }
 
-        public async Task RunWithException()
-        {
-            await ExecuteSafeAsync(() => throw new Exception());
-        }
-
-        public async Task RunWithoutException()
-        {
-            await ExecuteSafeAsync(() => Task.CompletedTask);
-        }
+    public async Task RunWithoutException()
+    {
+        await ExecuteSafeAsync(() => Task.CompletedTask);
     }
 }

@@ -15,5 +15,4 @@ public interface ICatalogTypeRepository
     Task<int?> AddAsync(AddCatalogTypeRequest typeToAdd);
     Task<CatalogType> UpdateAsync(UpdateCatalogTypeRequest typeToUpdate);
     Task DeleteAsync(DeleteCatalogTypeRequest typeToDelete);
-
 }

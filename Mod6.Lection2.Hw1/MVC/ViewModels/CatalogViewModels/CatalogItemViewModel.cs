@@ -9,11 +9,5 @@ public class CatalogItemViewModel
     public string BrandName { get; set; }
     public string TypeName { get; set; }
 
-    public string PictureUrl
-    {
-        get
-        {
-            return $"http://localhost:80{PictureFileName}";
-        }
-    }
+    public string PictureUrl => $"http://localhost:80{PictureFileName}"; // instead of get { ... }
 }

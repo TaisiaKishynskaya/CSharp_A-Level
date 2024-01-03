@@ -5,7 +5,7 @@ using Catalog.Host.Services.Interfaces;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using Catalog.Host.Models.Responses;
+using Catalog.Host.Models.Responses.AddResponses;
 using Catalog.Host.Models.Responses.UpdateResponses;
 
 namespace Catalog.Host.Controllers;
@@ -62,5 +62,4 @@ public class CatalogTypeController : ControllerBase
             return NotFound("Type not found");
         }
     }
-
 }

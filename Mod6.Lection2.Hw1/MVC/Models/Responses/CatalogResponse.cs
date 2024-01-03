@@ -1,4 +1,3 @@
-using MVC.ViewModels;
 using CatalogItemViewModel = MVC.ViewModels.CatalogViewModels.CatalogItemViewModel;
 
 namespace MVC.Models.Responses;

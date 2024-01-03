@@ -233,7 +233,4 @@ public class CatalogItemServiceTest
         // Assert
         Assert.Null(exception);
     }
-
-
-
 }

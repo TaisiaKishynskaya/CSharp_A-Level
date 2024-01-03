@@ -74,6 +74,4 @@ public class CatalogItemService : BaseDataService<ApplicationDbContext>, ICatalo
     {
         return ExecuteSafeAsync(() => _catalogItemRepository.DeleteAsync(deleteCatalogItem));
     }
-
-
 }

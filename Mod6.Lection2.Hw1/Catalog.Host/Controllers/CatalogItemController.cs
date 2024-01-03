@@ -62,6 +62,4 @@ public class CatalogItemController : ControllerBase
             return NotFound("Item not found");
         }
     }
-
-
 }

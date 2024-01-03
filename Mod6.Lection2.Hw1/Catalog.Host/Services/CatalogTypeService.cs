@@ -64,5 +64,4 @@ public class CatalogTypeService : BaseDataService<ApplicationDbContext>, ICatalo
     {
         return ExecuteSafeAsync(() => _catalogTypeRepository.DeleteAsync(deleteCatalogType));
     }
-
 }

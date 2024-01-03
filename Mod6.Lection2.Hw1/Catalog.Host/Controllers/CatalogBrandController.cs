@@ -62,6 +62,4 @@ public class CatalogBrandController : ControllerBase
             return NotFound("Brand not found");
         }
     }
-
-
 }

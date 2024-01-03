@@ -1,13 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.UnitTests.Mocks
+namespace Infrastructure.UnitTests.Mocks;
+
+public class MockDbContext : DbContext
 {
-    public class MockDbContext : DbContext
-    {
-    }
 }

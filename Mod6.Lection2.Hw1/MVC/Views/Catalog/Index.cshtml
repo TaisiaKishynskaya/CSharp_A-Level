@@ -68,11 +68,18 @@
             <div class="row">
                 <div class="col-12">
                     <!-- здесь будут элементы -->
-                    @await Html.PartialAsync("_CatalogItems", Model.Data)
+                    @if (Model != null && Model.Data != null)
+                    {
+                        @await Html.PartialAsync("_CatalogItems", Model.Data)
+                    }
+                    else
+                    {
+                        <p>No data available.</p>
+                    }
                     <!-- здесь будет пагинация -->
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
-                            <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
+                            <li class="page-item @(Model != null && Model.PageIndex == 1 ? "disabled" : "")">
                                 <a class="page-link" href="@Url.Action("Index", "Catalog", new { pageIndex = Model.PageIndex - 1, pageSize = Model.PageSize })"><i class="fas fa-arrow-left"></i></a>
                             </li>
                             @for (int i = 1; i <= totalPages; i++)

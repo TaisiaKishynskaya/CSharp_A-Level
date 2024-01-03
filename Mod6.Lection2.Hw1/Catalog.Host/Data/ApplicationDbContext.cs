@@ -18,5 +18,4 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
     }
-
 }

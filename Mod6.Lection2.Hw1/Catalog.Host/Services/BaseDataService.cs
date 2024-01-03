@@ -57,5 +57,4 @@ public abstract class BaseDataService<T> where T : DbContext
 
         return default(TResult) !;
     }
-
 }
