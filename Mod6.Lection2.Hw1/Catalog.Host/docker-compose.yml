@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  catalog.api:
+    build:
+      context: .
+      dockerfile: Catalog.Host/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionString=server=localhost;port=5432;database=catalog;uid=postgres;password=taya090905
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+
+  web.mvc:
+    build:
+      context: .
+      dockerfile: Web/MVC/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+      - CatalogUrl=http://host.docker.internal:5000/api/v1
+    depends_on:
+      - catalog.api
+    ports:
+      - 5001:5001
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 1433:1433
+    volumes:
+      - ./Proxy/gateway/nginx/conf.d:/etc/nginx/conf.d
+      - ./Proxy/assets:/var/www/assets
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: hw62
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: taya090905
+    depends_on:
+      - postgres
+    ports:
+      - 8001:80
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: taya090905
+    ports:
+      - 5432:5432
+
+
+networks:
+  default:
+    driver: bridge
+    internal: false
+    attachable: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.4/24
+          gateway: 192.168.0.4
