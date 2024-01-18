@@ -1,0 +1,13 @@
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\bin\Debug\net6.0\Infrastructure.RateLimit.deps.json
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\bin\Debug\net6.0\Infrastructure.RateLimit.dll
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\bin\Debug\net6.0\Infrastructure.RateLimit.pdb
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.csproj.AssemblyReference.cache
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.GeneratedMSBuildEditorConfig.editorconfig
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.AssemblyInfoInputs.cache
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.AssemblyInfo.cs
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.csproj.CoreCompileInputs.cache
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.sourcelink.json
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.dll
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\refint\Infrastructure.RateLimit.dll
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\Infrastructure.RateLimit.pdb
+D:\Study\C#\A-Level\Practice\CSharp_A-Level\eShop\Infrastructure\Infrastructure.RateLimit\obj\Debug\net6.0\ref\Infrastructure.RateLimit.dll
