@@ -1,0 +1,15 @@
+global using Xunit;
+global using Catalog.Host.Services.Interfaces;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using Catalog.Host.Models.Requests.AddRequests;
+global using FluentAssertions;
+global using Catalog.Host.Services;
+global using Moq;
+global using Catalog.Host.Repositories.Interfaces;
+global using Catalog.Host.Data;
+global using Microsoft.Extensions.Logging;
+global using AutoMapper;
+global using Microsoft.EntityFrameworkCore.Storage;

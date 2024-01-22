@@ -1,0 +1,104 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{48C542A6-1A65-4707-9373-96066E0EC7E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{1FAF3859-468C-4AA0-BD70-709497C8DDCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure\Infrastructure.csproj", "{D4217B61-F42E-426F-9E5E-B42FE1CFDF8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTest", "Infrastructure\Infrastructure.UnitTest\Infrastructure.UnitTest.csproj", "{7921B2BD-F9CC-40AA-80B8-9D9FBA9DE2E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{B80E7C7C-E4E4-47B7-9A47-634F6B4CC68B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC", "Web\MVC\MVC.csproj", "{9FB5E12B-794B-44FA-8CC9-8DCE83D805A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Host", "Catalog\Catalog.Host\Catalog.Host.csproj", "{55F1270F-E2FF-4D9A-BCC0-8BC76AA70DAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.UnitTests", "Catalog\Catalog.UnitTests\Catalog.UnitTests.csproj", "{00395C10-FAC5-4B8B-9BB8-E752444F23C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proxy", "Proxy", "{47F12C75-A220-41ED-8C09-086A0BC9F3F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{CC0C9523-E28F-4CDA-AE1A-4D09C22377B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{71195AFE-6DAB-456F-9E92-B9FA1A95CE80}"
+	ProjectSection(SolutionItems) = preProject
+		Proxy\assets\images\1.png = Proxy\assets\images\1.png
+		Proxy\assets\images\2.png = Proxy\assets\images\2.png
+		Proxy\assets\images\3.png = Proxy\assets\images\3.png
+		Proxy\assets\images\4.png = Proxy\assets\images\4.png
+		Proxy\assets\images\5.png = Proxy\assets\images\5.png
+		Proxy\assets\images\6.png = Proxy\assets\images\6.png
+		Proxy\assets\images\7.png = Proxy\assets\images\7.png
+		Proxy\assets\images\8.png = Proxy\assets\images\8.png
+		Proxy\assets\images\9.png = Proxy\assets\images\9.png
+		Proxy\assets\images\10.png = Proxy\assets\images\10.png
+		Proxy\assets\images\11.png = Proxy\assets\images\11.png
+		Proxy\assets\images\12.png = Proxy\assets\images\12.png
+		Proxy\assets\images\13.png = Proxy\assets\images\13.png
+		Proxy\assets\images\14.png = Proxy\assets\images\14.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gateway", "gateway", "{54509FA1-175A-4529-8F8B-ADE6E2C512AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{FDEB9593-E659-4E00-A868-59D3EE4B3FB9}"
+	ProjectSection(SolutionItems) = preProject
+		Proxy\gateway\nginx\default.conf = Proxy\gateway\nginx\default.conf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{91ABC5A5-8474-4221-921C-68032BCFF3A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer\IdentityServer.csproj", "{339B7106-1FAA-43BC-90EF-0EE3AC72193D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{84C7D744-9B0C-41A0-BE65-3E5BE95E9C8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Host", "Basket\Basket.Host\Basket.Host.csproj", "{416E9EAE-673F-459C-B979-3201670EDC7B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4217B61-F42E-426F-9E5E-B42FE1CFDF8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4217B61-F42E-426F-9E5E-B42FE1CFDF8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4217B61-F42E-426F-9E5E-B42FE1CFDF8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4217B61-F42E-426F-9E5E-B42FE1CFDF8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7921B2BD-F9CC-40AA-80B8-9D9FBA9DE2E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7921B2BD-F9CC-40AA-80B8-9D9FBA9DE2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7921B2BD-F9CC-40AA-80B8-9D9FBA9DE2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7921B2BD-F9CC-40AA-80B8-9D9FBA9DE2E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB5E12B-794B-44FA-8CC9-8DCE83D805A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB5E12B-794B-44FA-8CC9-8DCE83D805A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB5E12B-794B-44FA-8CC9-8DCE83D805A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB5E12B-794B-44FA-8CC9-8DCE83D805A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F1270F-E2FF-4D9A-BCC0-8BC76AA70DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F1270F-E2FF-4D9A-BCC0-8BC76AA70DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F1270F-E2FF-4D9A-BCC0-8BC76AA70DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F1270F-E2FF-4D9A-BCC0-8BC76AA70DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00395C10-FAC5-4B8B-9BB8-E752444F23C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00395C10-FAC5-4B8B-9BB8-E752444F23C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00395C10-FAC5-4B8B-9BB8-E752444F23C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00395C10-FAC5-4B8B-9BB8-E752444F23C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{339B7106-1FAA-43BC-90EF-0EE3AC72193D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{339B7106-1FAA-43BC-90EF-0EE3AC72193D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{339B7106-1FAA-43BC-90EF-0EE3AC72193D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{339B7106-1FAA-43BC-90EF-0EE3AC72193D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{416E9EAE-673F-459C-B979-3201670EDC7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{416E9EAE-673F-459C-B979-3201670EDC7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{416E9EAE-673F-459C-B979-3201670EDC7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{416E9EAE-673F-459C-B979-3201670EDC7B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D4217B61-F42E-426F-9E5E-B42FE1CFDF8C} = {1FAF3859-468C-4AA0-BD70-709497C8DDCB}
+		{7921B2BD-F9CC-40AA-80B8-9D9FBA9DE2E8} = {1FAF3859-468C-4AA0-BD70-709497C8DDCB}
+		{9FB5E12B-794B-44FA-8CC9-8DCE83D805A6} = {B80E7C7C-E4E4-47B7-9A47-634F6B4CC68B}
+		{55F1270F-E2FF-4D9A-BCC0-8BC76AA70DAF} = {48C542A6-1A65-4707-9373-96066E0EC7E7}
+		{00395C10-FAC5-4B8B-9BB8-E752444F23C7} = {48C542A6-1A65-4707-9373-96066E0EC7E7}
+		{CC0C9523-E28F-4CDA-AE1A-4D09C22377B3} = {47F12C75-A220-41ED-8C09-086A0BC9F3F4}
+		{71195AFE-6DAB-456F-9E92-B9FA1A95CE80} = {CC0C9523-E28F-4CDA-AE1A-4D09C22377B3}
+		{54509FA1-175A-4529-8F8B-ADE6E2C512AF} = {47F12C75-A220-41ED-8C09-086A0BC9F3F4}
+		{FDEB9593-E659-4E00-A868-59D3EE4B3FB9} = {54509FA1-175A-4529-8F8B-ADE6E2C512AF}
+		{339B7106-1FAA-43BC-90EF-0EE3AC72193D} = {91ABC5A5-8474-4221-921C-68032BCFF3A8}
+		{416E9EAE-673F-459C-B979-3201670EDC7B} = {84C7D744-9B0C-41A0-BE65-3E5BE95E9C8F}
+	EndGlobalSection
+EndGlobal

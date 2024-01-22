@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>identityserver</RootNamespace>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+		<PackageReference Include="coverlet.collector" Version="6.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Duende.IdentityServer" Version="6.3.8" />
+		<PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
+		<PackageReference Include="IdentityModel" Version="6.2.0" />
+		<PackageReference Include="IdentityServer4" Version="4.1.2" />
+		<PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+		<PackageReference Include="IdentityServer4.Storage" Version="4.1.2" />
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.OpenApi" Version="1.6.11" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+		<PackageReference Include="Serilog.AspNetCore" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\css\" />
+	  <Folder Include="wwwroot\js\" />
+	  <Folder Include="wwwroot\lib\bootstrap\dist\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="..\..\.dockerignore">
+	    <Link>.dockerignore</Link>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\Home\Index.cshtml" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\js\bootstrap.js" />
+	  <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\js\bootstrap.min.js" />
+	</ItemGroup>
+</Project>

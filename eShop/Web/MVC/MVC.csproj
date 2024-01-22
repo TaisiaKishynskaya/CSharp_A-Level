@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+      <PackageReference Include="coverlet.collector" Version="6.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
+      <PackageReference Include="IdentityModel" Version="6.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.15" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.15">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0-release-23619-01" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Catalog\Catalog.Host\Catalog.Host.csproj" />
+      <ProjectReference Include="..\..\IdentityServer\IdentityServer\IdentityServer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\css\catalog\" />
+      <Folder Include="wwwroot\css\shared\components\header\" />
+      <Folder Include="wwwroot\css\shared\components\identity\" />
+      <Folder Include="wwwroot\css\shared\components\pager\" />
+      <Folder Include="wwwroot\fonts\" />
+      <Folder Include="wwwroot\images\" />
+      <Folder Include="wwwroot\lib\@microsoft\signalr\dist\browser\" />
+      <Folder Include="wwwroot\lib\jquery-validate\" />
+      <Folder Include="wwwroot\lib\toastr\" />
+    </ItemGroup>
+
+</Project>
