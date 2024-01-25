@@ -15,9 +15,13 @@ public class CatalogItemConfiguration : IEntityTypeConfiguration<CatalogItemEnti
             .HasMaxLength(250);
 
         builder.Property(item => item.Price).IsRequired();
+
         builder.Property(item => item.PictureFile).IsRequired();
+
         builder.Property(item => item.TypeId).IsRequired();
+
         builder.Property(item => item.BrandId).IsRequired();
+
         builder.Property(item => item.CreatedAt).IsRequired();
 
 

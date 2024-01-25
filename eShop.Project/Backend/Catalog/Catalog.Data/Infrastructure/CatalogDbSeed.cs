@@ -6,19 +6,19 @@ public class CatalogDbSeed
     {
         var types = new List<CatalogTypeEntity>
         {
-            new() { Id = 1, Title = "Shoes", CreatedAt = DateTime.UtcNow, UpdatedAt = null },
-            new() { Id = 2, Title = "Hoodie", CreatedAt = DateTime.UtcNow, UpdatedAt = null }
+            new CatalogTypeEntity { Id = 1, Title = "Shoes", CreatedAt = DateTime.UtcNow, UpdatedAt = null },
+            new CatalogTypeEntity { Id = 2, Title = "Hoodie", CreatedAt = DateTime.UtcNow, UpdatedAt = null }
         };
 
         var brands = new List<CatalogBrandEntity>
         {
-            new() { Id = 1, Title = "Nike", CreatedAt = DateTime.UtcNow, UpdatedAt = null },
-            new() { Id = 2, Title = "Adidas", CreatedAt = DateTime.UtcNow, UpdatedAt = null }
+            new CatalogBrandEntity { Id = 1, Title = "Nike", CreatedAt = DateTime.UtcNow, UpdatedAt = null },
+            new CatalogBrandEntity { Id = 2, Title = "Adidas", CreatedAt = DateTime.UtcNow, UpdatedAt = null }
         };
 
         var items = new List<CatalogItemEntity>
         {
-            new()
+            new CatalogItemEntity
             {
                 Id = 1,
                 Title = "Nike Dunk Low Retro Premium",
@@ -29,11 +29,12 @@ public class CatalogDbSeed
                 PictureFile = "nike-dunk-low-retro-premium.png",
                 TypeId = 1,
                 BrandId = 1,
+                Quantity = 5,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new()
+            new CatalogItemEntity
             {
                 Id = 2,
                 Title = "Nike Dunk Mid",
@@ -44,11 +45,12 @@ public class CatalogDbSeed
                 PictureFile = "nike-dunk-mid.png",
                 TypeId = 1,
                 BrandId = 1,
+                Quantity = 10,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new()
+            new CatalogItemEntity
             {
                 Id = 3,
                 Title = "Jordan Flight Fleece",
@@ -59,11 +61,12 @@ public class CatalogDbSeed
                 PictureFile = "jordan-flight-fleece.png",
                 TypeId = 2,
                 BrandId = 1,
+                Quantity = 15,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new()
+            new CatalogItemEntity
             {
                 Id = 4,
                 Title = "Forum Low",
@@ -74,11 +77,12 @@ public class CatalogDbSeed
                 PictureFile = "forum-low.png",
                 TypeId = 1,
                 BrandId = 2,
+                Quantity = 6,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new()
+            new CatalogItemEntity
             {
                 Id = 5,
                 Title = "ENTRADA 22 SWEAT HOODIE",
@@ -90,11 +94,12 @@ public class CatalogDbSeed
                 PictureFile = "entrada-22-sweat-hoodie.png",
                 TypeId = 2,
                 BrandId = 2,
+                Quantity = 10,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new()
+            new CatalogItemEntity
             {
                 Id = 6,
                 Title = "Ja 1",
@@ -106,11 +111,12 @@ public class CatalogDbSeed
                 PictureFile = "ja-1.png",
                 TypeId = 1,
                 BrandId = 1,
+                Quantity = 2,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new()
+            new CatalogItemEntity
             {
                 Id = 7,
                 Title = "Air Jordan I High G",
@@ -122,6 +128,7 @@ public class CatalogDbSeed
                 PictureFile = "air-jordan-i-high.png",
                 TypeId = 1,
                 BrandId = 1,
+                Quantity = 5,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
@@ -130,5 +137,6 @@ public class CatalogDbSeed
         builder.Entity<CatalogTypeEntity>().HasData(types);
         builder.Entity<CatalogBrandEntity>().HasData(brands);
         builder.Entity<CatalogItemEntity>().HasData(items);
+
     }
 }

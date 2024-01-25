@@ -5,24 +5,23 @@
 public class CatalogTypeController : ControllerBase
 {
     private readonly ICatalogTypeService _catalogTypeService;
+    private readonly IMapper _mapper;
 
-    public CatalogTypeController(ICatalogTypeService catalogTypeService)
+    public CatalogTypeController(
+        ICatalogTypeService catalogTypeService, 
+        IMapper mapper)
     {
         _catalogTypeService = catalogTypeService;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetTypes(int page = 1, int size = 3)
     {
         var types = await _catalogTypeService.Get(page, size);
+        var response = _mapper.Map<IEnumerable<CatalogTypeResponse>>(types);
 
-        var response = types.Select(type => new CatalogTypeResponse(
-           type.Id,
-           type.Title,
-           type.CreatedAt,
-           type.UpdatedAt));
-
-        var total = await _catalogTypeService.Count(); 
+        var total = await _catalogTypeService.Count();
 
         var paginatedResponse = new PaginatedResponse<CatalogTypeResponse>(
             page,
@@ -40,16 +39,7 @@ public class CatalogTypeController : ControllerBase
     {
         var type = await _catalogTypeService.GetById(id);
 
-        if (type == null)
-        {
-            return BadRequest($"Type with id = {id} doesn't exist.");
-        }
-
-        var response = new CatalogTypeResponse(
-            type.Id,
-            type.Title,
-            type.CreatedAt,
-            type.UpdatedAt);
+        var response = _mapper.Map<CatalogTypeResponse>(type);
 
         return Ok(response);
     }
@@ -58,37 +48,33 @@ public class CatalogTypeController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddType([FromBody] CatalogTypeRequest request)
     {
-        var type = new CatalogType
-        {
-            Title = request.Title,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = null
-        };
+        var type = _mapper.Map<CatalogType>(request);
+        type.CreatedAt = DateTime.UtcNow;
 
         var id = await _catalogTypeService.Add(type);
 
-        return Ok($"Type with id = {id} was successfully created.");
+        return Ok(id);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateType(int id, [FromBody] CatalogTypeRequest request)
     {
-        var type = await _catalogTypeService.Update(id, request);
+        var type = _mapper.Map<CatalogType>(request);
+        type.Id = id;
 
-        var response = new CatalogTypeResponse(
-            type.Id,
-            type.Title,
-            type.CreatedAt,
-            type.UpdatedAt
-        );
+        await _catalogTypeService.Update(type);
 
-        return Ok($"Updated type with id = {response.Id}: {response.Title}, {response.CreatedAt}, {response.UpdatedAt}.");
+        var updatedType = await _catalogTypeService.GetById(id);
+        var response = _mapper.Map<CatalogTypeResponse>(updatedType);
+
+        return Ok(response);
     }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteType(int id)
     {
-        await _catalogTypeService.Delete(id);
-        return Ok($"Type with id = {id} was successfully deleted.");
+        var result = await _catalogTypeService.Delete(id);
+        return Ok(id);
     }
 }
