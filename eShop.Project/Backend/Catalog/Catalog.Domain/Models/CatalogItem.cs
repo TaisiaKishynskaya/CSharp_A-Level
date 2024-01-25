@@ -11,7 +11,7 @@ public class CatalogItem
     public CatalogType Type { get; set; }
     public CatalogBrand Brand { get; set; }
 
-
+    public int Quantity { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 }

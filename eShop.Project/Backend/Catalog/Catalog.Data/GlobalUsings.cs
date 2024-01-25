@@ -1,6 +1,8 @@
 ﻿//files
-global using Catalog.Data.Entities;
+global using Catalog.DataAccess.Entities;
 global using Catalog.Data.Configurations;
+global using Catalog.Data.Infrastructure;
+global using Catalog.Core.Abstractions.Repositories;
 
 
 //packages
