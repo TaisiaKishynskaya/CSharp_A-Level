@@ -2,6 +2,7 @@
 
 [ApiController]
 [Route("/api/v1/catalog/types")]
+[Authorize("CatalogApiScope")]
 public class CatalogTypeController : ControllerBase
 {
     private readonly ICatalogTypeService _catalogTypeService;
@@ -19,16 +20,15 @@ public class CatalogTypeController : ControllerBase
     public async Task<IActionResult> GetTypes(int page = 1, int size = 3)
     {
         var types = await _catalogTypeService.Get(page, size);
-        var response = _mapper.Map<IEnumerable<CatalogTypeResponse>>(types);
 
         var total = await _catalogTypeService.Count();
 
-        var paginatedResponse = new PaginatedResponse<CatalogTypeResponse>(
+        var paginatedResponse = new PaginatedResponse<CatalogType>(
             page,
             size,
             total,
             (int)Math.Ceiling(total / (double)size),
-            response
+            types
         );
 
         return Ok(paginatedResponse);

@@ -26,7 +26,7 @@ public class CatalogDbSeed
                 "the '80s b-ball icon returns with " +
                 "classic details and throwback hoops flair. ",
                 Price = 100,
-                PictureFile = "nike-dunk-low-retro-premium.png",
+                PictureFile = "1.png",
                 TypeId = 1,
                 BrandId = 1,
                 Quantity = 5,
@@ -42,7 +42,7 @@ public class CatalogDbSeed
                 "the '80s b-ball icon returns " +
                 "with crisp leather and and classic \"Panda\" color blocking.",
                 Price = 120,
-                PictureFile = "nike-dunk-mid.png",
+                PictureFile = "2.png",
                 TypeId = 1,
                 BrandId = 1,
                 Quantity = 10,
@@ -58,7 +58,7 @@ public class CatalogDbSeed
                 " super soft, and the comfy, relaxed fit will " +
                 "have you reaching for it again and again.",
                 Price = 100,
-                PictureFile = "jordan-flight-fleece.png",
+                PictureFile = "3.png",
                 TypeId = 2,
                 BrandId = 1,
                 Quantity = 15,
@@ -74,7 +74,7 @@ public class CatalogDbSeed
                 " of the era. The adidas Forum model appeared in 1984 and won" +
                 " love not only on basketball courts, but also in show business.",
                 Price = 110,
-                PictureFile = "forum-low.png",
+                PictureFile = "4.png",
                 TypeId = 1,
                 BrandId = 2,
                 Quantity = 6,
@@ -91,7 +91,7 @@ public class CatalogDbSeed
                 " the Entrada 22 range gives you everything " +
                 "you need to make your game feel and look more beautiful. ",
                 Price = 60,
-                PictureFile = "entrada-22-sweat-hoodie.png",
+                PictureFile = "5.png",
                 TypeId = 2,
                 BrandId = 2,
                 Quantity = 10,
@@ -108,7 +108,7 @@ public class CatalogDbSeed
                 "jumping on tractor tires and dribbling through traffic " +
                 "cones in steamy South Carolina summers.",
                 Price = 130,
-                PictureFile = "ja-1.png",
+                PictureFile = "6.png",
                 TypeId = 1,
                 BrandId = 1,
                 Quantity = 2,
@@ -125,7 +125,7 @@ public class CatalogDbSeed
                 " Inspired by one of the most iconic sneakers of all time," +
                 " the Air Jordan 1 G is an instant classic on the course. ",
                 Price = 190,
-                PictureFile = "air-jordan-i-high.png",
+                PictureFile = "7.png",
                 TypeId = 1,
                 BrandId = 1,
                 Quantity = 5,

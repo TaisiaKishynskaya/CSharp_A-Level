@@ -2,7 +2,7 @@
 
 [ApiController]
 [Route("/api/v1/catalog/brands")]
-[Authorize]
+[Authorize("CatalogApiScope")]
 public class CatalogBrandController : ControllerBase
 {
     private readonly ICatalogBrandService _catalogBrandService;
@@ -20,16 +20,15 @@ public class CatalogBrandController : ControllerBase
     public async Task<IActionResult> GetBrands(int page = 1, int size = 3)
     {
         var brands = await _catalogBrandService.Get(page, size);
-        var response = _mapper.Map<IEnumerable<CatalogBrandResponse>>(brands);
 
         var total = await _catalogBrandService.Count();
 
-        var paginatedResponse = new PaginatedResponse<CatalogBrandResponse>(
+        var paginatedResponse = new PaginatedResponse<CatalogBrand>(
             page,
             size,
             total,
             (int)Math.Ceiling(total / (double)size),
-            response
+            brands
         );
 
         return Ok(paginatedResponse);
@@ -77,4 +76,6 @@ public class CatalogBrandController : ControllerBase
         var result = await _catalogBrandService.Delete(id);
         return Ok(id);
     }
+
 }
+

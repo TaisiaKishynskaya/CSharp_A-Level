@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Catalog.Application.Services;
-
 public class CatalogItemService : ICatalogItemService
 {
     private readonly ICatalogItemRepository<CatalogItemEntity> _catalogItemRepository;

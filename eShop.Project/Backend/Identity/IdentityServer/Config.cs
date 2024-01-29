@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace IdentityServer;
 
@@ -15,18 +16,22 @@ public static class Config
         new ApiScope[]
         {
             new ApiScope("CatalogAPI"),
+
+            new ApiScope("WebBffAPI"),
         };
 
     public static IEnumerable<Client> Clients =>
      new List<Client>
      {
+
+         //Catalog API Client
         new Client
         {
             ClientId = "catalog_api_swagger",
             ClientName = "Swagger UI for Catalog API",
             ClientSecrets = { new Secret("catalog_api_secret".Sha256()) },
 
-            AllowedGrantTypes = GrantTypes.Implicit, // Changed from GrantTypes.Code for Swagger
+            AllowedGrantTypes = GrantTypes.Implicit, 
 
             RedirectUris = { "http://localhost:5000/swagger/oauth2-redirect.html" },
             AllowedCorsOrigins = { "http://localhost:5000" },
@@ -35,22 +40,66 @@ public static class Config
                 "CatalogAPI"
             },
 
-            AllowAccessTokensViaBrowser = true, // was removed
+            AllowAccessTokensViaBrowser = true, 
         },
 
-        // was removed client
         new Client
         {
             ClientId = "catalog_api_client",
             ClientName = "Client for Catalog API",
             ClientSecrets = { new Secret("catalog_api_client_secret".Sha256()) },
 
-            AllowedGrantTypes = GrantTypes.ClientCredentials, // for communication MSS -> MSS
+             AllowedGrantTypes = GrantTypes.ClientCredentials, 
 
             AllowedScopes = new List<string>
             {
                 "CatalogAPI"
             },
         },
+
+        // Web Bff Api Client
+        new Client
+        {
+            ClientId = "webbff_api_swagger",
+            ClientName = "Swagger UI for Web Bff API",
+            ClientSecrets = {new Secret("webbff_api_secret".Sha256())},
+
+            AllowedGrantTypes = GrantTypes.Code,
+
+            RedirectUris = { "http://localhost:5002/swagger/oauth2-redirect.html" },
+
+            AllowedCorsOrigins = { "http://localhost:5002" },
+            AllowedScopes = new List<string>
+            {
+                "WebBffAPI",
+            }
+        },
+
+        new Client
+         {
+             ClientId = "mvc_client",
+             ClientName = "MVC Client",
+             ClientSecrets = { new Secret("mvc_secret".Sha256()) },
+
+             AllowedGrantTypes = new[]
+             {
+                 GrantType.ResourceOwnerPassword,
+                 GrantType.ClientCredentials,
+             },
+
+             RedirectUris = { "http://localhost:5003/signin-oidc" },
+             FrontChannelLogoutUri = "http://localhost:5003/signout-oidc",
+             PostLogoutRedirectUris = { "http://localhost:5003/signout-callback-oidc" },
+
+             AllowedScopes = new List<string>
+             {
+                 "openid",
+                 "profile",
+                 "CatalogAPI",
+                 "WebBffAPI"
+             },
+
+             AllowOfflineAccess = true
+         }
      };
 }

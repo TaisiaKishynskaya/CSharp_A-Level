@@ -1,0 +1,156 @@
+﻿@model CatalogViewModel
+
+@{
+    int totalItems = Model.CatalogItems.Total;
+    int itemsPerPage = ViewBag.Size;
+    int totalPages = (int)Math.Ceiling((double)totalItems / itemsPerPage);
+    int currentPage = ViewBag.Page;
+    int startPage = Math.Max(currentPage - 2, 1);
+    int endPage = Math.Min(currentPage + 2, totalPages);
+}
+
+<style>
+    .custom-checkbox:checked {
+        background-color: black !important;
+        color: white !important;
+    }
+</style>
+
+<link rel="stylesheet" href="~/css/Catalog.css" />
+
+<div class="container-fluid ms-1" style="width: 94%;">
+    <div class="row">
+        <div class="col-2 bg-white d-lg-block d-none" id="sidebarContent" style="padding-top: 10px;">
+            <p style="color: black; font-size:20px;">NOW SHOWING <strong>@itemsPerPage</strong> ITEM(S)</p>
+            <div class="d-flex flex-column align-items-start">
+                <p style="color: black; font-size:20px;">Items per page</p>
+                <div class="btn-group flex-wrap" role="group" aria-label="Items per page">
+                    <a href="/Catalog?page=1&size=1" class="btn btn-pagination @(itemsPerPage == 1 ? "active" : "")" style="border-radius:30%;">1</a>
+                    <a href="/Catalog?page=1&size=3" class="btn btn-pagination @(itemsPerPage == 3 ? "active" : "")" style="border-radius:30%;">3</a>
+                    <a href="/Catalog?page=1&size=5" class="btn btn-pagination @(itemsPerPage == 5 ? "active" : "")" style="border-radius:30%;">5</a>
+                    <a href="/Catalog?page=1&size=7" class="btn btn-pagination @(itemsPerPage == 7 ? "active" : "")" style="border-radius:30%;">7</a>
+                </div>
+            </div>
+            <hr style="border-top: 1px solid black;">
+            <div class="d-flex flex-column align-items-start">
+
+                <div class="btn-group d-flex flex-column align-items-start" role="group" aria-label="Sort by">
+                    <p style="color: black; font-size:24px; margin-left:10px;">Sort</p>
+                    <a href="/Catalog?page=1&size=@itemsPerPage&sort=price_desc" class="btn btn-sort bg-transparent" style="border-radius:30%; font-size:16px;">Price, High to low</a>
+                    <a href="/Catalog?page=1&size=@itemsPerPage&sort=price_asc" class="btn btn-sort bg-transparent" style="border-radius:30%; font-size:16px;">Price, Low to high</a>
+                    <a href="/Catalog?page=1&size=@itemsPerPage&sort=name_asc" class="btn btn-sort bg-transparent" style="border-radius:30%; font-size:16px;">Alphabetically, A-Z</a>
+                    <a href="/Catalog?page=1&size=@itemsPerPage&sort=name_desc" class="btn btn-sort bg-transparent" style="border-radius:30%; font-size:16px;">Alphabetically, Z-A</a>
+                    <a href="/Catalog?page=1&size=@itemsPerPage&sort=date_desc" class="btn btn-sort bg-transparent" style="border-radius:30%; font-size:16px;">Date, old to new</a>
+                    <a href="/Catalog?page=1&size=@itemsPerPage&sort=date_asc" class="btn btn-sort bg-transparent" style="border-radius:30%; font-size:16px;">Date, new to old</a>
+                </div>
+
+            </div>
+
+            <hr style="border-top: 1px solid black;">
+
+                <form method="get" action="/Catalog">
+                    <input type="hidden" name="page" value="@ViewBag.Page" />
+                    <input type="hidden" name="size" value="@ViewBag.Size" />
+
+                    <h2>Types</h2>
+                    <div class="d-flex flex-wrap">
+                        @foreach (var type in Model.CatalogTypes.Data)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input custom-checkbox" style="width: 20px; height: 20px;" type="checkbox" id="type-@type.Id" name="types" value="@type.Id" @(ViewBag.Types != null && ViewBag.Types.Contains(type.Id) ? "checked" : "") />
+                                <label class="form-check-label" style="font-size: 1.2em;" for="type-@type.Id">@type.Title</label>
+                            </div>
+                        }
+                    </div>
+
+                    <hr style="border-top: 1px solid black;">
+
+                    <h2>Brands</h2>
+                    <div class="d-flex flex-wrap">
+                        @foreach (var brand in Model.CatalogBrands.Data)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input custom-checkbox" style="width: 20px; height: 20px;" type="checkbox" id="brand-@brand.Id" name="brands" value="@brand.Id" @(ViewBag.Brands != null && ViewBag.Brands.Contains(brand.Id) ? "checked" : "") />
+                                <label class="form-check-label" style="font-size: 1.2em;" for="brand-@brand.Id">@brand.Title</label>
+                            </div>
+                        }
+                    </div>
+
+                    <hr style="border-top: 1px solid black;">
+
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-dark mt-2 me-3">Apply Filters</button>
+                        <a href="/Catalog?page=1&size=@ViewBag.Size" class="btn btn-secondary mt-2">Reset</a>
+                    </div>
+                </form>
+
+
+        </div>
+        <div class="col">
+            <button class="btn btn-outline-secondary d-lg-none m-2" id="sidebarOpen">Filters</button>
+            <div class="row">
+                @foreach (var item in Model.CatalogItems.Data)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4 mb-4 pe-5">
+                        <div class="card border-0">
+                            <img src="~/assets/@item.PictureFile" class="card-img-top img-fluid" alt="Card image">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-text mb-0">@item.Title</h5>
+                                    <h5 class="mb-0 card-text-font">@item.Price$</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <a href="/Catalog?page=@(currentPage-1)&size=@itemsPerPage" class="page-link"><i class="bi bi-arrow-left"></i></a>
+                    </li>
+                    @if (startPage > 1)
+                    {
+                        <li class="page-item">
+                            <a href="/Catalog?page=1&size=@itemsPerPage" class="page-link">1</a>
+                        </li>
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                    }
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a href="/Catalog?page=@i&size=@itemsPerPage" class="page-link">@i</a>
+                        </li>
+                    }
+                    @if (endPage < totalPages)
+                    {
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                        <li class="page-item">
+                            <a href="/Catalog?page=@totalPages&size=@itemsPerPage" class="page-link">@totalPages</a>
+                        </li>
+                    }
+                    <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                        <a href="/Catalog?page=@(currentPage+1)&size=@itemsPerPage" class="page-link"><i class="bi bi-arrow-right"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div id="sidebar">
+    <button class="btn btn-light" id="sidebarClose">Close Sidebar</button>
+    <div id="sidebarContentClone"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('sidebarOpen').addEventListener('click', function () {
+            document.getElementById('sidebarContentClone').innerHTML = document.getElementById('sidebarContent').innerHTML;
+            document.getElementById('sidebar').style.display = 'block';
+        });
+        document.getElementById('sidebarClose').addEventListener('click', function () {
+            document.getElementById('sidebar').style.display = 'none';
+        });
+    });
+</script>
