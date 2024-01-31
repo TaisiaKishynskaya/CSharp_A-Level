@@ -1,36 +1,31 @@
-using BFF.Web.Services;
-using BFF.Web.Services.Abstractions;
+using Basket.API.Services;
+using Basket.Core.Abstractions;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddHttpClient();
-
-var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
-builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString));
-
-//builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
-//{
-//    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
-//    return ConnectionMultiplexer.Connect(configuration);
-//});
-
 builder.Services.AddScoped<ICatalogService, CatalogService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
+{
+    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
 
+builder.Services.AddScoped<ICacheService,CacheService>();
 
-// Configure Bearer as the default Authentication Scheme
-// Add Jwt Bearer authentication services to the service collection to allow for dependency injection
+// Add services to the container.
 builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options => {
+    .AddJwtBearer("Bearer", options =>
+    {
         options.Authority = "https://localhost:5001";
-        // Our API app will call to the IdentityServer to get the authority
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateAudience = false,
@@ -38,39 +33,37 @@ builder.Services.AddAuthentication("Bearer")
             RoleClaimType = ClaimTypes.Role
         };
     });
+
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("ApiScope", policy =>
+    options.AddPolicy("BasketApiScope", policy =>
     {
         policy.RequireAuthenticatedUser();
-        policy.RequireClaim("scope", "WebBffAPI");
+        policy.RequireClaim("scope", "BasketAPI");
     });
 });
 
 builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-
-
 builder.Services.AddSwaggerGen(options =>
 {
-    // Scheme Definition 
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OAuth2,
         Flows = new OpenApiOAuthFlows
         {
-            AuthorizationCode = new OpenApiOAuthFlow
+            Implicit = new OpenApiOAuthFlow
             {
                 AuthorizationUrl = new Uri("https://localhost:5001/connect/authorize"),
-                TokenUrl = new Uri("https://localhost:5001/connect/token"),
                 Scopes = new Dictionary<string, string>
-                            {
-                                {"WebBffAPI", "WebBff API - full access"}
-                            }
+                {
+                    { "BasketAPI", "API - full access" },
+                },
             },
-        }
+        },
     });
-    // Apply Scheme globally
+
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -78,10 +71,11 @@ builder.Services.AddSwaggerGen(options =>
             {
                 Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
             },
-            new[] { "WebBffAPI" }
+            new[] { "BasketAPI" }
         }
     });
 });
+
 
 var app = builder.Build();
 
@@ -89,15 +83,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.OAuthUsePkce();
-    });
+    app.UseSwaggerUI();
 }
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers().RequireAuthorization("ApiScope");
+app.MapControllers().RequireAuthorization("BasketApiScope");
 
 app.Run();

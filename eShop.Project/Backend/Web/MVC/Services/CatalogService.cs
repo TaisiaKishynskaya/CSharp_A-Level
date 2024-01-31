@@ -107,6 +107,25 @@ public class CatalogService : ICatalogService
         }
     }
 
+    public async Task<CatalogItemModel> GetCatalogItemById(int id)
+    {
+        var httpClient = _clientFactory.CreateClient();
+        var accessToken = await GetAccessToken();
+        httpClient.SetBearerToken(accessToken);
+
+        var response = await httpClient.GetAsync($"http://localhost:5002/bff/catalog/items/{id}");
+        if (response.IsSuccessStatusCode) 
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<CatalogItemModel>(content);
+            return result;
+        }
+        else
+        {
+            throw new Exception("API request error");
+        }
+    }
+
 
     private async Task<string> GetAccessToken()
     {

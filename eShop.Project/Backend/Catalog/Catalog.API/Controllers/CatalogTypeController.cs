@@ -38,10 +38,7 @@ public class CatalogTypeController : ControllerBase
     public async Task<IActionResult> GetTypeById(int id)
     {
         var type = await _catalogTypeService.GetById(id);
-
-        var response = _mapper.Map<CatalogTypeResponse>(type);
-
-        return Ok(response);
+        return Ok(type);
     }
 
 

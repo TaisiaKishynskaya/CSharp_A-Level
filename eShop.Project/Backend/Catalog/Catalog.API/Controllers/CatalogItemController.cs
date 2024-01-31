@@ -38,10 +38,7 @@ public class CatalogItemController : Controller
     public async Task<IActionResult> GetItemById(int id)
     {
         var item = await _catalogItemService.GetById(id);
-
-        var response = _mapper.Map<CatalogItemResponse>(item);
-
-        return Ok(response);
+        return Ok(item);
     }
 
     [HttpPost]

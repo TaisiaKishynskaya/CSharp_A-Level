@@ -22,7 +22,7 @@ namespace Catalog.API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Catalog.Data.Entities.CatalogBrandEntity", b =>
+            modelBuilder.Entity("Catalog.DataAccess.Entities.CatalogBrandEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,18 +49,18 @@ namespace Catalog.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8198),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 480, DateTimeKind.Utc).AddTicks(9966),
                             Title = "Nike"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8200),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 480, DateTimeKind.Utc).AddTicks(9971),
                             Title = "Adidas"
                         });
                 });
 
-            modelBuilder.Entity("Catalog.Data.Entities.CatalogItemEntity", b =>
+            modelBuilder.Entity("Catalog.DataAccess.Entities.CatalogItemEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,9 +115,9 @@ namespace Catalog.API.Migrations
                         {
                             Id = 1,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8208),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 480, DateTimeKind.Utc).AddTicks(9985),
                             Description = "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with classic details and throwback hoops flair. ",
-                            PictureFile = "nike-dunk-low-retro-premium.png",
+                            PictureFile = "1.png",
                             Price = 100m,
                             Quantity = 5,
                             Title = "Nike Dunk Low Retro Premium",
@@ -127,9 +127,9 @@ namespace Catalog.API.Migrations
                         {
                             Id = 2,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8211),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 480, DateTimeKind.Utc).AddTicks(9991),
                             Description = "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with crisp leather and and classic \"Panda\" color blocking.",
-                            PictureFile = "nike-dunk-mid.png",
+                            PictureFile = "2.png",
                             Price = 120m,
                             Quantity = 10,
                             Title = "Nike Dunk Mid",
@@ -139,9 +139,9 @@ namespace Catalog.API.Migrations
                         {
                             Id = 3,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8212),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 480, DateTimeKind.Utc).AddTicks(9996),
                             Description = "Meet your new go-to hoodie. Heavyweight fleece feels super soft, and the comfy, relaxed fit will have you reaching for it again and again.",
-                            PictureFile = "jordan-flight-fleece.png",
+                            PictureFile = "3.png",
                             Price = 100m,
                             Quantity = 15,
                             Title = "Jordan Flight Fleece",
@@ -151,9 +151,9 @@ namespace Catalog.API.Migrations
                         {
                             Id = 4,
                             BrandId = 2,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8214),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 481, DateTimeKind.Utc).AddTicks(1),
                             Description = "These are not just sneakers, but a real symbol of the era. The adidas Forum model appeared in 1984 and won love not only on basketball courts, but also in show business.",
-                            PictureFile = "forum-low.png",
+                            PictureFile = "4.png",
                             Price = 110m,
                             Quantity = 6,
                             Title = "Forum Low",
@@ -163,9 +163,9 @@ namespace Catalog.API.Migrations
                         {
                             Id = 5,
                             BrandId = 2,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8216),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 481, DateTimeKind.Utc).AddTicks(5),
                             Description = "For your team. For your planet. Created with grassroots football in mind, the Entrada 22 range gives you everything you need to make your game feel and look more beautiful. ",
-                            PictureFile = "entrada-22-sweat-hoodie.png",
+                            PictureFile = "5.png",
                             Price = 60m,
                             Quantity = 10,
                             Title = "ENTRADA 22 SWEAT HOODIE",
@@ -175,9 +175,9 @@ namespace Catalog.API.Migrations
                         {
                             Id = 6,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8219),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 481, DateTimeKind.Utc).AddTicks(11),
                             Description = "Ja Morant became the superstar he is today by repeatedly sinking jumpers on crooked rims, jumping on tractor tires and dribbling through traffic cones in steamy South Carolina summers.",
-                            PictureFile = "ja-1.png",
+                            PictureFile = "6.png",
                             Price = 130m,
                             Quantity = 2,
                             Title = "Ja 1",
@@ -187,9 +187,9 @@ namespace Catalog.API.Migrations
                         {
                             Id = 7,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8220),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 481, DateTimeKind.Utc).AddTicks(15),
                             Description = "Feel unbeatable, from the tee box to the final putt. Inspired by one of the most iconic sneakers of all time, the Air Jordan 1 G is an instant classic on the course. ",
-                            PictureFile = "air-jordan-i-high.png",
+                            PictureFile = "7.png",
                             Price = 190m,
                             Quantity = 5,
                             Title = "Air Jordan I High G",
@@ -197,7 +197,7 @@ namespace Catalog.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Catalog.Data.Entities.CatalogTypeEntity", b =>
+            modelBuilder.Entity("Catalog.DataAccess.Entities.CatalogTypeEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -224,26 +224,26 @@ namespace Catalog.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8190),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 480, DateTimeKind.Utc).AddTicks(9946),
                             Title = "Shoes"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8194),
+                            CreatedAt = new DateTime(2024, 1, 31, 15, 16, 5, 480, DateTimeKind.Utc).AddTicks(9957),
                             Title = "Hoodie"
                         });
                 });
 
-            modelBuilder.Entity("Catalog.Data.Entities.CatalogItemEntity", b =>
+            modelBuilder.Entity("Catalog.DataAccess.Entities.CatalogItemEntity", b =>
                 {
-                    b.HasOne("Catalog.Data.Entities.CatalogBrandEntity", "Brand")
+                    b.HasOne("Catalog.DataAccess.Entities.CatalogBrandEntity", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Catalog.Data.Entities.CatalogTypeEntity", "Type")
+                    b.HasOne("Catalog.DataAccess.Entities.CatalogTypeEntity", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)

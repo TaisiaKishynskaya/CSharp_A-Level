@@ -93,7 +93,9 @@
                 {
                     <div class="col-12 col-sm-6 col-lg-4 mb-4 pe-5">
                         <div class="card border-0">
-                            <img src="~/assets/@item.PictureFile" class="card-img-top img-fluid" alt="Card image">
+                            <a href="@Url.Action("ItemDetails", "Catalog", new { id = item.Id })">
+                                <img src="~/assets/@item.PictureFile" class="card-img-top img-fluid" alt="Card image">
+                            </a>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="card-text mb-0">@item.Title</h5>

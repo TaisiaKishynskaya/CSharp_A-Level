@@ -38,10 +38,7 @@ public class CatalogBrandController : ControllerBase
     public async Task<IActionResult> GetBrandById(int id)
     {
         var brand = await _catalogBrandService.GetById(id);
-
-        var response = _mapper.Map<CatalogBrandResponse>(brand);
-
-        return Ok(response);
+        return Ok(brand);
     }
 
 

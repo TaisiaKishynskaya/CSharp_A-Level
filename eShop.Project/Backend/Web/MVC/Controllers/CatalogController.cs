@@ -35,5 +35,13 @@ public class CatalogController : Controller
         ViewBag.Brands = brands;
         return View(model);
     }
+
+    public async Task<ActionResult> ItemDetails(int id)
+    {
+
+        var item = await _catalogService.GetCatalogItemById(id);
+        return View(item);
+    }
+
 }
 

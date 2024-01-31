@@ -1,0 +1,22 @@
+﻿@model CatalogItemModel
+
+<link rel="stylesheet" href="~/css/ItemDetails.css" />
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <img src="~/assets/@Model.PictureFile" class="img-fluid" alt="@Model.Title">
+        </div>
+
+        <div class="col-md-6" style="font-family: Arial, sans-serif;">
+            <h2 style="font-size: 2em;">@Model.Title</h2>
+            <p style="font-size: 1.5em; margin-bottom: 1em;"><strong>Type:</strong> @Model.Type.Title</p>
+            <p style="font-size: 1.5em; margin-bottom: 1em;"><strong>Brand:</strong> @Model.Brand.Title</p>
+            <p style="font-size: 1.5em; margin-bottom: 1em;"><strong>Price:</strong> @Model.Price$</p>
+            <p style="font-size: 1.5em; margin-bottom: 1em;"><strong>Description:</strong> @Model.Description</p>
+            <button type="button" class="btn btn-custom">
+                <i class="bi bi-cart"></i> Add to cart
+            </button>
+        </div>
+    </div>
+</div>
