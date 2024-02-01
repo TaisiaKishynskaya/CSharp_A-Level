@@ -136,6 +136,7 @@ void ConfigureApp(WebApplication app)
     }
 
     app.UseMiddleware<ExceptionMiddleware>();
+    app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers().RequireAuthorization("CatalogApiScope");
 

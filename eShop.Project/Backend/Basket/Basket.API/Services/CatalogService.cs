@@ -1,4 +1,7 @@
-﻿using Basket.Core.Abstractions;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Basket.Core.Abstractions;
 using Basket.Domain.Models;
 using IdentityModel.Client;
 using Newtonsoft.Json;

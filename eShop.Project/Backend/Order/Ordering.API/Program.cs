@@ -1,33 +1,27 @@
-using System;
-using System.Collections.Generic;
-using Basket.API.Services;
-using Basket.Core.Abstractions;
+using IdentityServer.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StackExchange.Redis;
+using Ordering.Application.Services;
+using Ordering.Core.Abstractions.Repositories;
+using Ordering.DataAccess.Entities;
+using Ordering.DataAccess.Infrastructure;
+using Ordering.DataAccess.Repositories;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpClient();
-builder.Services.AddScoped<ICatalogService, CatalogService>();
-builder.Services.AddScoped<ICacheService, CacheService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IBasketService, BasketService>();
-
-builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
-{
-    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
-    return ConnectionMultiplexer.Connect(configuration);
-});
-
-builder.Services.AddScoped<ICacheService,CacheService>();
-
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("OrderDb");
+builder.Services.AddDbContext<OrderDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Ordering.API")));
+
+builder.Services.AddScoped<IUserRepository<UserEntity>, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+
+builder.Services.AddHttpClient();
+
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
@@ -35,19 +29,18 @@ builder.Services.AddAuthentication("Bearer")
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateAudience = false,
-            NameClaimType = ClaimTypes.NameIdentifier,
-            RoleClaimType = ClaimTypes.Role
         };
     });
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("BasketApiScope", policy =>
+    options.AddPolicy("OrderApiScope", policy =>
     {
         policy.RequireAuthenticatedUser();
-        policy.RequireClaim("scope", "BasketAPI");
+        policy.RequireClaim("scope", "OrderAPI");
     });
 });
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -64,7 +57,7 @@ builder.Services.AddSwaggerGen(options =>
                 AuthorizationUrl = new Uri("https://localhost:5001/connect/authorize"),
                 Scopes = new Dictionary<string, string>
                 {
-                    { "BasketAPI", "API - full access" },
+                    { "OrderAPI", "API - full access" },
                 },
             },
         },
@@ -75,13 +68,12 @@ builder.Services.AddSwaggerGen(options =>
         {
             new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2"}
             },
-            new[] { "BasketAPI" }
+            new[] { "OrderAPI" }
         }
     });
 });
-
 
 var app = builder.Build();
 
@@ -95,6 +87,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers().RequireAuthorization("BasketApiScope");
+app.MapControllers().RequireAuthorization("OrderApiScope");
 
 app.Run();

@@ -8,12 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="6.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.39" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Catalog.Core\Catalog.Core.csproj" />
-    <ProjectReference Include="..\Catalog.Data\Catalog.DataAccess.csproj" />
-    <ProjectReference Include="..\Catalog.Domain\Catalog.Domain.csproj" />
+    <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
   </ItemGroup>
 
 </Project>

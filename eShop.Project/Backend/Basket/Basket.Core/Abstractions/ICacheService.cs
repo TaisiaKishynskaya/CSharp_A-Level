@@ -1,4 +1,6 @@
-﻿namespace Basket.Core.Abstractions;
+﻿using System.Threading.Tasks;
+
+namespace Basket.Core.Abstractions;
 
 public interface ICacheService
 {

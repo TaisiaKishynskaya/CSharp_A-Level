@@ -1,4 +1,7 @@
-﻿namespace Basket.Domain.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Basket.Domain.Models;
 public class Basket
 {
     public string UserId { get; set; }

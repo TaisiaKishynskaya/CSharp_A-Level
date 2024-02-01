@@ -1,4 +1,8 @@
-﻿using Basket.Core.Abstractions;
+﻿using System;
+using System.Threading.Tasks;
+using Basket.API.Services;
+using Basket.Core.Abstractions;
+using Basket.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers;
@@ -46,13 +50,13 @@ public class BasketController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddItem([FromBody] int itemId)
+    public async Task<IActionResult> AddItem([FromBody] ItemRequest itemRequest)
     {
         try
         {
-            var userId = _userService.GetUserId(User);
-            var createdItem = await _basketService.AddItem(userId, itemId);
-            return Ok($"Item with id = {itemId} was successfully added to basket");
+            var userId = itemRequest.UserId; 
+            var createdItem = await _basketService.AddItem(userId, itemRequest);
+            return Ok(itemRequest.ItemId);
         }
         catch (ArgumentException ex)
         {
@@ -60,14 +64,14 @@ public class BasketController : ControllerBase
         }
     }
 
-    [HttpDelete("{itemId}")]
-    public async Task<IActionResult> DeleteItem(int itemId)
+    [HttpDelete("{userId}/{itemId}")]
+    public async Task<IActionResult> DeleteItem(string userId, int itemId)
     {
         try
         {
-            var userId = _userService.GetUserId(User);
+            //userId = _userService.GetUserId(User);
             var deletedItem = await _basketService.RemoveItem(userId, itemId);
-            return Ok($"Item with id = {itemId} was successfully deleted from basket");
+            return Ok(deletedItem.ItemId);
         }
         catch (ArgumentException ex)
         {
