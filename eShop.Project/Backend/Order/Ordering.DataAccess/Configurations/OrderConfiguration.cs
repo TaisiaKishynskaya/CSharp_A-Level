@@ -20,8 +20,8 @@ public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
             .WithMany()
             .HasForeignKey(order => order.UserId);
 
-        builder.HasMany(order => order.OrderItems)
-            .WithOne(orderEntity => orderEntity.OrderEntity)
-            .HasForeignKey(order => order.Id);
+        builder.HasMany(order => order.Items)
+            .WithOne(item => item.Order)
+            .HasForeignKey(item => item.OrderId);
     }
 }

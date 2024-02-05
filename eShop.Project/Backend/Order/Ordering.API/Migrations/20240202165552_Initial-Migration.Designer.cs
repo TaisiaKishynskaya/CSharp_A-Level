@@ -12,7 +12,7 @@ using Ordering.DataAccess.Infrastructure;
 namespace Ordering.API.Migrations
 {
     [DbContext(typeof(OrderDbContext))]
-    [Migration("20240131223150_Initial-Migration")]
+    [Migration("20240202165552_Initial-Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -55,7 +55,10 @@ namespace Ordering.API.Migrations
             modelBuilder.Entity("Ordering.DataAccess.Entities.OrderItemEntity", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ItemId")
                         .HasColumnType("integer");
@@ -65,8 +68,8 @@ namespace Ordering.API.Migrations
 
                     b.Property<string>("PictureUrl")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("character varying(75)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -81,7 +84,9 @@ namespace Ordering.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderItemEntity", (string)null);
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("Ordering.DataAccess.Entities.UserEntity", b =>
@@ -117,18 +122,18 @@ namespace Ordering.API.Migrations
 
             modelBuilder.Entity("Ordering.DataAccess.Entities.OrderItemEntity", b =>
                 {
-                    b.HasOne("Ordering.DataAccess.Entities.OrderEntity", "OrderEntity")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("Id")
+                    b.HasOne("Ordering.DataAccess.Entities.OrderEntity", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderEntity");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Ordering.DataAccess.Entities.OrderEntity", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

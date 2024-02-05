@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Basket.Domain.Models;
+﻿using Basket.Domain.Models;
 
 namespace Basket.Core.Abstractions;
 

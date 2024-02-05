@@ -16,12 +16,18 @@ public class UserRepository : IUserRepository<UserEntity>
 
     public async Task<IEnumerable<UserEntity>> Get(int page, int size)
     {
-        return await _dbContext.Users
+        IQueryable<UserEntity> query = _dbContext.Users
             .AsNoTracking()
-            .OrderBy(user => user.UserId)
-            .Skip((page - 1) * size)
-            .Take(size)
-            .ToListAsync();
+            .OrderBy(user => user.UserId);
+
+        if (page > 0 && size > 0)
+        {
+            query = query
+                .Skip((page - 1) * size)
+                .Take(size);
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<UserEntity> GetUserById(string userId)

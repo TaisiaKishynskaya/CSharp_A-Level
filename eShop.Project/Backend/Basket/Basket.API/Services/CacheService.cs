@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Basket.API.Services;
 

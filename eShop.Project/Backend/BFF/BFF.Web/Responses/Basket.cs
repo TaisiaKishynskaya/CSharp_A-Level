@@ -1,4 +1,5 @@
-﻿namespace Basket.Domain.Models;
+﻿namespace BFF.Web.Responses;
+
 public class Basket
 {
     public string UserId { get; set; }

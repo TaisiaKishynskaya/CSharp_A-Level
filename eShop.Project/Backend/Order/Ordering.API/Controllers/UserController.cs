@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ordering.Application.Services;
+using Ordering.Core.Abstractions.Services;
 using System.Security.Claims;
-using IdentityModel;
 
 namespace Ordering.API.Controllers;
 
@@ -17,10 +16,32 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllOrderUsers(int page, int size) 
+    public async Task<IActionResult> GetAllOrderUsers([FromQuery] int page, int size) 
     {
         var users = await _userService.Get(page, size);
         return Ok(users);
+    }
+
+    [HttpGet("{userId?}")]
+    public async Task<IActionResult> GetUserById(string userId)
+    {
+        userId = userId ?? User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userService.GetUserById(userId);
+        if (user != null)
+        {
+            return Ok(user);
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpGet("active-user-id")]
+    public IActionResult GetActiveUserId()
+    {
+        var userId = _userService.GetActiveUserId(User);
+        return Ok(userId);
     }
 
     [HttpPost]
@@ -28,8 +49,6 @@ public class UserController : ControllerBase
     {
         try
         {
-            //var name = User.FindFirst(JwtClaimTypes.Name)?.Value;
-            //var email = User.FindFirst(JwtClaimTypes.Email)?.Value;
             var user = await _userService.Add(User);
             return Ok(user.UserId);
         }
@@ -37,6 +56,5 @@ public class UserController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-
     }
 }

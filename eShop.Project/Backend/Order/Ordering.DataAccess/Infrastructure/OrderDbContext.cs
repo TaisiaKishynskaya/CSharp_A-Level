@@ -12,13 +12,13 @@ public class OrderDbContext : DbContext
     }
 
     public DbSet<UserEntity> Users { get; set; }
-    public DbSet<OrderItemEntity> Items { get; set; }
     public DbSet<OrderEntity> Orders { get; set; }
+    public DbSet<OrderItemEntity> OrderItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new UserConfiguration());
-        builder.ApplyConfiguration(new OrderItemConfiguration());
         builder.ApplyConfiguration(new OrderConfiguration());
+        builder.ApplyConfiguration(new OrderItemConfiguration());
     }
 }

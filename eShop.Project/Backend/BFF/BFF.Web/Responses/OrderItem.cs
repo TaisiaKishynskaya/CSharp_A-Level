@@ -1,6 +1,6 @@
-﻿namespace Ordering.DataAccess.Entities;
+﻿namespace BFF.Web.Responses;
 
-public class OrderItemEntity
+public class OrderItem
 {
     public int Id { get; set; }
     public int ItemId { get; set; }
@@ -9,5 +9,4 @@ public class OrderItemEntity
     public decimal Price { get; set; }
     public int Quantity { get; set; }
     public int OrderId { get; set; }
-    public OrderEntity Order { get; set; }
 }

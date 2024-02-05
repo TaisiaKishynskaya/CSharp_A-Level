@@ -8,27 +8,20 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItemEntity>
 {
     public void Configure(EntityTypeBuilder<OrderItemEntity> builder)
     {
-        builder.ToTable("OrderItemEntity");
-        builder.HasKey(orderItem => orderItem.Id);
+        builder.ToTable("OrderItem");
 
-        builder.Property(orderItem => orderItem.ItemId)
-            .IsRequired();
+        builder.HasKey(item => item.Id);
 
-        builder.Property(orderItem => orderItem.Title)
-            .IsRequired()
-            .HasMaxLength(100);
+        builder.Property(item => item.Title).IsRequired().HasMaxLength(100);
 
-        builder.Property(orderItem => orderItem.Price)
-            .IsRequired();
+        builder.Property(item => item.PictureUrl).IsRequired().HasMaxLength(50);
 
-        builder.Property(orderItem => orderItem.PictureUrl)
-            .IsRequired()
-            .HasMaxLength(75);
+        builder.Property(item => item.Price).IsRequired();
 
-        builder.Property(orderItem => orderItem.Quantity)
-            .IsRequired();
+        builder.Property(item => item.Quantity).IsRequired();
 
-        builder.HasOne(orderItem => orderItem.OrderEntity).WithMany().HasForeignKey(orderItem => orderItem.OrderId);
+        builder.HasOne(item => item.Order)
+            .WithMany(order => order.Items)
+            .HasForeignKey(item => item.OrderId);
     }
-
 }

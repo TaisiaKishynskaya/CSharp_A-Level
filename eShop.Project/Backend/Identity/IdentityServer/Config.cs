@@ -19,13 +19,20 @@ public static class Config
         new ApiScope[]
         {
             new("CatalogAPI"),
+
             new("BasketAPI"),
+
             new("WebBffAPI"),
+
             new()
             {
                 Name = "OrderAPI",
                 DisplayName = "Order API",
-                UserClaims = new List<string> { JwtClaimTypes.Name, JwtClaimTypes.Email }
+                UserClaims = new List<string> 
+                {
+                    JwtClaimTypes.Name,
+                    JwtClaimTypes.Email 
+                }
             }
         };
 
@@ -101,7 +108,7 @@ public static class Config
 
             AllowedScopes = new List<string>
             {
-                "BasketAPI"
+                "BasketAPI",
             },
 
              Claims = new List<ClientClaim>
@@ -117,8 +124,6 @@ public static class Config
             ClientId = "order_api_swagger",
             ClientName = "Swagger UI for Ordering API",
             ClientSecrets = { new Secret("order_api_secret".Sha256()) },
-
-            
 
             AllowedGrantTypes = GrantTypes.Implicit,
 
@@ -136,7 +141,6 @@ public static class Config
                  new(JwtClaimTypes.Name, "name"),
                  new(JwtClaimTypes.Email, "email")
             }
-
         },
 
         new()

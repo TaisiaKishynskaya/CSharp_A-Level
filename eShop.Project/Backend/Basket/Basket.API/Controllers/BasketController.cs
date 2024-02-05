@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Basket.API.Services;
+﻿using Basket.API.Services;
 using Basket.Core.Abstractions;
 using Basket.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +37,7 @@ public class BasketController : ControllerBase
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetBasket(string userId)
     {
+        //var userId = _userService.GetUserId(User);
         var basket = await _basketService.GetBasket(userId);
 
         if (basket == null)
@@ -48,6 +47,7 @@ public class BasketController : ControllerBase
 
         return Ok(basket);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> AddItem([FromBody] ItemRequest itemRequest)
@@ -76,6 +76,27 @@ public class BasketController : ControllerBase
         catch (ArgumentException ex)
         {
             return NotFound(ex.Message);
+        }
+    }
+
+    [HttpDelete("{userId}")]
+    public async Task<IActionResult> DeleteBasket(string userId)
+    {
+        try
+        {
+            var deleted = await _basketService.DeleteBasket(userId);
+            if (deleted)
+            {
+                return Ok(userId);
+            }
+            else
+            {
+                return NotFound($"Basket for user {userId} not found.");
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 
