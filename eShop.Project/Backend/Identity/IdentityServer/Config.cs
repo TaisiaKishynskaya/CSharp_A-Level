@@ -125,6 +125,8 @@ public static class Config
             ClientName = "Swagger UI for Ordering API",
             ClientSecrets = { new Secret("order_api_secret".Sha256()) },
 
+            
+
             AllowedGrantTypes = GrantTypes.Implicit,
 
             RedirectUris = { "http://localhost:5005/swagger/oauth2-redirect.html" },
@@ -141,6 +143,7 @@ public static class Config
                  new(JwtClaimTypes.Name, "name"),
                  new(JwtClaimTypes.Email, "email")
             }
+
         },
 
         new()
@@ -175,7 +178,7 @@ public static class Config
             },
         },
 
-        // MVC MVC Client
+        // WebApp MVC Client
         new()
         {
              ClientId = "mvc_client",

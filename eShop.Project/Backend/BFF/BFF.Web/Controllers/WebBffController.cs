@@ -100,9 +100,9 @@ public class WebBffController : ControllerBase
     [HttpPost("basket")]
     public async Task<IActionResult> AddItem([FromBody] ItemRequest itemRequest)
     {
-        itemRequest.UserId = _userService.GetUserId(User);
-        var addedItem = await _basketService.AddBasketItem(itemRequest);
-        return Ok(addedItem);
+        //itemRequest.UserId = _userService.GetUserId(User);
+        var addedItemId = await _basketService.AddBasketItem(itemRequest);
+        return Ok(addedItemId);
     }
 
     [HttpDelete("basket/{userId}/{itemId}")]

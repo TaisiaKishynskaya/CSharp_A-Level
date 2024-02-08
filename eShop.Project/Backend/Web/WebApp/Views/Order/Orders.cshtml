@@ -1,0 +1,36 @@
+﻿@model IEnumerable<OrderModel>
+
+
+<link rel="stylesheet" href="~/css/Basket.css" />
+
+<div class="d-flex flex-column align-items-center card-container">
+    <h2 class="text-center">Orders</h2>
+
+    @foreach (var order in Model)
+    {
+        <div class="card mb-3" style="width: 100%;">
+            <h5 class="card-header">Order #@order.Id)</h5>
+            <div class="row no-gutters">
+                @foreach (var item in order.Items)
+                {
+                    <div class="col-md-4 d-flex align-items-center justify-content-center">
+                        <img src="~/assets/@item.PictureUrl" class="card-img" style="object-fit: cover; width:200px; height:200px;" />
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-text"><strong>Item Title:</strong> @item.Title</h5>
+                            <h5 class="card-text"><strong>Price per Item:</strong> @item.Price</h5>
+                            <div class="d-flex align-items-center">
+                                <h5 class="card-text mb-0"><strong>Quantity:</strong> @item.Quantity</h5>
+                            </div>
+                        </div>
+                    </div>
+                }        
+            </div>
+            <h4 class="text-center"><strong>Order Cost:</strong> @order.TotalPrice</h4>
+            <h4 class="text-center"><strong>Order Date:</strong> @order.OrderDate</h4>
+            <h4 class="text-center"><strong>Order Address:</strong> @order.Address</h4>
+        </div>
+    }
+</div>
+

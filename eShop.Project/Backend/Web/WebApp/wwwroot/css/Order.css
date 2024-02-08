@@ -1,0 +1,18 @@
+﻿body {
+    background-color: #f0f0f0;
+}
+
+.card-container {
+    background-color: white;
+    margin: auto;
+    padding: 20px;
+    max-width: 50rem;
+    min-height: 80vh;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.card-img {
+    object-fit: cover;
+    width: 200px !important;
+    height: 200px !important;
+}

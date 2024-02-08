@@ -69,4 +69,5 @@ public class UserService : IUserService
         var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
         return userId;
     }
+
 }

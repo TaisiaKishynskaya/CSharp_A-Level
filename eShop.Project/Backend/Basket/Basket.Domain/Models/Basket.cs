@@ -5,7 +5,7 @@ public class Basket
     public List<BasketItem> Items { get; set; } = new List<BasketItem>();
     public decimal TotalPrice
     {
-        get => Items.Sum(item => item.ItemPrice);
+        get => Items.Sum(item => item.ItemPrice * item.Quantity);
     }
     public int TotalCount
     {

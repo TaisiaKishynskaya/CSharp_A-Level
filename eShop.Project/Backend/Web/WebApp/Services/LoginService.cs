@@ -42,7 +42,7 @@ public class LoginService : ILoginService
     {
         new Claim("access_token", tokenResponse.AccessToken),
         new Claim("id_token", tokenResponse.IdentityToken ?? string.Empty),
-        new Claim(ClaimTypes.Name, userInfoResponse.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value)
+        new Claim(ClaimTypes.Name, userInfoResponse.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value),
     };
 
         claims.AddRange(userInfoResponse.Claims);

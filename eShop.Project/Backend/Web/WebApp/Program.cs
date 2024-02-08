@@ -10,6 +10,8 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 builder.Services.AddScoped<ICatalogService, CatalogService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
+builder.Services.AddScoped<IOrderService,OrderService>();
 
 // Add IdentityModel
 builder.Services.AddAuthentication(options =>
