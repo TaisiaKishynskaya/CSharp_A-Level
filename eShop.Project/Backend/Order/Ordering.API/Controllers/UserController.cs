@@ -1,45 +1,49 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ordering.Core.Abstractions.Services;
-using System.Security.Claims;
-
-namespace Ordering.API.Controllers;
+﻿namespace Ordering.API.Controllers;
 
 [ApiController]
-[Route("api/v1/orders-users")]
+[Route("api/v1/users")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IOrderService _orderService;
 
-    public UserController(IUserService userService)
+    public UserController(
+        IUserService userService,
+        IOrderService orderService)
     {
         _userService = userService;
+        _orderService = orderService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllOrderUsers([FromQuery] int page, int size) 
+    public async Task<IActionResult> GetAllUsersWithAtLeastOneOrder([FromQuery] int page, int size)
     {
+
         var users = await _userService.Get(page, size);
         return Ok(users);
     }
 
-    [HttpGet("{userId?}")]
-    public async Task<IActionResult> GetUserById(string userId)
+    [HttpGet("{userId}/orders")]
+    public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
     {
-        userId = userId ?? User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var user = await _userService.GetUserById(userId);
-        if (user != null)
-        {
-            return Ok(user);
-        }
-        else
-        {
-            return NotFound();
-        }
+
+        var orders = await _orderService.GetByUser(userId, page, size);
+        return Ok(orders);
     }
 
-    [HttpGet("active-user-id")]
+    [HttpGet("{userId?}/details")]
+    public async Task<IActionResult> GetUserById(string userId)
+    {
+
+        userId = userId ?? User.GetUserId();
+        var user = await _userService.GetUserById(userId);
+        return Ok(user);
+    }
+
+    [HttpGet("me")]
     public IActionResult GetActiveUserId()
     {
+
         var userId = _userService.GetActiveUserId(User);
         return Ok(userId);
     }
@@ -47,14 +51,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddUser()
     {
-        try
-        {
-            var user = await _userService.Add(User);
-            return Ok(user.UserId);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var user = await _userService.Add(User);
+        return Ok(user.UserId);
     }
 }

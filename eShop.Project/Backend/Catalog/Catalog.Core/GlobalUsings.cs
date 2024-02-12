@@ -1,2 +1,3 @@
-﻿global using Catalog.Domain.Models;
+﻿//Domain Layer
+global using Catalog.Domain.Models;
 

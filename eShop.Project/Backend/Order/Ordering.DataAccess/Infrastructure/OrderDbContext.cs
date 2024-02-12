@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Ordering.DataAccess.Configurations;
-using Ordering.DataAccess.Entities;
-
-namespace Ordering.DataAccess.Infrastructure;
+﻿namespace Ordering.DataAccess.Infrastructure;
 
 public class OrderDbContext : DbContext
 {

@@ -1,6 +1,7 @@
 ﻿namespace Ordering.Domain.Models;
 
-public record CatalogBrand(
-    int Id,
-    string Title
-    );
+public class CatalogBrand
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+}

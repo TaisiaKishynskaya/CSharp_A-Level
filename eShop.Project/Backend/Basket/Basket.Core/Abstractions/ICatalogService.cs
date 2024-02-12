@@ -1,6 +1,4 @@
-﻿using Basket.Domain.Models;
-
-namespace Basket.Core.Abstractions;
+﻿namespace Basket.Core.Abstractions;
 
 public interface ICatalogService
 {

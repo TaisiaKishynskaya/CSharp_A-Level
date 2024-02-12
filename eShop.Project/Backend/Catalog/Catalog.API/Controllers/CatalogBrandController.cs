@@ -62,9 +62,8 @@ public class CatalogBrandController : ControllerBase
         await _catalogBrandService.Update(brand);
 
         var updatedBrand = await _catalogBrandService.GetById(id);
-        var response = _mapper.Map<CatalogBrandResponse>(updatedBrand);
 
-        return Ok(response);
+        return Ok(updatedBrand);
     }
 
     [HttpDelete("{id}")]

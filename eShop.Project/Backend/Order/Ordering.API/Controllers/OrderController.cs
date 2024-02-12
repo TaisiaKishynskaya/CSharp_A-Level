@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using IdentityModel;
-using Microsoft.AspNetCore.Mvc;
-using Ordering.API.Requests;
-using Ordering.Core.Abstractions.Services;
-using Ordering.Domain.Models;
-using System.Security.Claims;
-
-namespace Ordering.API.Controllers;
+﻿namespace Ordering.API.Controllers;
 
 [ApiController]
 [Route("api/v1/orders")]
@@ -26,55 +18,58 @@ public class OrderController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllOrders([FromQuery] int page = 1, int size = 50)
     {
-        var orders = await _orderService.Get(page, size);
-        return Ok(orders);
-    }
-
-    [HttpGet("users")]
-    public async Task<IActionResult> GetOrdersByActiveUser([FromQuery] int page = 1, [FromQuery] int size = 50)
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var orders = await _orderService.GetByUser(userId, page, size);
-        return Ok(orders);
-    }
-
-    [HttpGet("users/{userId}")]
-    public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
-    {
-        var orders = await _orderService.GetByUser(userId, page, size);
-        return Ok(orders);
+        try
+        {
+            var orders = await _orderService.Get(page, size);
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById(int id)
     {
-        var order = await _orderService.GeyById(id);
-        if (order != null)
+        try
         {
+            var order = await _orderService.GeyById(id);
             return Ok(order);
         }
-        else
+        catch (NotFoundException)
         {
-            return BadRequest();
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 
     [HttpPost]
     public async Task<IActionResult> AddOrder(OrderRequest orderRequest)
     {
-        var order = new Order { Address = orderRequest.Address };
-        var createdOrder = await _orderService.Add(order, orderRequest.UserId);
-        return Ok(createdOrder);
+        try
+        {
+            var order = new Order { Address = orderRequest.Address };
+            var createdOrder = await _orderService.Add(order, orderRequest.UserId);
+            return Ok(createdOrder);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateOrder(int id, [FromBody] OrderUpdateRequest orderUpdateRequest)
     {
-        var order = _mapper.Map<Order>(orderUpdateRequest);
-        order.Id = id;
-
         try
         {
+            var order = _mapper.Map<Order>(orderUpdateRequest);
+            order.Id = id;
+
             var updatedOrder = await _orderService.Update(order, User);
             return Ok(updatedOrder);
         }
@@ -86,18 +81,27 @@ public class OrderController : ControllerBase
         {
             return Forbid("You do not have permission to update this order");
         }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrder(int id)
     {
-        var order = await _orderService.Delete(id);
-
-        if (order == null)
+        try
         {
-            return NotFound("Order not found");
+            var order = await _orderService.Delete(id);
+            return Ok(order);
         }
-
-        return Ok(order);
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

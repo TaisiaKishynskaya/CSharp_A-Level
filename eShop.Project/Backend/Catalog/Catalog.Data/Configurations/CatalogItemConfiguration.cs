@@ -1,4 +1,4 @@
-﻿namespace Catalog.Data.Configurations;
+﻿namespace Catalog.DataAccess.Configurations;
 
 public class CatalogItemConfiguration : IEntityTypeConfiguration<CatalogItemEntity>
 {

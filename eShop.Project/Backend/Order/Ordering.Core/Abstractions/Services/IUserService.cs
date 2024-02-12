@@ -1,7 +1,4 @@
-﻿using Ordering.Domain.Models;
-using System.Security.Claims;
-
-namespace Ordering.Core.Abstractions.Services;
+﻿namespace Ordering.Core.Abstractions.Services;
 
 public interface IUserService
 {

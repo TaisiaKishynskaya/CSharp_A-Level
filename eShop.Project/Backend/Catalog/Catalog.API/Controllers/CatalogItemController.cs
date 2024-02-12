@@ -49,7 +49,7 @@ public class CatalogItemController : Controller
 
         var id = await _catalogItemService.Add(item);
 
-        return Ok($"Item with id = {id} was successfully added");
+        return Ok(id);
     }
 
     [HttpPut("{id}")]
@@ -69,14 +69,14 @@ public class CatalogItemController : Controller
 
         var updatedItemId = await _catalogItemService.Update(item);
 
-        return Ok($"Item with id = {updatedItemId} was successfully updated");
+        return Ok(updatedItemId);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteItem(int id)
     {
         var result = await _catalogItemService.Delete(id);
-        return Ok($"Item with id = {id} was successfully deleted");
+        return Ok(id);
     }
 }
 

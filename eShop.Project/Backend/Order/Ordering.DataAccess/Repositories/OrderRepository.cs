@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Ordering.Core.Abstractions.Repositories;
-using Ordering.DataAccess.Entities;
-using Ordering.DataAccess.Infrastructure;
-
-namespace Ordering.DataAccess.Repositories;
+﻿namespace Ordering.DataAccess.Repositories;
 
 public class OrderRepository : IOrderRepository<OrderEntity>
 {
@@ -68,7 +63,6 @@ public class OrderRepository : IOrderRepository<OrderEntity>
 
     public async Task<OrderEntity> Update(OrderEntity order)
     {
-        //_dbContext.Orders.Update(order);
         _dbContext.Entry(order).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
         return order;

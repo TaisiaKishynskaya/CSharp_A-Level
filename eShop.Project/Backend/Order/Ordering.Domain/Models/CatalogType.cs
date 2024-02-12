@@ -1,6 +1,7 @@
 ﻿namespace Ordering.Domain.Models;
 
-public record CatalogType(
-  int Id,
-  string Title
-  );
+public class CatalogType
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+}

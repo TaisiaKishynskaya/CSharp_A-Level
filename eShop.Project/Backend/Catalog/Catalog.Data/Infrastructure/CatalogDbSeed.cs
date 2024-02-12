@@ -1,4 +1,4 @@
-﻿namespace Catalog.Data.Infrastructure;
+﻿namespace Catalog.DataAccess.Infrastructure;
 
 public class CatalogDbSeed
 {

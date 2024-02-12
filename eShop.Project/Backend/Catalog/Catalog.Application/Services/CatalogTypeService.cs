@@ -18,98 +18,142 @@ public class CatalogTypeService : ICatalogTypeService
 
     public async Task<IEnumerable<CatalogType>> Get(int page, int size)
     {
-        _logger.LogInformation($"Getting types with page {page} and size {size}");
-        var typesEntities = await _catalogTypeRepository.Get(page, size);
-
-        if (typesEntities == null)
+        try
         {
-            _logger.LogWarning($"No types found with page {page} and size {size}");
-            throw new NotFoundException($"Types not found");
-        }
+            var startTime = DateTime.UtcNow;
+            var typesEntities = await _catalogTypeRepository.Get(page, size);
+            var endTime = DateTime.UtcNow;
 
-        _logger.LogInformation($"Found {typesEntities.Count()} types with page {page} and size {size}");
-        return _mapper.Map<IEnumerable<CatalogType>>(typesEntities);
+            if (typesEntities == null)
+            {
+                _logger.LogError($"Error: Types not found, Stack Trace: {Environment.StackTrace}");
+                throw new NotFoundException($"Types not found");
+            }
+
+            _logger.LogInformation($"Operation: Get, Start Time: {startTime}, End Time: {endTime}, Status: Success");
+            return _mapper.Map<IEnumerable<CatalogType>>(typesEntities);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
+            throw;
+        }
     }
 
     public async Task<CatalogType> GetById(int id)
     {
-        _logger.LogInformation($"Getting type with id {id}");
-        var typeEntity = await _catalogTypeRepository.GetById(id);
-
-        if (typeEntity == null)
+        try
         {
-            _logger.LogWarning($"Type with id {id} not found");
-            throw new NotFoundException($"Type with id = {id} not found");
-        }
+            var typeEntity = await _catalogTypeRepository.GetById(id);
 
-        _logger.LogInformation($"Found type with id {id}");
-        return _mapper.Map<CatalogType>(typeEntity);
+            if (typeEntity == null)
+            {
+                _logger.LogError($"Error: Type with id = {id} not found, Stack Trace: {Environment.StackTrace}");
+                throw new NotFoundException($"Type with id = {id} not found");
+            }
+
+            return _mapper.Map<CatalogType>(typeEntity);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
+            throw;
+        }
     }
 
     public async Task<int> Add(CatalogType type)
     {
-        _logger.LogInformation($"Adding new type with title {type.Title}");
-        var typeEntity = _mapper.Map<CatalogTypeEntity>(type);
-
-        var existingTypeEntity = await _catalogTypeRepository.GetByTitle(typeEntity.Title);
-        if (existingTypeEntity != null)
+        try
         {
-            _logger.LogWarning($"Type with title {type.Title} already exists");
-            throw new ValidationAsyncException("Title has to be unique");
+            var typeEntity = _mapper.Map<CatalogTypeEntity>(type);
+
+            var existingTypeEntity = await _catalogTypeRepository.GetByTitle(typeEntity.Title);
+            if (existingTypeEntity != null)
+            {
+                throw new ValidationAsyncException("Title has to be unique");
+            }
+
+            typeEntity.CreatedAt = DateTime.UtcNow;
+
+            return await _catalogTypeRepository.Add(typeEntity);
         }
-
-        typeEntity.CreatedAt = DateTime.UtcNow;
-
-        _logger.LogInformation($"Successfully added type with title {type.Title}");
-        return await _catalogTypeRepository.Add(typeEntity);
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
+            throw;
+        }
     }
 
     public async Task<int> Update(CatalogType type)
     {
-        _logger.LogInformation($"Updating type with id {type.Id}");
-        var existingTypeEntity = await _catalogTypeRepository.GetById(type.Id);
-
-        if (existingTypeEntity == null)
+        try
         {
-            _logger.LogWarning($"Type with id {type.Id} not found");
-            throw new NotFoundException($"Type with id = {type.Id} not found");
+            var existingTypeEntity = await _catalogTypeRepository.GetById(type.Id);
+
+            if (existingTypeEntity == null)
+            {
+                _logger.LogError($"Error: Type with id = {type.Id} not found, Stack Trace: {Environment.StackTrace}");
+                throw new NotFoundException($"Type with id = {type.Id} not found");
+            }
+
+            _mapper.Map(type, existingTypeEntity);
+            existingTypeEntity.UpdatedAt = DateTime.UtcNow;
+
+            return await _catalogTypeRepository.Update(existingTypeEntity);
         }
-
-        _mapper.Map(type, existingTypeEntity);
-        existingTypeEntity.UpdatedAt = DateTime.UtcNow;
-
-        _logger.LogInformation($"Successfully updated type with id {type.Id}");
-        return await _catalogTypeRepository.Update(existingTypeEntity);
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
+            throw;
+        }
     }
 
     public async Task<int> Delete(int id)
     {
-        _logger.LogInformation($"Deleting type with id {id}");
-        var existingTypeEntity = await _catalogTypeRepository.GetById(id);
-
-        if (existingTypeEntity == null)
+        try
         {
-            _logger.LogWarning($"Type with id {id} not found");
-            throw new NotFoundException($"Type with id = {id} not found");
-        }
+            var existingTypeEntity = await _catalogTypeRepository.GetById(id);
 
-        _logger.LogInformation($"Successfully deleted type with id {id}");
-        return await _catalogTypeRepository.Delete(id);
+            if (existingTypeEntity == null)
+            {
+                _logger.LogError($"Error: Type with id = {id} not found, Stack Trace: {Environment.StackTrace}");
+                throw new NotFoundException($"Type with id = {id} not found");
+            }
+
+            return await _catalogTypeRepository.Delete(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
+            throw;
+        }
     }
 
     public async Task<int> Count()
     {
-        _logger.LogInformation("Counting types");
-        var count = await _catalogTypeRepository.Count();
-        _logger.LogInformation($"Total types count: {count}");
-        return count;
+        try
+        {
+            var count = await _catalogTypeRepository.Count();
+            return count;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
+            throw;
+        }
     }
 
     public async Task<CatalogType> GetByTitle(string title)
     {
-        _logger.LogInformation($"Getting type with title {title}");
-        var typeEntity = await _catalogTypeRepository.GetByTitle(title);
-        _logger.LogInformation($"Found type with title {title}");
-        return _mapper.Map<CatalogType>(typeEntity);
+        try
+        {
+            var typeEntity = await _catalogTypeRepository.GetByTitle(title);
+            return _mapper.Map<CatalogType>(typeEntity);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
+            throw;
+        }
     }
 }

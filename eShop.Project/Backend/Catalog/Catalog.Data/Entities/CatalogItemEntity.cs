@@ -3,16 +3,16 @@
 public class CatalogItemEntity
 {
     public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public string Description { get; set; } 
+    public string Title { get; set; } 
+    public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
-    public string PictureFile { get; set; }
+    public string PictureFile { get; set; } = string.Empty;
 
     public int? TypeId { get; set; }
-    public CatalogTypeEntity Type { get; set; }
+    public CatalogTypeEntity Type { get; set; } = null!;
 
     public int? BrandId { get; set; }
-    public CatalogBrandEntity Brand { get; set; } 
+    public CatalogBrandEntity Brand { get; set; } = null!;
 
     public int Quantity { get; set; }
 

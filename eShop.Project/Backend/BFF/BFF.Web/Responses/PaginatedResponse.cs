@@ -1,6 +1,7 @@
-﻿namespace Catalog.API.Responses;
+﻿namespace BFF.Web.Responses;
 
-public record PaginatedResponse<TModel>(
-    int Total,
-    IEnumerable<TModel> Data
-);
+public class PaginatedResponse<TModel>
+{
+    public int Total { get; set; }
+    public IEnumerable<TModel> Data { get; set; } = null!;
+}

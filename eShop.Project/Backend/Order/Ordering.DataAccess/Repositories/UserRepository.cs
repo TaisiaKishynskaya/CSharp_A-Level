@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Ordering.Core.Abstractions.Repositories;
-using Ordering.DataAccess.Entities;
-using Ordering.DataAccess.Infrastructure;
-
-namespace Ordering.DataAccess.Repositories;
+﻿namespace Ordering.DataAccess.Repositories;
 
 public class UserRepository : IUserRepository<UserEntity>
 {

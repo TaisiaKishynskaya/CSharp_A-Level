@@ -62,9 +62,8 @@ public class CatalogTypeController : ControllerBase
         await _catalogTypeService.Update(type);
 
         var updatedType = await _catalogTypeService.GetById(id);
-        var response = _mapper.Map<CatalogTypeResponse>(updatedType);
 
-        return Ok(response);
+        return Ok(updatedType);
     }
 
 

@@ -1,21 +1,28 @@
-﻿//files
-global using Catalog.Data.Infrastructure;
+﻿//DataAccess Layer
+global using Catalog.DataAccess.Entities;
+global using Catalog.DataAccess.Repositories;
+global using Catalog.DataAccess.Infrastructure;
+
+//Core Layer
+global using Catalog.Core.Abstractions.Repositories;
 global using Catalog.Core.Abstractions.Services;
+
+//Domain Layer
 global using Catalog.Domain.Models;
+
+//API Layer
 global using Catalog.API.Requests;
 global using Catalog.API.Responses;
-global using Catalog.Core.Abstractions.Repositories;
-global using Catalog.DataAccess.Repositories;
+global using Catalog.API.Infrastructure.Exceptions;
+global using Catalog.API.Infrastructure.Mapping;
+global using Catalog.API.Infrastructure.Configurations;
+
+//Aplication Layer
 global using Catalog.Application.Services;
-global using Catalog.DataAccess.Entities;
-global using Catalog.API.Infrastructure;
-global using Catalog.API.Validations;
-global using Catalog.Application.Infrastructure;
-global using Catalog.Application.Exceptions;
+global using Catalog.Application.Infrastructure.Mapping;
+global using Catalog.Application.Infrastructure.Exceptions;
 
-
-
-//packages
+//Packages
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.AspNetCore.Mvc;
 global using AutoMapper;
@@ -26,3 +33,5 @@ global using Serilog;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.OpenApi.Models;
+
+

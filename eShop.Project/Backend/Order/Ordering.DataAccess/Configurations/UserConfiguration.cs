@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Ordering.DataAccess.Entities;
-
-namespace Ordering.DataAccess.Configurations;
+﻿namespace Ordering.DataAccess.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {

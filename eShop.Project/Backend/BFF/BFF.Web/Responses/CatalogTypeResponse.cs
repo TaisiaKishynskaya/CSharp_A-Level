@@ -1,5 +1,7 @@
 ﻿namespace BFF.Web.Responses;
 
-public record CatalogTypeResponse(
-    int Id,
-    string Title);
+public class CatalogTypeResponse
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+}

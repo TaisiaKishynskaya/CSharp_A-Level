@@ -1,15 +1,14 @@
-﻿using Ordering.Core.Abstractions.Services;
-using Ordering.DataAccess.Infrastructure;
-
-namespace Ordering.Application.Services;
+﻿namespace Ordering.Application.Services;
 
 public class TransactionService : ITransactionService
 {
     private readonly OrderDbContext _dbContext;
+    private readonly ILogger<TransactionService> _logger;
 
-    public TransactionService(OrderDbContext dbContext)
+    public TransactionService(OrderDbContext dbContext, ILogger<TransactionService> logger)
     {
         _dbContext = dbContext;
+        _logger = logger;
     }
 
     public async Task ExecuteInTransactionAsync(Func<Task> action)
@@ -20,8 +19,9 @@ public class TransactionService : ITransactionService
             await action();
             await transaction.CommitAsync();
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError($"Error: {ex.Message}, Stack Trace: {ex.StackTrace}");
             await transaction.RollbackAsync();
             throw;
         }

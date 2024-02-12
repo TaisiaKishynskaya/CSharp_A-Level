@@ -18,13 +18,13 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-            new("CatalogAPI"),
+            new ApiScope("CatalogAPI"),
 
-            new("BasketAPI"),
+            new ApiScope("BasketAPI"),
 
-            new("WebBffAPI"),
+            new ApiScope("WebBffAPI"),
 
-            new()
+            new ApiScope
             {
                 Name = "OrderAPI",
                 DisplayName = "Order API",
@@ -41,7 +41,7 @@ public static class Config
      {
 
          //Catalog API Client
-        new()
+        new Client
         {
             ClientId = "catalog_api_swagger",
             ClientName = "Swagger UI for Catalog API",
@@ -59,7 +59,7 @@ public static class Config
             AllowAccessTokensViaBrowser = true, 
         },
 
-        new()
+        new Client
         {
             ClientId = "catalog_api_client",
             ClientName = "Client for Catalog API",
@@ -74,7 +74,7 @@ public static class Config
         },
 
         //Basket API Client
-        new()
+        new Client
         {
             ClientId = "basket_api_swagger",
             ClientName = "Swagger UI for Basket API",
@@ -92,13 +92,13 @@ public static class Config
 
             Claims = new List<ClientClaim>
             {
-                new(ClaimTypes.NameIdentifier, "userId")
+                new ClientClaim(ClaimTypes.NameIdentifier, "userId")
             }
 
 
         },
 
-        new()
+        new Client
         {
             ClientId = "basket_api_client",
             ClientName = "Client for Basket API",
@@ -113,13 +113,13 @@ public static class Config
 
              Claims = new List<ClientClaim>
             {
-                new(ClaimTypes.NameIdentifier, "userId")
+                new ClientClaim(ClaimTypes.NameIdentifier, "userId")
             }
 
         },
 
         //Ordering Api Client
-        new()
+        new Client
         {
             ClientId = "order_api_swagger",
             ClientName = "Swagger UI for Ordering API",
@@ -140,13 +140,13 @@ public static class Config
 
             Claims = new List<ClientClaim>
             {
-                 new(JwtClaimTypes.Name, "name"),
-                 new(JwtClaimTypes.Email, "email")
+                 new ClientClaim(JwtClaimTypes.Name, "name"),
+                 new ClientClaim(JwtClaimTypes.Email, "email")
             }
 
         },
 
-        new()
+        new Client
         {
             ClientId = "order_api_client",
             ClientName = "Client for Orderomg API",
@@ -161,7 +161,7 @@ public static class Config
         },
 
         // Web Bff Api Client
-        new()
+        new Client
         {
             ClientId = "webbff_api_swagger",
             ClientName = "Swagger UI for Web Bff API",
@@ -178,9 +178,9 @@ public static class Config
             },
         },
 
-        // WebApp MVC Client
-        new()
-        {
+        // MVC MVC Client
+        new Client
+         {
              ClientId = "mvc_client",
              ClientName = "MVC Client",
              ClientSecrets = { new Secret("mvc_secret".Sha256()) },
