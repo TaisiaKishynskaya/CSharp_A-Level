@@ -35,7 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Catalog.Application\Catalog.Application.csproj" />
     <ProjectReference Include="..\Catalog.Core\Catalog.Core.csproj" />
-    <ProjectReference Include="..\Catalog.Data\Catalog.DataAccess.csproj" />
+    <ProjectReference Include="..\Catalog.DataAccess\Catalog.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>

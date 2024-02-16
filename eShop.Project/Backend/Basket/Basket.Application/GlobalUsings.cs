@@ -6,7 +6,7 @@ global using Basket.Core.Abstractions;
 
 //Settings
 global using Settings;
-global using Helpers;
+global using Helpers.Abstractions;
 global using Microsoft.Extensions.Options;
 
 //Packages

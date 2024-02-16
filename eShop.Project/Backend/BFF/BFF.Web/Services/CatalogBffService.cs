@@ -4,12 +4,12 @@ public class CatalogBffService : ICatalogBffService
 {
     private readonly ILogger<CatalogBffService> _logger;
     private readonly ApiClientSettings _catalogSettings;
-    private readonly ApiClientHelper _apiClientHelper;
+    private readonly IApiClientHelper _apiClientHelper;
 
     public CatalogBffService(
         ILogger<CatalogBffService> logger,
         IOptions<CatalogApiClientSettings> catalogSettings,
-        ApiClientHelper apiClientHelper)
+        IApiClientHelper apiClientHelper)
     {
         _logger = logger;
         _catalogSettings = catalogSettings.Value;

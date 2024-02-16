@@ -4,12 +4,12 @@ public class OrderBffService : IOrderBffService
 {
     private readonly ILogger<OrderBffService> _logger;
     private readonly ApiClientSettings _orderSettings;
-    private readonly ApiClientHelper _apiClientHelper;
+    private readonly IApiClientHelper _apiClientHelper;
 
     public OrderBffService(
         ILogger<OrderBffService> logger,
         IOptions<OrderApiClientSettings> orderSettings,
-        ApiClientHelper apiClientHelper
+        IApiClientHelper apiClientHelper
         )
     {
         _logger = logger;

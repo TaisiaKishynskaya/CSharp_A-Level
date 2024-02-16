@@ -14,7 +14,7 @@ public static class AppConfiguration
         app.UseAuthentication();
         app.UseAuthorization();
 
-        //app.MapControllers().RequireAuthorization("OrderApiScope");
+        app.MapControllers().RequireAuthorization("OrderApiScope");
 
         var serilogConfig = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())

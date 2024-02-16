@@ -6,4 +6,5 @@ public interface IUserService
     Task<User> GetUserById(string userId);
     string GetActiveUserId(ClaimsPrincipal userClaims);
     Task<User> Add(ClaimsPrincipal userClaims);
+    Task<User> GetOrCreate(ClaimsPrincipal userClaims);
 }

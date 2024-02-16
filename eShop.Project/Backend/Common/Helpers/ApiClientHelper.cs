@@ -1,9 +1,10 @@
-﻿using IdentityModel.Client;
+﻿using Helpers.Abstractions;
+using IdentityModel.Client;
 using Settings;
 
 namespace Helpers;
 
-public class ApiClientHelper
+public class ApiClientHelper : IApiClientHelper
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
@@ -31,3 +32,5 @@ public class ApiClientHelper
         return apiClient;
     }
 }
+
+

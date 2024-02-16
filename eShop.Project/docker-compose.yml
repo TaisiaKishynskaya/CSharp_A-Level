@@ -1,98 +1,18 @@
 version: '3.8'
-
 services:
-  basket.api:
-    container_name: lde.basket.api
-    build:
-      context: .
-      dockerfile: Basket/Basket.Host/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5003
-      - Authorization__Authority=http://localhost:5002
-      - Redis__Host=redis:6379
-      - Redis__CacheTimeout=00:00:10
-      - PathBase=http://localhost:5003
-    depends_on:
-      - redis
-    ports:
-      - 5003:5003
-  catalog.api:
-    container_name: lde.catalog.api
-    build:
-      context: .
-      dockerfile: Catalog/Catalog.Host/Dockerfile
-    environment:
-       - ASPNETCORE_ENVIRONMENT=Development
-       - ASPNETCORE_URLS=http://+:5000
-       - ConnectionString=server=host.docker.internal;port=5432;database=catalog;uid=postgres;password=doja270503;
-       - Authorization__Authority=http://localhost:5002
-       - PathBase=http://localhost:5000
-    depends_on:
-      - postgres
-    ports:
-      - 5000:5000
-  web.mvc:
-    container_name: lde.web.mvc
-    build:
-      context: .
-      dockerfile: Web/MVC/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5001
-      - CatalogUrl=http://host.docker.internal:5000/api/v1/catalogbff
-      - Authorization__Authority=http://localhost:5002
-      - IdentityUrl=http://localhost:5002
-      - CallBackUrl=http://localhost/
-      - RedirectUri=http://localhost/signin-oidc
-    depends_on:
-      - catalog.api
-      - identityserver
-    ports:
-      - 5001:5001
+
   identityserver:
-    container_name: lde.identityserver
     build:
       context: .
-      dockerfile: IdentityServer/IdentityServer/Dockerfile
+      dockerfile: Identity/IdentityServer/Dockerfile
+    ports:
+      - 6001:6001
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5002
-      - MvcUrl=http://localhost
-      - CatalogApi=http://localhost:5000
-      - BasketApi=http://localhost:5003
-    ports:
-      - 5002:5002
-  nginx:
-    image: nginx
-    container_name: lde.nginx
-    ports:
-      - 80:80
-    volumes:
-      - ./Proxy/gateway/nginx/conf.d:/etc/nginx/conf.d
-      - ./Proxy/assets:/var/www/assets
-  pgadmin4:
-    image: dpage/pgadmin4
-    container_name: lde.pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: user@domain.com
-      PGADMIN_DEFAULT_PASSWORD: doja270503
-    depends_on:
-      - postgres
-    ports:
-      - 8001:80 
-  postgres:
-    image: postgres
-    container_name: lde.postgres
-    environment:
-      POSTGRES_PASSWORD: doja270503
-    ports:
-      - 5432:5432
-  redis:
-    image: redis
-    container_name: lde.redis
-    ports:
-      - 6380:6379
+      - ASPNETCORE_URLS=http://+:6001
+    networks:
+      - default
+
 networks:
   default:
     driver: bridge

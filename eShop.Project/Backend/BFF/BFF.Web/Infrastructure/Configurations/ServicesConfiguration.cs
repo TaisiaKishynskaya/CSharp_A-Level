@@ -1,4 +1,6 @@
-﻿namespace BFF.Web.Infrastructure.Configurations;
+﻿using Helpers.Abstractions;
+
+namespace BFF.Web.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
@@ -15,7 +17,7 @@ public static class ServicesConfiguration
         builder.Services.Configure<OrderApiClientSettings>
             (builder.Configuration.GetSection("OrderApiClientSettings"));
 
-        builder.Services.AddScoped<ApiClientHelper>();
+        builder.Services.AddScoped<IApiClientHelper, ApiClientHelper>();
 
         builder.Services.AddScoped<ICatalogBffService, CatalogBffService>();
         builder.Services.AddScoped<IBasketBffService, BasketBffService>();

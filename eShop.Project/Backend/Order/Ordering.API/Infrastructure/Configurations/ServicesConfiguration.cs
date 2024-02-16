@@ -1,6 +1,4 @@
-﻿using Ordering.API.Infrastructure.Validations;
-
-namespace Ordering.API.Infrastructure.Configurations;
+﻿namespace Ordering.API.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
@@ -8,7 +6,7 @@ public static class ServicesConfiguration
     {
         builder.Services.AddHttpClient();
 
-        builder.Services.AddScoped<ApiClientHelper>();
+        builder.Services.AddScoped<IApiClientHelper, ApiClientHelper>();
 
         builder.Services.Configure<CatalogApiClientSettings>
             (builder.Configuration.GetSection("CatalogApiClientSettings"));

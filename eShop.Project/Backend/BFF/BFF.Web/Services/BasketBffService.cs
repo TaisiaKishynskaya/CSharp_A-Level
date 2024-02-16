@@ -4,12 +4,12 @@ public class BasketBffService : IBasketBffService
 {
     private readonly ILogger<BasketBffService> _logger;
     private readonly ApiClientSettings _basketSettings;
-    private readonly ApiClientHelper _apiClientHelper;
+    private readonly IApiClientHelper _apiClientHelper;
 
     public BasketBffService(
         ILogger<BasketBffService> logger,
         IOptions<BasketApiClientSettings> basketSettings,
-        ApiClientHelper apiClientHelper)
+        IApiClientHelper apiClientHelper)
     {
         _logger = logger;
         _basketSettings = basketSettings.Value;

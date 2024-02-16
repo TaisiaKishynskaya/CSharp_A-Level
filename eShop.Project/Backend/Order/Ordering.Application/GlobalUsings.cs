@@ -15,8 +15,8 @@ global using Ordering.Application.Infrastructure.Exceptions;
 
 //Common
 global using Settings;
-global using Helpers;
 global using Helpers.Extensions;
+global using Helpers.Abstractions;
 
 //Packages
 global using AutoMapper;

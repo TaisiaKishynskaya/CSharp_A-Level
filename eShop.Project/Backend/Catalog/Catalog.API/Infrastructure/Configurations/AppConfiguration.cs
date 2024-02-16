@@ -13,7 +13,7 @@ public static class AppConfiguration
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseAuthentication();
         app.UseAuthorization();
-        //app.MapControllers().RequireAuthorization("CatalogApiScope");
+        app.MapControllers().RequireAuthorization("CatalogApiScope");
 
         CatalogDbInitializer.EnsureDatabaseCreated(app.Services);
 

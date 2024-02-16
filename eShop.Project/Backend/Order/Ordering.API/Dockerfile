@@ -8,10 +8,10 @@ EXPOSE 8080
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Ordering/Ordering.API/Ordering.API.csproj", "Ordering/Ordering.API/"]
-RUN dotnet restore "./Ordering/Ordering.API/./Ordering.API.csproj"
+COPY ["Order/Ordering.API/Ordering.API.csproj", "Order/Ordering.API/"]
+RUN dotnet restore "./Order/Ordering.API/./Ordering.API.csproj"
 COPY . .
-WORKDIR "/src/Ordering/Ordering.API"
+WORKDIR "/src/Order/Ordering.API"
 RUN dotnet build "./Ordering.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

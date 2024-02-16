@@ -1,13 +1,15 @@
-﻿namespace Basket.Application.Services;
+﻿using Helpers.Abstractions;
+
+namespace Basket.Application.Services;
 
 public class CatalogService : ICatalogService
 {
     private readonly ApiClientSettings _catalogSettigns;
-    private readonly ApiClientHelper _apiClientHelper;
+    private readonly IApiClientHelper _apiClientHelper;
     private readonly ILogger<CatalogService> _logger;
     public CatalogService(
         IOptions<ApiClientSettings> catalogSettigns,
-        ApiClientHelper apiClientHelper,
+        IApiClientHelper apiClientHelper,
         ILogger<CatalogService> logger)
     {
         _catalogSettigns = catalogSettigns.Value;

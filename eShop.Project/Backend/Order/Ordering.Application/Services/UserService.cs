@@ -102,4 +102,27 @@ public class UserService : IUserService
             throw;
         }
     }
+
+    public async Task<User> GetOrCreate(ClaimsPrincipal userClaims)
+    {
+        var userId = userClaims.GetUserId();
+        var userEntity = await _userRepository.GetUserById(userId);
+
+        if (userEntity == null)
+        {
+            var userName = userClaims.GetUserName();
+            var userEmail = userClaims.GetUserEmail();
+
+            userEntity = new UserEntity
+            {
+                UserId = userId,
+                UserName = userName,
+                UserEmail = userEmail
+            };
+
+            userEntity = await _userRepository.Add(userEntity);
+        }
+
+        return _mapper.Map<User>(userEntity);
+    }
 }

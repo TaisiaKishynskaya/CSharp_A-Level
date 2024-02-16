@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Catalog\Catalog.Core\Catalog.Core.csproj" />
-    <ProjectReference Include="..\..\Catalog\Catalog.Data\Catalog.DataAccess.csproj" />
     <ProjectReference Include="..\..\Common\Helpers\Helpers.csproj" />
     <ProjectReference Include="..\..\Common\Settings\Settings.csproj" />
   </ItemGroup>

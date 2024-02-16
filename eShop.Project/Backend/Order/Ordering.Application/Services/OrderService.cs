@@ -1,4 +1,6 @@
-﻿namespace Ordering.Application.Services;
+﻿using Helpers.Abstractions;
+
+namespace Ordering.Application.Services;
 
 public class OrderService : IOrderService
 {
@@ -8,7 +10,7 @@ public class OrderService : IOrderService
     private readonly ITransactionService _transactionService;
     private readonly ApiClientSettings _catalogSettings;
     private readonly ApiClientSettings _basketSettings;
-    private readonly ApiClientHelper _apiClientHelper;
+    private readonly IApiClientHelper _apiClientHelper;
     private readonly ILogger<OrderService> _logger;
 
     public OrderService(
@@ -18,7 +20,7 @@ public class OrderService : IOrderService
         ITransactionService transactionService,
         IOptions<CatalogApiClientSettings> catalogSettings,
         IOptions<BasketApiClientSettings> basketSettings,
-        ApiClientHelper apiClientHelper,
+        IApiClientHelper apiClientHelper,
         ILogger<OrderService> logger)
     {
         _orderRepository = orderRepository;
@@ -242,7 +244,7 @@ public class OrderService : IOrderService
         }
     }
 
-    private async Task<Basket> GetBasketByUserId(string userId)
+    public async Task<Basket> GetBasketByUserId(string userId)
     {
         try
         {

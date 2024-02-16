@@ -12,12 +12,6 @@ public class BasketBffController : ControllerBase
         _basketBffService = basketBffService;
     }
 
-    [HttpGet]
-    public IActionResult Get()
-    {
-        throw new NotFoundException("This is a test exception.");
-    }
-
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetBasket(string userId)
     {

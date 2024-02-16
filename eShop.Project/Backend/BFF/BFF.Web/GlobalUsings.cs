@@ -12,6 +12,7 @@ global using BFF.Web.Infrastructure.Validations;
 global using Helpers;
 global using Settings;
 global using Helpers.Extensions;
+global using Helpers.Abstractions;
 
 //Packages
 global using Microsoft.AspNetCore.Authorization;

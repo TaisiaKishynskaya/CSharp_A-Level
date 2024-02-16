@@ -6,13 +6,16 @@ public class OrderController : ControllerBase
 {
     private readonly IOrderService _orderService;
     private readonly IMapper _mapper;
+    private readonly IUserService _userService;
 
     public OrderController(
         IOrderService orderService,
-        IMapper mapper)
+        IMapper mapper,
+        IUserService userService)
     {
         _orderService = orderService;
         _mapper = mapper;
+        _userService = userService;
     }
 
     [HttpGet]
@@ -53,6 +56,8 @@ public class OrderController : ControllerBase
         try
         {
             var order = new Order { Address = orderRequest.Address };
+            //var addedUser = await _userService.GetOrCreate(User);
+
             var createdOrder = await _orderService.Add(order, orderRequest.UserId);
             return Ok(createdOrder);
         }
