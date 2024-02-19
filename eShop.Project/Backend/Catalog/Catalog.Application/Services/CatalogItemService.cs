@@ -1,13 +1,17 @@
 ﻿namespace Catalog.Application.Services;
 
+// Этот код представляет класс CatalogItemService, который реализует интерфейс ICatalogItemService. Он отвечает за обработку операций связанных с товарами в каталоге. 
+
 public class CatalogItemService : ICatalogItemService
 {
-    private readonly ICatalogItemRepository<CatalogItemEntity> _catalogItemRepository;
-    private readonly ICatalogBrandService _catalogBrandService;
-    private readonly ICatalogTypeService _catalogTypeService;
-    private readonly IMapper _mapper;
-    private readonly ILogger<CatalogItemService> _logger;
+    // Это приватное поле, представляющее интерфейс репозитория для товаров.
+    private readonly ICatalogItemRepository<CatalogItemEntity> _catalogItemRepository; // Используется для взаимодействия с БД.
+    private readonly ICatalogBrandService _catalogBrandService; // Аналогично предыдущему полю, но представляют сервисы для работы с брендами товаров.
+    private readonly ICatalogTypeService _catalogTypeService; // Аналогично предыдущему полю, но представляют сервисы для работы с типами товаров.
+    private readonly IMapper _mapper; // Интерфейс для маппинга (преобразования) объектов между различными типами. Преобразует объекты типа CatalogItemEntity в CatalogItem и наоборот. 
+    private readonly ILogger<CatalogItemService> _logger; // Логгер, используемый для записи информации о выполнении операций в лог.
 
+    // Конструктор класса, принимающий внедренные зависимости, такие как репозитории, сервисы, маппер и логгер.
     public CatalogItemService(
         ICatalogItemRepository<CatalogItemEntity> catalogItemRepository,
         ICatalogBrandService catalogBrandService,
@@ -22,6 +26,10 @@ public class CatalogItemService : ICatalogItemService
         _logger = logger;
     }
 
+    // Реализация методов интерфейса ICatalogItemService, таких как Get, GetById, Add, Update, Delete, Count.
+    // Эти методы выполняют различные операции с товарами: получение всех товаров, получение товара по id, добавление, обновление, удаление товаров, подсчет количества товаров.
+    // Каждый метод обернут в блок try-catch, чтобы обрабатывать и логгировать исключения, которые могут возникнуть при выполнении операций.
+    // Используется _logger, чтобы записывать информацию о выполнении операций и возможных ошибках в лог.
     public async Task<IEnumerable<CatalogItem>> Get(int page, int size)
     {
         try
@@ -67,6 +75,7 @@ public class CatalogItemService : ICatalogItemService
         }
     }
 
+    // В методе Add и Update выполняется проверка на уникальность названия и изображения товара, а также наличие типа и бренда в БД.
     public async Task<int> Add(CatalogItem item)
     {
         try
@@ -113,6 +122,8 @@ public class CatalogItemService : ICatalogItemService
         }
     }
 
+    // В методе Add и Update выполняется проверка на уникальность названия и изображения товара, а также наличие типа и бренда в базе данных.
+    // В методе Update также происходит обновление информации о товаре и его сохранение в базе данных.
     public async Task<int> Update(CatalogItem item)
     {
         try
@@ -190,3 +201,5 @@ public class CatalogItemService : ICatalogItemService
         }
     }
 }
+
+// Этот класс служит в качестве прослойки между контроллером и репозиторием, обеспечивая логику обработки запросов, валидацию данных и взаимодействие с БД.

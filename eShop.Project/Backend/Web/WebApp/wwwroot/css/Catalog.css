@@ -5,7 +5,7 @@
     right: 0;
     width: 100%;
     height: 100%;
-    background-color: #dc3545;
+    background-color: #7abaff;
     z-index: 1040;
 }
 
@@ -109,6 +109,6 @@
 }
 
 .card-text-font {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Anta', sans-serif;
     font-weight: 500;
 }

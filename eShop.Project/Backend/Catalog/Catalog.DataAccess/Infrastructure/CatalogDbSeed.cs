@@ -1,5 +1,7 @@
 ﻿namespace Catalog.DataAccess.Infrastructure;
 
+// Тут наши начальные данные
+
 public class CatalogDbSeed
 {
     public static void Seed(ModelBuilder builder)
@@ -134,9 +136,8 @@ public class CatalogDbSeed
             },
         };
 
-        builder.Entity<CatalogTypeEntity>().HasData(types);
+        builder.Entity<CatalogTypeEntity>().HasData(types); // указывает EF Core добавить начальные данные (seed data) для сущности CatalogTypeEntity. 
         builder.Entity<CatalogBrandEntity>().HasData(brands);
         builder.Entity<CatalogItemEntity>().HasData(items);
-
     }
 }

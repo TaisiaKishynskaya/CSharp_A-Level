@@ -19,7 +19,6 @@ public class CatalogItemRepository : ICatalogItemRepository<CatalogItemEntity>
             .Take(size)
             .OrderBy(unit => unit.Id)
             .ToListAsync();
-
     }
 
     public async Task<CatalogItemEntity> GetById(int id)

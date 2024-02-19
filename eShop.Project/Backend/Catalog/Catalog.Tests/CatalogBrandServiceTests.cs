@@ -2,15 +2,19 @@
 
 namespace Catalog.Tests;
 
+// Этот код представляет собой юнит-тесты для класса CatalogBrandService. 
+
 public class CatalogBrandServiceTests
 {
+    // Объекты-заглушки (Mock) используются для замены зависимостей, таких как репозиторий (ICatalogBrandRepository) и маппер (IMapper),
+    // чтобы изолировать тестируемый класс от реальных зависимостей.
     private readonly Mock<ICatalogBrandRepository<CatalogBrandEntity>> _mockRepo;
     private readonly Mock<IMapper> _mockMapper;
     private readonly Mock<ILogger<CatalogBrandService>> _mockLogger;
 
-    private readonly CatalogBrandService _service;
+    private readonly CatalogBrandService _service; // Создается экземпляр тестируемого класса, который будет использоваться в тестах.
 
-    private readonly List<CatalogBrandEntity> _catalogBrandEntities;
+    private readonly List<CatalogBrandEntity> _catalogBrandEntities; // Это список сущностей CatalogBrandEntity, который будет использоваться для настройки поведения заглушек.
 
     public CatalogBrandServiceTests()
     {
@@ -27,10 +31,11 @@ public class CatalogBrandServiceTests
         };
     }
 
-    [Fact]
+    // Этот тест проверяет, что метод Get возвращает правильно отображенные бренды из репозитория.
+    [Fact] // Это атрибуты методов, которые сообщают тестовому фреймворку, что методы под ними являются фактическими тестами.
     public async Task Get_ReturnsMappedCatalogBrands_WhenRepositoryReturnsEntities()
     {
-        //Arrange
+        //Arrange - Этот блок подготавливает тестируемое окружение, настраивает поведение заглушек и создает необходимые данные.
         _mockRepo.Setup(repo => repo.Get(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_catalogBrandEntities);
 
         var expectedCatalogBrands = new List<CatalogBrand>
@@ -41,15 +46,16 @@ public class CatalogBrandServiceTests
 
         _mockMapper.Setup(mapper => mapper.Map<IEnumerable<CatalogBrand>>(_catalogBrandEntities)).Returns(expectedCatalogBrands);
 
-        //Act
+        //Act - Этот блок вызывает метод, который будет тестироваться.
         var result = await _service.Get(1, 10);
 
-        //Assert
+        //Assert - Этот блок проверяет ожидаемый результат метода на соответствие фактическому результату.
         Assert.Equal(expectedCatalogBrands, result);
         _mockRepo.Verify(repo => repo.Get(1, 10), Times.Once);
         _mockMapper.Verify(mapper => mapper.Map<IEnumerable<CatalogBrand>>(_catalogBrandEntities), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Get выбрасывает исключение NotFoundException, когда репозиторий возвращает null.
     [Fact]
     public async Task Get_ThrowsNotFoundException_WhenRepositoryReturnsNull()
     {
@@ -63,6 +69,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.Get(1, 10), Times.Once);
     }
 
+    // Этот тест проверяет, что метод GetById возвращает правильно отображенный бренд из репозитория.
     [Fact]
     public async Task GetById_ReturnsMappedCatalogBrands_WhenRepositoryReturnsEntities()
     {
@@ -82,6 +89,7 @@ public class CatalogBrandServiceTests
         _mockMapper.Verify(mapper => mapper.Map<CatalogBrand>(catalogBrandEntity), Times.Once);
     }
 
+    // Этот тест проверяет, что метод GetById выбрасывает исключение NotFoundException, когда репозиторий возвращает null.
     [Fact]
     public async Task GetById_ThrowsNotFoundException_WhenRepositoryReturnsNull()
     {
@@ -95,6 +103,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.GetById(1), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Add возвращает правильный идентификатор, когда бренд уникален.
     [Fact]
     public async Task Add_ReturnsId_WhenBrandIsUnique()
     {
@@ -115,6 +124,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.Add(catalogBrandEntity), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Add выбрасывает исключение ValidationAsyncException, когда бренд не уникален.
     [Fact]
     public async Task Add_ThrowsValidationAsyncException_WhenBrandIsNotUnique()
     {
@@ -132,6 +142,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.GetByTitle("Brand1"), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Update возвращает правильный идентификатор, когда бренд существует.
     [Fact]
     public async Task Update_ReturnsId_WhenBrandExists()
     {
@@ -152,6 +163,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.Update(catalogBrandEntity), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Update выбрасывает исключение NotFoundException, когда бренд не существует.
     [Fact]
     public async Task Update_ThrowsNotFoundException_WhenBrandDoesNotExist()
     {
@@ -167,6 +179,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.GetById(1), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Delete возвращает 0, когда бренд существует.
     [Fact]
     public async Task Delete_ReturnsZero_WhenBrandExists()
     {
@@ -183,6 +196,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.Delete(id), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Delete выбрасывает исключение NotFoundException, когда бренд не существует.
     [Fact]
     public async Task Delete_ThrowsNotFoundException_WhenBrandDoesNotExist()
     {
@@ -195,6 +209,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.GetById(id), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Count возвращает правильное количество брендов.
     [Fact]
     public async Task Count_ReturnsCorrectNumber()
     {
@@ -210,6 +225,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.Count(), Times.Once);
     }
 
+    // Этот тест проверяет, что метод Count выбрасывает исключение, когда репозиторий выбрасывает исключение.
     [Fact]
     public async Task Count_ThrowsException_WhenRepositoryThrowsException()
     {
@@ -222,6 +238,7 @@ public class CatalogBrandServiceTests
     }
 
     // Тесты для метода GetByTitle
+    // Этот тест проверяет, что метод GetByTitle возвращает правильный бренд по его названию.
     [Fact]
     public async Task GetByTitle_ReturnsCorrectBrand()
     {
@@ -241,6 +258,7 @@ public class CatalogBrandServiceTests
         _mockRepo.Verify(repo => repo.GetByTitle(title), Times.Once);
     }
 
+    // Этот тест проверяет, что метод GetByTitle возвращает null, когда название бренда не существует.
     [Fact]
     public async Task GetByTitle_ReturnsNull_WhenTitleDoesNotExist()
     {

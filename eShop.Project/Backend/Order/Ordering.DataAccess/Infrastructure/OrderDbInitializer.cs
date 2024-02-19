@@ -1,8 +1,8 @@
-﻿namespace Catalog.DataAccess.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
-// Этот код представляет собой инициализатор БД CatalogDbContext. 
+namespace Ordering.DataAccess.Infrastructure;
 
-public class CatalogDbInitializer
+public class OrderDbInitializer
 {
     //  Это статический метод, который выполняет инициализацию БД. Он принимает IServiceProvider, который предоставляет доступ к сервисам в приложении.
     public static void EnsureDatabaseCreated(IServiceProvider serviceProvider)
@@ -11,7 +11,7 @@ public class CatalogDbInitializer
         using (var scope = serviceProvider.CreateScope())
         {
             // Эта строка получает экземпляр CatalogDbContext из контейнера зависимостей (DI container) с помощью IServiceProvider.
-            var context = scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
+            var context = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
             // тот вызов метода гарантирует, что БД создана.
             // Если БД уже существует, этот метод ничего не делает, иначе он создает новую БД на основе модели данных, предоставленной CatalogDbContext.
             context.Database.EnsureCreated();

@@ -1,11 +1,18 @@
 ﻿namespace Catalog.Application.Infrastructure.Mapping;
 
+// Этот код определяет класс EntityToModelMapperProfile, который наследует от класса Profile из библиотеки AutoMapper.
+// Он предназначен для настройки сопоставления (mapping) между сущностями (Entity) и моделями (Model). 
+
 public class EntityToModelMapperProfile : Profile
 {
+    // Это конструктор класса, который вызывается при создании экземпляра класса. Внутри происходит настройка сопоставления с помощью вызова метода CreateMap.
     public EntityToModelMapperProfile()
     {
-        CreateMap<CatalogTypeEntity, CatalogType>();
+        // Этот метод указывает AutoMapper на необходимость сопоставления между классами CatalogTypeEntity и CatalogType.
+        CreateMap<CatalogTypeEntity, CatalogType>(); // AutoMapper автоматически сопоставит поля и свойства с одинаковыми именами.
 
+        // Этот метод определяет дополнительные настройки для сопоставления между CatalogType и CatalogTypeEntity.
+        // В данном случае, используется метод ForMember, чтобы игнорировать сопоставление для свойства CreatedAt.
         CreateMap<CatalogType, CatalogTypeEntity>()
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
 
@@ -22,3 +29,5 @@ public class EntityToModelMapperProfile : Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
     }
 }
+
+// Этот класс предоставляет настройки маппинга, которые затем используются в приложении для автоматического преобразования данных между сущностями БД и моделями представления.

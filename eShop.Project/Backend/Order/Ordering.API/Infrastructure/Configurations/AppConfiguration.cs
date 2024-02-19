@@ -15,6 +15,8 @@ public static class AppConfiguration
         app.UseAuthorization();
 
         app.MapControllers().RequireAuthorization("OrderApiScope");
+        
+        OrderDbInitializer.EnsureDatabaseCreated(app.Services); // Виклик методу EnsureDatabaseCreated класу OrderDbInitializer для перевірки наявності та створення БД за необхідності.
 
         var serilogConfig = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())

@@ -83,7 +83,7 @@ internal static class HostingExtensions
         app.UseCors("AllowAny");
 
         //docker-compose
-        //app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Strict });
+         //app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Strict });
 
         app.UseAuthentication();
 

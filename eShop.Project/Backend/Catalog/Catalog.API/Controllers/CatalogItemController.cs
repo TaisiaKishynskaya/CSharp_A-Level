@@ -79,5 +79,3 @@ public class CatalogItemController : Controller
         return Ok(id);
     }
 }
-
-

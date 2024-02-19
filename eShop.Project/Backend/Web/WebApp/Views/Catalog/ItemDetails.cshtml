@@ -2,13 +2,17 @@
 
 <link rel="stylesheet" href="~/css/ItemDetails.css" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-6">
             <img src="~/assets/@Model.PictureFile" class="img-fluid" alt="@Model.Title">
         </div>
 
-        <div class="col-md-6" style="font-family: Arial, sans-serif;">
+        <div class="col-md-6" style="font-family: Anta, sans-serif;">
             <h2 style="font-size: 2em;">@Model.Title</h2>
             <p style="font-size: 1.5em; margin-bottom: 1em;"><strong>Type:</strong> @Model.Type.Title</p>
             <p style="font-size: 1.5em; margin-bottom: 1em;"><strong>Brand:</strong> @Model.Brand.Title</p>

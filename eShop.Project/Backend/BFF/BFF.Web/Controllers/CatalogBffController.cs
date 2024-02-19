@@ -1,11 +1,13 @@
 ﻿namespace BFF.Web.Controllers;
 
-[ApiController]
-[Route("/bff/catalog")]
-[Authorize(Policy = "ApiScope")]
+// Этот код представляет собой контроллер ASP.NET Core Web API, который обрабатывает HTTP-запросы для работы с каталогом продуктов через интерфейс BFF (Backend For Frontend).
+
+[ApiController] // Этот атрибут указывает, что класс контроллера является контроллером API.
+[Route("/bff/catalog")] // Этот атрибут устанавливает базовый маршрут для всех методов контроллера.
+[Authorize(Policy = "ApiScope")] // Этот атрибут указывает, что для доступа к методам контроллера требуется аутентификация с использованием определенной политики безопасности, в данном случае "ApiScope".
 public class CatalogBffController : ControllerBase
 {
-    private readonly ICatalogBffService _catalogBffService;
+    private readonly ICatalogBffService _catalogBffService; // Это интерфейс сервиса, который определяет методы для работы с каталогом продуктов через BFF.
 
     public CatalogBffController(ICatalogBffService catalogBffService)
     {
