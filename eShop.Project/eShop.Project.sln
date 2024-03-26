@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{4510AF67-A1DF-4B87-AECF-4688F92BAD9D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{9518B12D-3611-4A04-8EA1-2CC58F78BA4E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{9518B12D-3611-4A04-8EA1-2CC58F78BA4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Core", "Backend\Catalog\Catalog.Core\Catalog.Core.csproj", "{95EBBBD5-01F9-4DC5-AB71-6C7C13D942BC}"
 EndProject
@@ -50,17 +50,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "Backend\Common\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Application", "Backend\Basket\Basket.Application\Basket.Application.csproj", "{5D563EB5-D800-4E38-BE50-78EC2C68DDAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Tests", "Backend\Basket\Basket.Tests\Basket.Tests.csproj", "{C3734413-AD90-4C46-8B2F-0C3951DDDE3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.UnitTests", "Backend\Basket\Basket.UnitTests\Basket.UnitTests.csproj", "{C3734413-AD90-4C46-8B2F-0C3951DDDE3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.DataAccess", "Backend\Catalog\Catalog.DataAccess\Catalog.DataAccess.csproj", "{AE1B6B3E-ADE1-47B9-9389-9638319B04C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Tests", "Backend\Catalog\Catalog.Tests\Catalog.Tests.csproj", "{7B5207A7-0CBB-4F91-B594-59939674EF91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.UnitTests", "Backend\Catalog\Catalog.UnitTests\Catalog.UnitTests.csproj", "{7B5207A7-0CBB-4F91-B594-59939674EF91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Tests", "Backend\Order\Ordering.Tests\Ordering.Tests.csproj", "{F67DC17A-E2A0-49C9-8F99-C748D8F8D643}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.UnitTests", "Backend\Order\Ordering.UnitTests\Ordering.UnitTests.csproj", "{F67DC17A-E2A0-49C9-8F99-C748D8F8D643}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "Backend\Web\WebApp\WebApp.csproj", "{91A85F1E-D13E-470D-B81B-73E1ED8C89A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC", "Backend\Web\MVC\MVC.csproj", "{91A85F1E-D13E-470D-B81B-73E1ED8C89A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Tests", "Backend\Web\WebApp.Tests\WebApp.Tests.csproj", "{DBB71080-1472-483B-8F43-749155CD5201}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC.UnitTests", "Backend\Web\MVC.UnitTests\MVC.UnitTests.csproj", "{DBB71080-1472-483B-8F43-749155CD5201}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proxy", "Proxy", "{C8451EC8-7B8B-4459-8B77-928D1D4D0D11}"
 EndProject
@@ -71,7 +71,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{1E71718C
 		Backend\Proxy\gateway\nginx\nginx.conf = Backend\Proxy\gateway\nginx\nginx.conf
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF.Tests", "Backend\BFF\BFF.Tests\BFF.Tests.csproj", "{CAF42269-CCEC-4EE5-B0A0-73ADE8175D6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BFF.UnitTests", "Backend\BFF\BFF.UnitTests\BFF.UnitTests.csproj", "{CAF42269-CCEC-4EE5-B0A0-73ADE8175D6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
